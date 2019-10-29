@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 
+import Column from '../../Components/Column';
+import initialData from '../../data';
 import styles from './App.module.css';
 
-function App () {
-	return (
-		<div className={styles.App}>
-			<ul className={styles.List}>
-				<li className={styles.ListItem}>item1</li>
-				<li className={styles.ListItem}>item2</li>
-				<li className={styles.ListItem}>item3</li>
-				<li className={styles.ListItem}>item4</li>
-				<li className={styles.ListItem}>item5</li>
-			</ul>
-			<ul>
-				<li className={styles.ListItem}>item6</li>
-				<li className={styles.ListItem}>item7</li>
-				<li className={styles.ListItem}>item8</li>
-				<li className={styles.ListItem}>item9</li>
-				<li className={styles.ListItem}>item10</li>
-			</ul>
-		</div>
-	);
+class App extends Component {
+	state = initialData;
+	render () {
+		return (
+			<div className={styles.App}>
+				{this.state.columnOrder.map(columnId => {
+					const column = this.state.columns[ columnId ];
+					const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+
+					return <Column key={column.id} column={column} tasks={tasks} />;
+				})}
+			</div>
+		);
+	}
 }
 
 export default App;
