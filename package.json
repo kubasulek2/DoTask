@@ -1,5 +1,6 @@
 {
-  "name": "do-tasks",
+  "name": "do-task",
+  "author": "Kuba Sułkowski",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
