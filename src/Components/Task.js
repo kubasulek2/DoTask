@@ -7,19 +7,30 @@ const Container = styled.div`
 	padding: 8px;
 	border-radius: 2px;
 	margin-bottom: 8px;
-	background-color: white;
+	background-color: ${props => props.isDragging? 'lightgreen' : 'white'};
+	min-height: 50px; /* to be able to drop anything if list is empty */
 
 `;
-
+const DragHandle = styled.div`
+	width: 20px;
+	height: 20px;
+	background-color: lightskyblue;
+	border-radius: 4px;
+	margin-right: 8px;
+	display: inline-block;
+`;
 const Task = ({ task, index }) => {
 	return (
 		<Draggable draggableId={task.id} index={index}>
-			{(provided)=> (
+			{(provided, snapshot)=> (
 				<Container
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					{...provided.dragHandleProps}
+					isDragging={snapshot.isDragging}
 				>
+					<DragHandle 
+						{...provided.dragHandleProps}
+					/>
 					{task.content}
 				</Container>
 			)}
