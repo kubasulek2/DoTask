@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 import Column from '../../Components/Column';
 import initialData from '../../data';
@@ -6,15 +7,22 @@ import styles from './App.module.css';
 
 class App extends Component {
 	state = initialData;
+	onDragEnd = result => {
+		return result;
+	}
 	render () {
 		return (
 			<div className={styles.App}>
-				{this.state.columnOrder.map(columnId => {
-					const column = this.state.columns[ columnId ];
-					const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+				<DragDropContext
+					onDragEnd={this.onDragEnd}
+				>
+					{this.state.columnOrder.map(columnId => {
+						const column = this.state.columns[ columnId ];
+						const tasks = column.taskIds.map(taskId => this.state.tasks[ taskId ]);
 
-					return <Column key={column.id} column={column} tasks={tasks} />;
-				})}
+						return <Column key={column.id} column={column} tasks={tasks} />;
+					})}
+				</DragDropContext>
 			</div>
 		);
 	}
