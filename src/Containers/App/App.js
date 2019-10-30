@@ -8,7 +8,29 @@ import styles from './App.module.css';
 class App extends Component {
 	state = initialData;
 	onDragEnd = result => {
-		return result;
+		console.log(this.state);
+		const { destination, source, draggableId } = result;
+		if (!destination) return;
+		if (
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
+		) return;
+
+		const column = this.state.columns[ source.droppableId ];
+		const newTaskIds = Array.from(column.taskIds);
+		newTaskIds.splice(source.index, 1);
+		newTaskIds.splice(destination.index, 0, draggableId);
+
+		const newColumn = {
+			...column,
+			taskIds: newTaskIds
+		};
+		console.log();
+		const newState = {
+			...this.state.columns,
+			[ newColumn.id ]: newColumn
+		};
+		this.setState({ columns: newState });
 	}
 	render () {
 		return (
