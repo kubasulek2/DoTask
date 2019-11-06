@@ -7,8 +7,13 @@ const Container = styled.div`
 	padding: 8px;
 	border-radius: 2px;
 	margin-bottom: 8px;
-	background-color: ${props => props.isDragging? 'lightgreen' : 'white'};
-	min-height: 50px; /* to be able to drop anything if list is empty */
+	background-color: ${
+	props => props.isDragDisabled
+		? 'grey'
+		: props.isDragging
+			? 'lightgreen'
+			: 'white' };
+	min-height: 50px; /* to be able to drop auything if list is empty */
 
 `;
 const DragHandle = styled.div`
@@ -20,15 +25,21 @@ const DragHandle = styled.div`
 	display: inline-block;
 `;
 const Task = ({ task, index }) => {
+	const isDragDisabled = task.id === 'task-1' ? true : false;
 	return (
-		<Draggable draggableId={task.id} index={index}>
-			{(provided, snapshot)=> (
+		<Draggable
+			draggableId={task.id}
+			index={index}
+			isDragDisabled={isDragDisabled}
+		>
+			{(provided, snapshot) => (
 				<Container
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					isDragging={snapshot.isDragging}
+					isDragDisabled={isDragDisabled}
 				>
-					<DragHandle 
+					<DragHandle
 						{...provided.dragHandleProps}
 					/>
 					{task.content}

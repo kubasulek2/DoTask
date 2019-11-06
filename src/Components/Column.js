@@ -25,6 +25,8 @@ const Column = ({ column, tasks }) => {
 			<Droppable 
 				droppableId={column.id}
 				style={{minHeight: '200px'}}
+				type={column.id === 'column-3' ? 'done' : 'active'}
+
 			>
 				{(provided, snapshot) => (
 					<TaskList
