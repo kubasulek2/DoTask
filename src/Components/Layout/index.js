@@ -5,11 +5,12 @@ import Sidebar from './Sidebar/Sidebar';
 
 const Layout = () => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
+	const handleSidebar = () => setSidebarOpen(prev => !prev)
 
 	return (
 		<Fragment>
-			<Header handleSidebar={setSidebarOpen} searchOpen={sideBarOpen} />
-			<Sidebar open={sideBarOpen} />
+			<Header handleSidebar={handleSidebar} />
+			<Sidebar open={sideBarOpen} handleSidebar={handleSidebar}/>
 		</Fragment>
 	);
 };

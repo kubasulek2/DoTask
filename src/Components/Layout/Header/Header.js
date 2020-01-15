@@ -63,7 +63,6 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 const Header = ({ handleSidebar }) => {
 	const classes = useStyles();
 
-	const handleOpen = () => handleSidebar(prev => !prev);
 	const handleLogOut = () => {
 		window.location.reload();
 	};
@@ -74,7 +73,7 @@ const Header = ({ handleSidebar }) => {
 					edge='start'
 					className={classes.menuButton}
 					aria-label='open drawer'
-					onClick={handleOpen}
+					onClick={handleSidebar}
 				>
 					<div className={classes.menuIconContainer}>
 						<MenuIcon className={classes.menuIcon} />

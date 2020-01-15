@@ -2,17 +2,14 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
+import ExpandedDrawer from './ExpandedDrawer';
+import SmallDrawer from './SmallDrawer';
 
 
 const useStyles = makeStyles(({ mixins, palette, spacing, shadows }) => ({
 	drawer: {
+		position: 'fixed',
 		flexShrink: 0,
 		backgroundColor: palette.secondary.light
 	},
@@ -28,9 +25,7 @@ const useStyles = makeStyles(({ mixins, palette, spacing, shadows }) => ({
 const Sidebar = props => {
 	const classes = useStyles(props);
 
-	const list = (
-		<div></div>
-	);
+	
 	return (
 		<Drawer
 			className={classes.drawer}
@@ -41,6 +36,7 @@ const Sidebar = props => {
 			anchor='left'
 		>
 			<div className={classes.toolbar} />
+			{props.open ? <ExpandedDrawer handleSidebar={props.handleSidebar} /> : <SmallDrawer handleSidebar={props.handleSidebar} />}
 		</Drawer>);
 }
 
