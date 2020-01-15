@@ -2,12 +2,14 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { ReactComponent as LogoIcon } from '../../Assets/logo.svg';
+import { ReactComponent as LogoIcon } from '../../../Assets/logo.svg';
+import Dropdown from './DropDown';
 
 const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }) => ({
 	root: {
@@ -17,12 +19,13 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 		position: 'relative',
 		zIndex: zIndex.drawer + 1,
 	},
+	toolbar: {
+		paddingLeft: spacing(1.5),
+		paddingRight: spacing(1.5)
+	},
 	menuButton: {
 		marginRight: spacing(1.5),
-		[breakpoints.up('lg')]: {
-			display: 'none',
-		},
-		padding: 6
+		paddingLeft: spacing(1.5)
 	},
 	menuIconContainer: {
 		width: 35,
@@ -36,10 +39,10 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	logoContainer: {
 		flexGrow: 1,
 		display: 'flex',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 		alignItems: 'center',
-		[breakpoints.down('md')]: {
-			justifyContent: 'center',
+		[breakpoints.down('xs')]: {
+			justifyContent: 'flex-start',
 		}
 	},
 	logoIcon: {
@@ -50,10 +53,12 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	logoTitle: {
 		color: palette.text.white,
 		fontWeight: 700,
-		[breakpoints.down('xs')]: {
-			fontSize: 16
-		}
 	},
+	logoutButton: {
+		color: palette.error.light,
+		textTransform: 'initial',
+		fontWeight: 'bold',
+	}
 }));
 /* App Header and part of App navigation*/
 const Header = ({ handleMobile }) => {
@@ -65,12 +70,12 @@ const Header = ({ handleMobile }) => {
 	};
 	return (
 		<AppBar className={classes.root}>
-			<Toolbar>
+			<Toolbar className={classes.toolbar}>
 				<IconButton
 					edge='start'
 					className={classes.menuButton}
 					aria-label='open drawer'
-					onClick={()=>{}}
+					onClick={() => { }}
 				>
 					<div className={classes.menuIconContainer}>
 						<MenuIcon className={classes.menuIcon} />
@@ -78,11 +83,14 @@ const Header = ({ handleMobile }) => {
 				</IconButton>
 				<div className={classes.logoContainer}>
 					<LogoIcon className={classes.logoIcon} />
-					<Typography variant='h6' className={classes.logoTitle}>
-						DO TASK
-					</Typography>
+					<Hidden xsDown>
+						<Typography variant='h6' className={classes.logoTitle}>
+							DO TASK
+						</Typography>
+					</Hidden>
 				</div>
-				<Button color='secondary' onClick={handleLogOut} >Logout</Button>
+				<Dropdown />
+				<Button className={classes.logoutButton} onClick={handleLogOut} >Logout</Button>
 			</Toolbar>
 		</AppBar>
 	);

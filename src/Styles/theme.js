@@ -27,8 +27,8 @@ const theme = createMuiTheme({
 			dark: red['A700'],
 		},
 		text: {
-			primary: '#2B2729',
-			secondary: '#403c3e',
+			primary: '#403c3e',
+			secondary: '#534f51',
 			disabled: '#959394',
 			white: '#e8e8e8'
 		},
