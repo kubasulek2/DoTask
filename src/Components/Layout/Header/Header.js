@@ -14,7 +14,7 @@ import Dropdown from './DropDown';
 const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }) => ({
 	root: {
 		flex: '0 1 auto',
-		boxShadow: shadows[0],
+		boxShadow: shadows[1],
 		position: 'relative',
 		zIndex: zIndex.drawer + 1,
 	},
