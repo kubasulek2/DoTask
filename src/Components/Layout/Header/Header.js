@@ -14,8 +14,7 @@ import Dropdown from './DropDown';
 const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }) => ({
 	root: {
 		flex: '0 1 auto',
-		background: palette.background.default,
-		boxShadow: shadows[1],
+		boxShadow: shadows[0],
 		position: 'relative',
 		zIndex: zIndex.drawer + 1,
 	},
@@ -60,11 +59,11 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 		fontWeight: 'bold',
 	}
 }));
-/* App Header and part of App navigation*/
-const Header = ({ handleMobile }) => {
+
+const Header = ({ handleSidebar }) => {
 	const classes = useStyles();
 
-	/* Reload app when click on logOut button */
+	const handleOpen = () => handleSidebar(prev => !prev);
 	const handleLogOut = () => {
 		window.location.reload();
 	};
@@ -75,7 +74,7 @@ const Header = ({ handleMobile }) => {
 					edge='start'
 					className={classes.menuButton}
 					aria-label='open drawer'
-					onClick={() => { }}
+					onClick={handleOpen}
 				>
 					<div className={classes.menuIconContainer}>
 						<MenuIcon className={classes.menuIcon} />
