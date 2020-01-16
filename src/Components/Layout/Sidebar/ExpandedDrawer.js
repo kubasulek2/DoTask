@@ -47,9 +47,9 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 				</ListItemAvatar>
 			</ListItem>
 			<ListItem className={classes.listItem}>
-				<IconButton className={classes.searchButton} onClick={handleSidebar}>
+				<ListItemIcon className={classes.searchButton} onClick={handleSidebar} style={{padding:'12px'}}>
 					<SearchIcon />
-				</IconButton>
+				</ListItemIcon>
 			</ListItem>
 			<Divider />
 			<ListItem className={classes.listItem} selected={true}>
@@ -62,12 +62,6 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 					<FavoriteIcon />
 				</IconButton>
 			</ListItem>
-			<ListItem className={classes.listItem}>
-				<IconButton color='secondary' onClick={handleSidebar}>
-					<MoreIcon />
-				</IconButton>
-			</ListItem>
-
 		</List>
 	);
 };

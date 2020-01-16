@@ -9,32 +9,35 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
-		position: 'absolute',
+		position: 'fixed',
+		zIndex: 5,
 		bottom: 0,
-		width: 240,
+		width: props => props.width,
 	},
 	list: {
-
-	}, display: 'flex',
-	alignItems: 'center',
- 
+		background: palette.primary.light,
+		padding: 0,
+	},
 	listItem: {
 		padding: spacing(.5)
+	},
+	addButton: {
+		marginRight: 5
 	}
 
 }));
 
-const BottomPanel = () => {
-	const classes = useStyles();
+const BottomPanel = (props) => {
+	const classes = useStyles(props);
 
 	return (
 		<div className={classes.root}>
+			<Divider />
 			<List className={classes.list}>
-				<Divider />
 				<ListItem className={classes.listItem}>
-					<IconButton className={classes.searchButton} color='secondary'>
+					<IconButton className={classes.addButton} color='default'>
 						<AddIcon />
 					</IconButton>
 					<ListItemText primary='Create List' />

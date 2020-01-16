@@ -23,7 +23,7 @@ const TasksLists = () => {
 
 	return (
 		<List className={classes.root}>
-			{['private', 'Shopping', 'Read'].map((t, i) => (
+			{['private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read', 'private', 'Shopping', 'Read'].map((t, i) => (
 				<ListItem key={t+i} className={classes.listItem} button>
 					<ListItemIcon>
 						<ListIcon />

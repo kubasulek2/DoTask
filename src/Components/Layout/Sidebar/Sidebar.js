@@ -52,7 +52,8 @@ const Sidebar = props => {
 			<div className={classes.toolbar} />
 			{props.open ? <ExpandedDrawer handleSidebar={props.handleSidebar} /> : <SmallDrawer handleSidebar={props.handleSidebar} />}
 			{props.open ? <TasksLists /> : null}
-			<BottomPanel />
+			{props.open ? <BottomPanel width={239} /> :<BottomPanel width={59}/>}
+			
 		</Drawer>);
 }
 

@@ -5,7 +5,7 @@ import Sidebar from './Sidebar/Sidebar';
 
 const Layout = () => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
-	const handleSidebar = () => setSidebarOpen(prev => !prev)
+	const handleSidebar = () => setSidebarOpen(prev => !prev);
 
 	return (
 		<Fragment>
