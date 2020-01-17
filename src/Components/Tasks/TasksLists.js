@@ -59,7 +59,7 @@ const TasksLists = ({tasks: {columns, columnOrder,active}, setTasks}) => {
 						className={classes.listItem} 
 						button 
 						selected={t === active}
-						onClick={() => set}
+						onClick={() => setActiveColumn(t)}
 					>
 						<ListItemIcon className={classes.icon}>
 							<ListIcon />
@@ -73,7 +73,7 @@ const TasksLists = ({tasks: {columns, columnOrder,active}, setTasks}) => {
 							}}
 						/>
 						<ListItemSecondaryAction>
-							{active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
+							{t === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
 							<span className={classes.badge}>6</span>
 						</ListItemSecondaryAction>
 					</ListItem>
