@@ -7,40 +7,46 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import { ListItemIcon } from '@material-ui/core';
 
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
-		position: 'fixed',
-		zIndex: 5,
+		position: 'absolute',
 		bottom: 0,
-		width: props => props.width,
+		width: 269,
 	},
 	list: {
 		background: palette.primary.light,
 		padding: 0,
 	},
 	listItem: {
-		padding: spacing(.5)
+		padding: spacing(.5),
 	},
-	addButton: {
-		marginRight: 5
+	text:{
+		color: palette.background.paper,
+		fontWeight: 'bold'
+	},
+	add: {
+		padding: spacing(1.5),
+		marginRight: 5,
+		color: palette.background.paper,
 	}
 
 }));
 
-const BottomPanel = (props) => {
-	const classes = useStyles(props);
+const BottomPanel = () => {
+	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
 			<Divider />
 			<List className={classes.list}>
-				<ListItem className={classes.listItem}>
-					<IconButton className={classes.addButton} color='default'>
+				<ListItem className={classes.listItem} button>
+					<ListItemIcon className={classes.add} color='default'>
 						<AddIcon />
-					</IconButton>
-					<ListItemText primary='Create List' />
+					</ListItemIcon>
+					<ListItemText primary='Create List' classes={{primary: classes.text}}/>
 				</ListItem>
 			</List>
 		</div>

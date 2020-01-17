@@ -49,7 +49,6 @@ const SmallDrawer = ({handleSidebar}) => {
 					<SearchIcon />
 				</IconButton>
 			</ListItem>
-			<Divider />
 			<ListItem className={classes.listItem} selected={true}>
 				<IconButton color='secondary'>
 					<AllIcon />

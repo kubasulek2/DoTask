@@ -5,7 +5,6 @@ import Drawer from '@material-ui/core/Drawer';
 
 import ExpandedDrawer from './ExpandedDrawer';
 import SmallDrawer from './SmallDrawer';
-import TasksLists from '../../Tasks/TasksLists';
 import BottomPanel from './BottomPanel';
 
 
@@ -14,14 +13,14 @@ const useStyles = makeStyles(({ mixins, palette, spacing, shadows }) => ({
 		position: 'fixed',
 		flexShrink: 0,
 		backgroundColor: palette.secondary.light,
-		width: props => props.open ? 240 : 59,
+		width: props => props.open ? 270 : 59,
 		overflowY: 'scroll'
 		
 	},
 	drawerPaper: {
 		overflowX: 'hidden',
 		transition: 'width .15s ease-out',
-		width: props => props.open ? 240 : 59,
+		width: props => props.open ? 270 : 59,
 		flexDirection: 'column',
 	},
 	toolbar: mixins.toolbar,
@@ -51,9 +50,7 @@ const Sidebar = props => {
 		>
 			<div className={classes.toolbar} />
 			{props.open ? <ExpandedDrawer handleSidebar={props.handleSidebar} /> : <SmallDrawer handleSidebar={props.handleSidebar} />}
-			{props.open ? <TasksLists /> : null}
-			{props.open ? <BottomPanel width={239} /> :<BottomPanel width={59}/>}
-			
+			<BottomPanel width={239} />
 		</Drawer>);
 }
 

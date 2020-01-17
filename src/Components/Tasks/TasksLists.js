@@ -28,7 +28,7 @@ const TasksLists = () => {
 					<ListItemIcon>
 						<ListIcon />
 					</ListItemIcon>
-					<ListItemText primary={t}/>
+					<ListItemText secondary={t}/>
 				</ListItem>
 			))}
 		</List>
