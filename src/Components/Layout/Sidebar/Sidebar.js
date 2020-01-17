@@ -31,13 +31,12 @@ const useStyles = makeStyles(({ mixins, palette}) => ({
 		height: 64,
 		display: 'flex',
 		alignItems: 'center',
-	}
-		
+	}	
 }));
 
 const Sidebar = props => {
 	const classes = useStyles(props);
-
+	
 	
 	return (
 		<Drawer
@@ -50,7 +49,7 @@ const Sidebar = props => {
 		>
 			<div className={classes.toolbar} />
 			{props.open ? <ExpandedDrawer handleSidebar={props.handleSidebar} /> : <SmallDrawer handleSidebar={props.handleSidebar} />}
-			<BottomPanel width={239} />
+			{<BottomPanel width={239} open={props.open}/>}
 		</Drawer>);
 }
 
