@@ -5,18 +5,20 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(({spacing, mixins }) => ({
 	root: { 
 		height: '100%',
-		marginLeft: 59,
+		marginLeft: props => props.open ? 270 : 59,
+		transition: 'margin-left .15s ease-out',
 		padding: spacing(),
-		paddingTop: spacing(2.5)
+		paddingTop: spacing(2.5),
+		overflowX : 'hidden',
 	},
 	toolbar: mixins.toolbar
 }));
-const Main = ({ children }) => {
-	const classes = useStyles();
+const Main = (props) => {
+	const classes = useStyles(props);
 	return (
 		<main className={classes.root}>
 			<div className={classes.toolbar} />
-			{children}
+			{props.children}
 		</main>
 	);
 };

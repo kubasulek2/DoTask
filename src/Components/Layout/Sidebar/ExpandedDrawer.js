@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AllIcon from '@material-ui/icons/AllInclusive';
 import FavoriteIcon from '@material-ui/icons/Grade';
 import TodayIcon from '@material-ui/icons/Today';
-import { ListItemSecondaryAction } from '@material-ui/core';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
 import TasksLists from '../../Tasks/TasksLists';
@@ -54,7 +54,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ handleSidebar }) => {
+const ExpandedDrawer = ({ tasks, setTasks }) => {
 	const classes = useStyles();
 	return (
 		<List className={classes.root}>
@@ -128,7 +128,7 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Divider />
-			<TasksLists />
+			<TasksLists tasks={tasks} setTasks={setTasks}/>
 		</List>
 	);
 };

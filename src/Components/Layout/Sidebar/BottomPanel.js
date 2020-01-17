@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
-import { ListItemIcon } from '@material-ui/core';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 
 const useStyles = makeStyles(({ spacing, palette }) => ({

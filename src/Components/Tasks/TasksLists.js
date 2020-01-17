@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListIcon from '@material-ui/icons/List';
 import EditIcon from '@material-ui/icons/Edit';
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
@@ -43,25 +43,34 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksLists = () => {
+const TasksLists = ({tasks: {columns, columnOrder,active}, setTasks}) => {
 	const classes = useStyles();
+	const setActiveColumn = id => setTasks(data => ({
+		...data,
+		active: id
+	}));
 
 	return (
 		<List className={classes.root}>
-			{['private', 'Shopping', 'Read'].map((t, i) => {
-				let active = i === 1 ? true : false;
+			{columnOrder.map((t, i) => {
 				return (
-					<ListItem key={t + i} className={classes.listItem} button selected={active}>
+					<ListItem 
+						key={t + i} 
+						className={classes.listItem} 
+						button 
+						selected={t === active}
+						onClick={() => set}
+					>
 						<ListItemIcon className={classes.icon}>
 							<ListIcon />
 						</ListItemIcon>
 						<ListItemText
-							secondary={t}
-							classes={{ secondary: active ? classes.secondary_edit : classes.secondary }} 
+							secondary={columns[t].title}
+							classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
 							primaryTypographyProps={{
 								noWrap: true,
 								component: 'p'
-							}}	
+							}}
 						/>
 						<ListItemSecondaryAction>
 							{active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
@@ -72,6 +81,6 @@ const TasksLists = () => {
 			})}
 		</List>
 	);
-}
+};
 
 export default TasksLists;
