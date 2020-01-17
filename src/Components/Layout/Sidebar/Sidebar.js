@@ -8,7 +8,7 @@ import SmallDrawer from './SmallDrawer';
 import BottomPanel from './BottomPanel';
 
 
-const useStyles = makeStyles(({ mixins, palette, spacing, shadows }) => ({
+const useStyles = makeStyles(({ mixins, palette}) => ({
 	drawer: {
 		position: 'fixed',
 		flexShrink: 0,

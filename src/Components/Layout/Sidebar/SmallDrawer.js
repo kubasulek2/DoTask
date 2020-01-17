@@ -2,7 +2,6 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';

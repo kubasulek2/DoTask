@@ -1,31 +1,52 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@material-ui/core/ListItem';
 import SearchIcon from '@material-ui/icons/Search';
 
-const useStyles = makeStyles(theme => ({
-	margin: {
-		margin: theme.spacing(1),
+const useStyles = makeStyles(({ spacing, palette }) => ({
+	listItem: {
+		width: 270,
+		padding: spacing(.5)
 	},
+	hover: {
+		'&:hover': {
+			backgroundColor: 'rgba(0, 0, 0, 0.08)',
+			'& input': {
+				background: 'inherit'
+			}
+		}
+	},
+	searchButton: {
+		color: palette.primary.light
+	},
+	search: {
+		fontSize: 16,
+		padding: 8,
+		border: 'none',
+		color: palette.secondary.light,
+		'&::placeholder': {
+			color: palette.grey[400]
+		},
+		'&:focus': {
+			outline: 'none'
+		},
+		
+	}
 }));
 
 const Search = () => {
 	const classes = useStyles();
 	return (
-		<form>
-			<div className={classes.margin}>
-				<Grid container spacing={1} alignItems='flex-end'>
-					<Grid item>
-						<SearchIcon />
-					</Grid>
-					<Grid item>
-						<TextField id='search' label='search' />
-					</Grid>
-				</Grid>
-			</div>
-		</form>
+		<ListItem className={[classes.listItem, classes.hover].join(' ')}>
+			<form onSubmit={()=> console.log(123)}>
+				<IconButton className={classes.searchButton} type='submit'>
+					<SearchIcon />
+				</IconButton>
+				<input type='text' placeholder='search' className={classes.search} />
+			</form>
+		</ListItem>
 	);
 }
 

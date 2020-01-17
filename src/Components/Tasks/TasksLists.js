@@ -49,7 +49,7 @@ const TasksLists = () => {
 	return (
 		<List className={classes.root}>
 			{['private', 'Shopping', 'Read'].map((t, i) => {
-				let active = i == 1 ? true : false;
+				let active = i === 1 ? true : false;
 				return (
 					<ListItem key={t + i} className={classes.listItem} button selected={active}>
 						<ListItemIcon className={classes.icon}>
