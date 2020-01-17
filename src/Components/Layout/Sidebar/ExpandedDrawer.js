@@ -10,11 +10,13 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import AllIcon from '@material-ui/icons/AllInclusive';
 import FavoriteIcon from '@material-ui/icons/Grade';
-import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
+import TodayIcon from '@material-ui/icons/Today';
 import { ListItemSecondaryAction } from '@material-ui/core';
 
+import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
 import TasksLists from '../../Tasks/TasksLists';
 import SearchForm from '../../../Containers/Forms/Search';
+
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
 		height: 'calc(100vh - 57px - 56px)',
@@ -79,7 +81,7 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 					<AllIcon color='secondary'/>
 				</ListItemIcon>
 				<ListItemText 
-					primary='All tasks' 
+					primary='All' 
 					classes={{ primary: classes.listText }}
 					primaryTypographyProps={{
 						noWrap: true,
@@ -96,13 +98,30 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 					<FavoriteIcon color='secondary'/>
 				</ListItemIcon>
 				<ListItemText 
-					primary='Favorites'
+					primary='Favorite'
 					classes={{primary:classes.listText}}
 					primaryTypographyProps={{
 						noWrap: true,
 						color: 'textSecondary',
 						component: 'p'
 					}} 	
+				/>
+				<ListItemSecondaryAction className={classes.badge}>
+					11
+				</ListItemSecondaryAction>
+			</ListItem>
+			<ListItem className={classes.listItem} button>
+				<ListItemIcon className={classes.icon}>
+					<TodayIcon color='secondary' />
+				</ListItemIcon>
+				<ListItemText
+					primary="Today's"
+					classes={{ primary: classes.listText }}
+					primaryTypographyProps={{
+						noWrap: true,
+						color: 'textSecondary',
+						component: 'p'
+					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
 					11

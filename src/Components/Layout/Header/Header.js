@@ -15,7 +15,7 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	root: {
 		flex: '0 1 auto',
 		boxShadow: shadows[1],
-		position: 'relative',
+		position: 'fixed',
 		zIndex: zIndex.drawer + 1,
 	},
 	toolbar: {

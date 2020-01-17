@@ -10,6 +10,7 @@ import AllIcon from '@material-ui/icons/AllInclusive';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Grade';
 import SearchIcon from '@material-ui/icons/Search';
+import TodayIcon from '@material-ui/icons/Today';
 import Tooltip from '@material-ui/core/Tooltip';
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
 
@@ -69,6 +70,13 @@ const SmallDrawer = ({ handleSidebar }) => {
 				<Tooltip title='favorite tasks' arrow classes={{ popper: classes.tooltip }}>
 					<IconButton color='secondary'>
 						<FavoriteIcon />
+					</IconButton>
+				</Tooltip>
+			</ListItem>
+			<ListItem className={classes.listItem}>
+				<Tooltip title="today's tasks" arrow classes={{ popper: classes.tooltip }}>
+					<IconButton color='secondary'>
+						<TodayIcon />
 					</IconButton>
 				</Tooltip>
 			</ListItem>
