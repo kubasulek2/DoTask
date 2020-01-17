@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		paddingTop: spacing(2.5),
 		flexGrow: 1,
 		paddingBottom: spacing(3),
-		overflowY: 'scroll',
+		overflowY: 'auto',
 		overflowX: 'hidden'
 	},
 	listItem: {
@@ -55,6 +55,11 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	},
 	icon: {
 		padding: spacing(1.5)
+	},
+	badge: {
+		color: palette.grey[500],
+		fontSize: 12,
+		fontWeight: 'bold',
 	}
 }));
 
@@ -97,6 +102,9 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 						component: 'p'
 					}}
 				/>
+				<ListItemSecondaryAction className={classes.badge}>
+					111
+				</ListItemSecondaryAction>
 			</ListItem>
 			<ListItem className={classes.listItem} button>
 				<ListItemIcon className={classes.icon}>
@@ -111,7 +119,7 @@ const ExpandedDrawer = ({ handleSidebar }) => {
 						component: 'p'
 					}} 	
 				/>
-				<ListItemSecondaryAction>
+				<ListItemSecondaryAction className={classes.badge}>
 					11
 				</ListItemSecondaryAction>
 			</ListItem>
