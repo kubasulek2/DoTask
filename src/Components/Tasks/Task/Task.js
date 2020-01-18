@@ -10,11 +10,17 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
 		padding: 0,
-		marginBottom: spacing(.5)
+		width: '100%',
+		marginBottom: spacing(.5),
 	},
 	paper: {
 		display: 'flex',
-		width: '100%'
+		width: '100%',
+		transition: 'all .2s ease',
+		'&.moved':{
+			width: 200,
+			marginLeft: 'calc(100% - 200px)'
+		}
 	},
 	drag: {
 		position: 'relative',
@@ -55,7 +61,7 @@ const Task = ({ text, id, index }) => {
 					{...draggableProps}
 					
 				>
-					<Paper className={classes.paper}>
+					<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
 						<div className={classes.expand}>
 							<ListItemText primary={text} />
 						</div>

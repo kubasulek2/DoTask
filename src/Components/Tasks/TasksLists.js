@@ -50,7 +50,6 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 const TasksLists = ({ tasks: { columns, columnOrder, active }, setCategory }) => {
 	const classes = useStyles();
-
 	return (
 		<List className={classes.root}>
 			{columnOrder.map((t, i) => {

@@ -14,9 +14,7 @@ const useStyles = makeStyles(({ mixins, palette}) => ({
 		zIndex: 2,
 		flexShrink: 0,
 		backgroundColor: palette.secondary.light,
-		width: props => props.open ? 270 : 59,
-		overflowY: 'scroll'
-		
+		width: props => props.open ? 270 : 59,	
 	},
 	drawerPaper: {
 		overflowX: 'hidden',
