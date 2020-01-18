@@ -11,11 +11,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const Task = ({ text, id, index }) => {
 	return (
 		<Draggable draggableId={id} index={index}>
-			{({draggableProps, dragHandleProps, innerRef}) => (
+			{({ draggableProps, dragHandleProps, innerRef }) => (
 				<ListItem
+					ref={innerRef}
 					{...draggableProps}
 					{...dragHandleProps}
-					innerRef={innerRef}
 				>
 					<ExpansionPanel
 						onClick={e => { e.preventDefault(); }}

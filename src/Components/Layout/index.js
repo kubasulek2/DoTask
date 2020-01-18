@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
@@ -21,19 +20,10 @@ const Layout = () => {
 			<Sidebar open={sideBarOpen} handleSidebar={handleSidebar} tasks={tasks} setTasks={setTasks} />
 			<Main open={sideBarOpen}>
 				<CreateTask />
-				<Droppable droppableId={tasks.active}>
-					{({ droppableProps, innerRef, placeholder }) => (
-						<Tasks
-							tasks={tasks}
-							setTasks={setTasks}
-							{...droppableProps}
-							innerRef={innerRef}
-						>
-							{placeholder}
-						</Tasks>
-					)}
-				</Droppable>
-
+				<Tasks
+					tasks={tasks}
+					setTasks={setTasks}
+				/>
 			</Main>
 		</Fragment>
 	);

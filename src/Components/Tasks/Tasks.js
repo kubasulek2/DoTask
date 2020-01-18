@@ -1,6 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-
+import { Droppable } from 'react-beautiful-dnd';
+import RootRef from '@material-ui/core/RootRef';
 
 import Task from './Task';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,12 +14,28 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Tasks = ({ tasks: { columns, active, tasks }, setTasks }) => {
 	const classes = useStyles();
-	const taskList = columns[active].taskIds.map((id,i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
+	const taskList = columns[active].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
 	return (
-		<List className={classes.root}>
-			{taskList}
-		</List>
+		<Droppable droppableId={active}>
+			{({ droppableProps, innerRef, placeholder }) => (
+				<RootRef rootRef={innerRef}>
+					<List
+						className={classes.root}
+						{...droppableProps}
+					>
+						{taskList}
+						{placeholder}
+					</List>
+				</RootRef>
+			)}
+		</Droppable>
+
 	);
 };
 
 export default Tasks;
+
+
+
+
+
