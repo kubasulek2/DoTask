@@ -11,6 +11,7 @@ import BottomPanel from './BottomPanel';
 const useStyles = makeStyles(({ mixins, palette}) => ({
 	drawer: {
 		position: 'fixed',
+		zIndex: 2,
 		flexShrink: 0,
 		backgroundColor: palette.secondary.light,
 		width: props => props.open ? 270 : 59,

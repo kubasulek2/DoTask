@@ -9,6 +9,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListIcon from '@material-ui/icons/List';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import RootRef from '@material-ui/core/RootRef';
+import { Droppable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
@@ -18,6 +20,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	},
 	listItem: {
 		padding: spacing(.5)
+	},
+	over: {
+		background: palette.secondary.light + '!important'
 	},
 	icon: {
 		color: palette.grey[400],
@@ -39,40 +44,48 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 	},
 	editIcon: {
-		color: palette.error.light
+		color: palette.error.light 
 	}
 }));
 
-const TasksLists = ({ tasks: { columns, columnOrder, active }, setCategory}) => {
+const TasksLists = ({ tasks: { columns, columnOrder, active }, setCategory }) => {
 	const classes = useStyles();
 
 	return (
 		<List className={classes.root}>
 			{columnOrder.map((t, i) => {
 				return (
-					<ListItem 
-						key={t + i} 
-						className={classes.listItem} 
-						button 
-						selected={t === active}
-						onClick={() => setCategory(t)}
-					>
-						<ListItemIcon className={classes.icon}>
-							<ListIcon />
-						</ListItemIcon>
-						<ListItemText
-							secondary={columns[t].title}
-							classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
-							primaryTypographyProps={{
-								noWrap: true,
-								component: 'p'
-							}}
-						/>
-						<ListItemSecondaryAction>
-							{t === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
-							<span className={classes.badge}>6</span>
-						</ListItemSecondaryAction>
-					</ListItem>
+					<Droppable droppableId={t} key={t + i}>
+						{({ droppableProps, innerRef, placeholder }, snapshot) => (
+							<RootRef rootRef={innerRef}>
+								<ListItem
+									{...droppableProps}
+									className={[classes.listItem, snapshot.isDraggingOver ? classes.over : null].join(' ')}
+									button
+									selected={t === active}
+									onClick={() => setCategory(t)}
+								>
+									<ListItemIcon className={classes.icon}>
+										<ListIcon />
+									</ListItemIcon>
+									<ListItemText
+										secondary={columns[t].title}
+										classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
+										primaryTypographyProps={{
+											noWrap: true,
+											component: 'p'
+										}}
+									/>
+									{placeholder}
+									<ListItemSecondaryAction>
+										{t === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
+										<span className={classes.badge}>6</span>
+									</ListItemSecondaryAction>
+								</ListItem>
+							</RootRef>
+						)}
+					</Droppable>
+
 				);
 			})}
 		</List>

@@ -2,14 +2,17 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(({spacing, mixins }) => ({
+const useStyles = makeStyles(({spacing, mixins, breakpoints }) => ({
 	root: { 
 		height: '100%',
-		marginLeft: props => props.open ? 270 : 59,
+		marginLeft: 59,
 		transition: 'margin-left .15s ease-out',
 		padding: spacing(),
 		paddingTop: spacing(2.5),
 		overflowX : 'hidden',
+		[breakpoints.up('sm')]: {
+			marginLeft: props => props.open ? 270 : 59,
+		}
 	},
 	toolbar: mixins.toolbar
 }));
