@@ -54,7 +54,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ tasks, setTasks }) => {
+const ExpandedDrawer = ({ tasks, setCategory }) => {
 	const classes = useStyles();
 	return (
 		<List className={classes.root}>
@@ -128,7 +128,7 @@ const ExpandedDrawer = ({ tasks, setTasks }) => {
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Divider />
-			<TasksLists tasks={tasks} setTasks={setTasks}/>
+			<TasksLists tasks={tasks} setCategory={setCategory}/>
 		</List>
 	);
 };

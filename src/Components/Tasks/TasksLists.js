@@ -43,12 +43,8 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksLists = ({tasks: {columns, columnOrder,active}, setTasks}) => {
+const TasksLists = ({ tasks: { columns, columnOrder, active }, setCategory}) => {
 	const classes = useStyles();
-	const setActiveColumn = id => setTasks(data => ({
-		...data,
-		active: id
-	}));
 
 	return (
 		<List className={classes.root}>
@@ -59,7 +55,7 @@ const TasksLists = ({tasks: {columns, columnOrder,active}, setTasks}) => {
 						className={classes.listItem} 
 						button 
 						selected={t === active}
-						onClick={() => setActiveColumn(t)}
+						onClick={() => setCategory(t)}
 					>
 						<ListItemIcon className={classes.icon}>
 							<ListIcon />

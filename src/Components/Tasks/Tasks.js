@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks: { columns, active, tasks }, setTasks }) => {
+const Tasks = ({ tasks: { columns, active, tasks } }) => {
 	const classes = useStyles();
 	const taskList = columns[active].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
 	return (

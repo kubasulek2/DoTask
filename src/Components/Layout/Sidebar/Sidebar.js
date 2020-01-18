@@ -48,7 +48,7 @@ const Sidebar = props => {
 			anchor='left'
 		>
 			<div className={classes.toolbar} />
-			{props.open ? <ExpandedDrawer setTasks={props.setTasks}  tasks={props.tasks}/> : <SmallDrawer handleSidebar={props.handleSidebar} />}
+			{props.open ? <ExpandedDrawer tasks={props.tasks} setCategory={props.setCategory}/> : <SmallDrawer handleSidebar={props.handleSidebar} />}
 			{<BottomPanel width={239} open={props.open}/>}
 		</Drawer>);
 }
