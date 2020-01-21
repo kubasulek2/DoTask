@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import data from '../../Utils/data';
+import Login from '../../Components/Login/Login';
 
 
 class App extends Component {
@@ -78,11 +79,12 @@ class App extends Component {
 
 	render() {
 		return (
-			<DragDropContext
-				onDragEnd={this.onDragEnd}
-			>
-				<Layout data={this.state} setCategory={this.setCategory} />
-			</DragDropContext>
+			// <DragDropContext
+			// 	onDragEnd={this.onDragEnd}
+			// >
+			// 	<Layout data={this.state} setCategory={this.setCategory} />
+			// </DragDropContext>
+			<Login />
 		);
 	}
 }
