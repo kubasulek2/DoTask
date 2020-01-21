@@ -60,33 +60,31 @@ const TasksLists = ({ tasks: { lists, listsOrder, active }, setCategory }) => {
 			{listsOrder.map((list, i) => (
 				<Droppable droppableId={list} key={list + i}>
 					{({ droppableProps, innerRef, placeholder }, snapshot) => (
-						<RootRef rootRef={innerRef}>
-							<ListItem
-								ref={innerRef}
-								{...droppableProps}
-								className={[classes.listItem, snapshot.isDraggingOver ? classes.over : null].join(' ')}
-								button
-								selected={list === active}
-								onClick={() => setCategory(list)}
-							>
-								<ListItemIcon className={classes.icon}>
-									<ListIcon />
-								</ListItemIcon>
-								<ListItemText
-									secondary={lists[list].title}
-									classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
-									primaryTypographyProps={{
-										noWrap: true,
-										component: 'p'
-									}}
-								/>
-								{placeholder}
-								<ListItemSecondaryAction>
-									{list === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
-									<span className={classes.badge}>6</span>
-								</ListItemSecondaryAction>
-							</ListItem>
-						</RootRef>
+						<ListItem
+							ref={innerRef}
+							{...droppableProps}
+							className={[classes.listItem, snapshot.isDraggingOver ? classes.over : null].join(' ')}
+							button
+							selected={list === active}
+							onClick={() => setCategory(list)}
+						>
+							<ListItemIcon className={classes.icon}>
+								<ListIcon />
+							</ListItemIcon>
+							<ListItemText
+								secondary={lists[list].title}
+								classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
+								primaryTypographyProps={{
+									noWrap: true,
+									component: 'p'
+								}}
+							/>
+							{placeholder}
+							<ListItemSecondaryAction>
+								{list === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
+								<span className={classes.badge}>6</span>
+							</ListItemSecondaryAction>
+						</ListItem>
 					)}
 				</Droppable>
 			)

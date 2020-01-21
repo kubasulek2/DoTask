@@ -18,15 +18,14 @@ const Tasks = ({ tasks: { lists, active, tasks } }) => {
 	return (
 		<Droppable droppableId={'inner'}>
 			{({ droppableProps, innerRef, placeholder }) => (
-				<RootRef rootRef={innerRef}>
-					<List
-						className={classes.root}
-						{...droppableProps}
-					>
-						{taskList}
-						{placeholder}
-					</List>
-				</RootRef>
+				<List
+					ref={innerRef}
+					className={classes.root}
+					{...droppableProps}
+				>
+					{taskList}
+					{placeholder}
+				</List>
 			)}
 		</Droppable>
 

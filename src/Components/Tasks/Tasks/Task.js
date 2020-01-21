@@ -19,8 +19,8 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		display: 'flex',
 		width: '100%',
 		transition: 'all .2s ease',
-		'&.moved':{
-			width: 200
+		'&.moved': {
+			width: 270
 		}
 	},
 	drag: {
@@ -41,6 +41,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		flexGrow: 1,
 		cursor: 'pointer',
 	},
+	shrink: {
+		width: 100,
+	},
 	icon: {
 		width: 24,
 		height: 24,
@@ -60,7 +63,7 @@ const Task = ({ text, id, index }) => {
 					className={[classes.root, snapshot.isDragging ? classes.dragged : null].join(' ')}
 					ref={innerRef}
 					{...draggableProps}
-					
+
 				>
 					<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
 						<div
@@ -70,7 +73,14 @@ const Task = ({ text, id, index }) => {
 							<DragIcon className={classes.icon} />
 						</div>
 						<div className={classes.expand}>
-							<ListItemText primary={text} />
+							<ListItemText
+								primary={text}
+								primaryTypographyProps={{
+									noWrap: true,
+									classes: { root: snapshot.isDragging ? classes.shrink : null},
+									component: 'div'
+								}}
+							/>
 						</div>
 						<IconButton>
 							<Add />
