@@ -1,6 +1,5 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import RootRef from '@material-ui/core/RootRef';
 import { makeStyles } from '@material-ui/core/styles';
 import { Droppable } from 'react-beautiful-dnd';
 

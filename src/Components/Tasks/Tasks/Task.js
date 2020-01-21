@@ -77,7 +77,7 @@ const Task = ({ text, id, index }) => {
 								primary={text}
 								primaryTypographyProps={{
 									noWrap: true,
-									classes: { root: snapshot.isDragging ? classes.shrink : null},
+									classes: { root: snapshot.isDragging ? classes.shrink : null },
 									component: 'div'
 								}}
 							/>

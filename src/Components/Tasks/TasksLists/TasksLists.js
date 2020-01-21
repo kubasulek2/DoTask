@@ -9,7 +9,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListIcon from '@material-ui/icons/List';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import RootRef from '@material-ui/core/RootRef';
 import { Droppable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
