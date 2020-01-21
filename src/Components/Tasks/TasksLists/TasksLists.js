@@ -11,14 +11,16 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
 		paddingTop: spacing(2.5),
 		flexGrow: 1,
-		paddingBottom: 64,
+		marginBottom: 44,
+		background: palette.background.paper,
+		transition: 'background .6s ease'
 	},
 	listItem: {
 		padding: spacing(.5),
 		minHeight: 36
 	},
 	over: {
-		background: palette.secondary.light + '!important'
+		background: 'rgba(132,170,199,0.4)',
 	},
 	icon: {
 		color: palette.grey[400],
@@ -52,8 +54,12 @@ const TasksLists = ({ tasks: { lists, listsOrder, active }, setCategory }) => {
 	const classes = useStyles();
 	return (
 		<Droppable droppableId='lists' type='list'>
-			{({ innerRef, placeholder, droppableProps }) => (
-				<List className={classes.root} ref={innerRef} {...droppableProps}>
+			{({ innerRef, placeholder, droppableProps }, snapshot) => (
+				<List 
+					className={[classes.root, snapshot.isDraggingOver ? classes.over : null ].join(' ')}
+					ref={innerRef} 
+					{...droppableProps}
+				>
 					{listsOrder.map((id, i) => (
 						<TasksListsItem key={id + i} active={active} setCategory={setCategory} list={lists[id]} index={i} />
 					))}

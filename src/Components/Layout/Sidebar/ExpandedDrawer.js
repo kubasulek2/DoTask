@@ -91,7 +91,7 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					111
+					{Object.keys(tasks.tasks).length}
 				</ListItemSecondaryAction>
 			</ListItem>
 			<ListItem className={classes.listItem} button>
@@ -108,7 +108,7 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					11
+					{tasks.favorites.length}
 				</ListItemSecondaryAction>
 			</ListItem>
 			<ListItem className={classes.listItem} button>
@@ -125,7 +125,7 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					11
+					{tasks.todays.length}
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Divider />
