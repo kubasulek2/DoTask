@@ -14,7 +14,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
-import TasksLists from '../../Tasks/TasksLists';
+import TasksLists from '../../Tasks/TasksLists/TasksLists';
 import SearchForm from '../../../Containers/Forms/Search';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
@@ -24,12 +24,13 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		flexGrow: 1,
 		paddingBottom: spacing(3),
 		overflowY: 'auto',
-		overflowX: 'hidden'
+		overflowX: 'hidden',
+		scrollbarColor: palette.grey[300] + ' ' + palette.background.paper
 	},
 	listItem: {
 		padding: spacing(.5)
 	},
-	user: { 
+	user: {
 		fontWeight: 'bold',
 		marginLeft: spacing(1),
 		color: palette.secondary.dark
@@ -66,22 +67,22 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 						src={img}
 					/>
 				</ListItemAvatar>
-				<ListItemText  
+				<ListItemText
 					primary='Kuba Sulkowski'
 					classes={{ primary: classes.user }}
 					primaryTypographyProps={{
 						noWrap: true,
 						component: 'p'
-					}} 	
+					}}
 				/>
 			</ListItem>
 			<SearchForm />
 			<ListItem className={classes.listItem} button>
 				<ListItemIcon className={classes.icon}>
-					<AllIcon color='secondary'/>
+					<AllIcon color='secondary' />
 				</ListItemIcon>
-				<ListItemText 
-					primary='All' 
+				<ListItemText
+					primary='All'
 					classes={{ primary: classes.listText }}
 					primaryTypographyProps={{
 						noWrap: true,
@@ -95,16 +96,16 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 			</ListItem>
 			<ListItem className={classes.listItem} button>
 				<ListItemIcon className={classes.icon}>
-					<FavoriteIcon color='secondary'/>
+					<FavoriteIcon color='secondary' />
 				</ListItemIcon>
-				<ListItemText 
+				<ListItemText
 					primary='Favorite'
-					classes={{primary:classes.listText}}
+					classes={{ primary: classes.listText }}
 					primaryTypographyProps={{
 						noWrap: true,
 						color: 'textSecondary',
 						component: 'p'
-					}} 	
+					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
 					11
@@ -128,7 +129,10 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Divider />
-			<TasksLists tasks={tasks} setCategory={setCategory}/>
+			<TasksLists
+				tasks={tasks}
+				setCategory={setCategory}
+			/>
 		</List>
 	);
 };

@@ -4,7 +4,7 @@ import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import Main from './Main/Main';
 import CreateTask from '../Tasks/CreateTask';
-import Tasks from '../Tasks/Tasks';
+import Tasks from '../Tasks/Tasks/Tasks';
 
 
 const Layout = ({ data, setCategory }) => {

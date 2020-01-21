@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import ListItemText from '@material-ui/core/ListItemText';
 import DragIcon from '@material-ui/icons/DragIndicator';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import Add from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
@@ -18,8 +20,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		width: '100%',
 		transition: 'all .2s ease',
 		'&.moved':{
-			width: 200,
-			marginLeft: 'calc(100% - 200px)'
+			width: 200
 		}
 	},
 	drag: {
@@ -62,15 +63,18 @@ const Task = ({ text, id, index }) => {
 					
 				>
 					<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
-						<div className={classes.expand}>
-							<ListItemText primary={text} />
-						</div>
-						<div 
+						<div
 							className={classes.drag}
 							{...dragHandleProps}
 						>
-							<DragIcon className={classes.icon}/>
+							<DragIcon className={classes.icon} />
 						</div>
+						<div className={classes.expand}>
+							<ListItemText primary={text} />
+						</div>
+						<IconButton>
+							<Add />
+						</IconButton>
 					</Paper>
 				</ListItem>
 			)}

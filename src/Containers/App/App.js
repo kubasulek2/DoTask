@@ -8,6 +8,7 @@ import data from '../../Utils/data';
 
 class App extends Component {
 	state = data
+	
 	onDragEnd = res => {
 		const { destination, source, draggableId } = res;
 		if (!destination) {
@@ -21,21 +22,21 @@ class App extends Component {
 		}
 
 		
-		const start = this.state.columns[this.state.active];
-		const finish = destination.droppableId === 'inner' ? this.state.columns[this.state.active] : this.state.columns[destination.droppableId];
+		const start = this.state.lists[this.state.active];
+		const finish = destination.droppableId === 'inner' ? this.state.lists[this.state.active] : this.state.lists[destination.droppableId];
 		if (start === finish) {
 			const newTaskIds = Array.from(start.taskIds);
 			newTaskIds.splice(source.index, 1);
 			newTaskIds.splice(destination.index, 0, draggableId);
-			const newColumn = {
+			const newList = {
 				...start,
 				taskIds: newTaskIds
 			};
 			const newState = {
 				...this.state,
-				columns: {
-					...this.state.columns,
-					[newColumn.id]: newColumn
+				lists: {
+					...this.state.lists,
+					[newList.id]: newList
 				}
 			};
 			return this.setState(newState); 
@@ -56,8 +57,8 @@ class App extends Component {
 
 		const newState = {
 			...this.state,
-			columns: {
-				...this.state.columns,
+			lists: {
+				...this.state.lists,
 				[newStart.id]: newStart,
 				[newFinish.id]: newFinish,
 			}
@@ -67,6 +68,7 @@ class App extends Component {
 	}
 
 	setCategory = id => this.setState({ active: id })
+
 	render() {
 		return (
 			<DragDropContext
