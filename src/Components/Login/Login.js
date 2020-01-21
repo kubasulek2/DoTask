@@ -10,7 +10,7 @@ import { ReactComponent as LogoIcon } from '../../Assets/logo.svg';
 import LoginForm from '../../Containers/Forms/Login';
 
 
-const xxs = '@media (max-width:500px)';
+const xxs = '@media (max-width:500px), (orientation: landscape) and (max-height: 450px)';
 const landscape = '@media (orientation: landscape) and (max-height: 450px) ';
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		width: '100vw',
 		height: '100vh',
 		background: palette.primary.main,
-		[landscape] : {
+		[landscape]: {
 			display: 'block',
 			padding: '100px 0',
 			height: 'initial'
@@ -37,11 +37,14 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	},
 	switchButton: {
 		fontWeight: 'bold',
-		fontSize: 22,
+		fontSize: 20,
 		boxShadow: 'none',
 		color: palette.secondary.main,
-		background: palette.background.paper
-		
+		background: palette.background.paper,
+		[xxs]: {
+			fontSize: 15
+		}
+
 	},
 	card: {
 		background: palette.background.default,
@@ -53,8 +56,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 			minWidth: 300
 		},
 		[landscape]: {
-			width: '80%',
-			maxWidth: 450,
+			width: 450,
 			margin: 'auto auto'
 		}
 	},
@@ -91,18 +93,18 @@ const Login = () => {
 	const classes = useStyles();
 
 	const [authType, setAuthType] = useState('login');
-	const switchAuthType = () => setAuthType(prev => prev === 'login' ? 'signup': 'login');
+	const switchAuthType = () => setAuthType(prev => prev === 'login' ? 'signup' : 'login');
 
 	return (
 		<div className={classes.root}>
 			<div className={classes.switchType}>
-				<Button 
+				<Button
 					variant='contained'
-					size='large' 
+					size='large'
 					className={classes.switchButton}
 					onClick={switchAuthType}
 				>
-					{authType === 'login' ? 'sign up' : 'log in'}
+					{authType === 'login' ? 'signup' : 'login'}
 				</Button>
 			</div>
 			<Card className={classes.card}>
