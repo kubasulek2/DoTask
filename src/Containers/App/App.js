@@ -8,9 +8,9 @@ import data from '../../Utils/data';
 
 class App extends Component {
 	state = data
-	
+
 	onDragEnd = res => {
-		const { destination, source, draggableId } = res;
+		const { destination, source, draggableId, type } = res;
 		if (!destination) {
 			return;
 		}
@@ -21,7 +21,14 @@ class App extends Component {
 			return;
 		}
 
-		
+
+		if (type === 'list') {
+			const newListsOrder = Array.from(this.state.listsOrder);
+			newListsOrder.splice(source.index,1);
+			newListsOrder.splice(destination.index,0,draggableId);
+			return this.setState({listsOrder: newListsOrder});
+		}
+
 		const start = this.state.lists[this.state.active];
 		const finish = destination.droppableId === 'inner' ? this.state.lists[this.state.active] : this.state.lists[destination.droppableId];
 		if (start === finish) {
@@ -39,10 +46,10 @@ class App extends Component {
 					[newList.id]: newList
 				}
 			};
-			return this.setState(newState); 
-		} 
+			return this.setState(newState);
+		}
 		const startTaskIds = Array.from(start.taskIds);
-		startTaskIds.splice(source.index,1);
+		startTaskIds.splice(source.index, 1);
 		const newStart = {
 			...start,
 			taskIds: startTaskIds
@@ -64,7 +71,7 @@ class App extends Component {
 			}
 		};
 		return this.setState(newState);
-		
+
 	}
 
 	setCategory = id => this.setState({ active: id })

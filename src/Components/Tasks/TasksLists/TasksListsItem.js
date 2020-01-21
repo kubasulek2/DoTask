@@ -2,21 +2,24 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListIcon from '@material-ui/icons/List';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(({ spacing, palette }) => ({
-	root: {
-		paddingTop: spacing(2.5),
-		flexGrow: 1,
-		paddingBottom: 64,
-	},
 	listItem: {
-		padding: spacing(.5),
+		padding: 0,
 		minHeight: 36
+	},
+	innerList: {
+		padding: spacing(.5),
+		margin: 0,
+		width: '100%',
+		minHeight: 36,
+		display: 'flex',
+		listStyle: 'none',
+		alignItems: 'center',
 	},
 	over: {
 		background: palette.secondary.light + '!important'
@@ -49,40 +52,48 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksListsItem = ({ setCategory, active, list }) => {
+const TasksListsItem = ({ setCategory, active, list, index }) => {
 	const classes = useStyles();
 
 	return (
-		<Droppable droppableId={list.id}>
-			{({ droppableProps, innerRef, placeholder }, snapshot) => (
+		<Draggable draggableId={list.id} index={index}>
+			{(draggable) => (
 				<ListItem
-					ref={innerRef}
-					{...droppableProps}
-					className={[classes.listItem, snapshot.isDraggingOver ? classes.over : null].join(' ')}
+					ref={draggable.innerRef}
+					{...draggable.draggableProps}
+					className={classes.listItem}
 					button
 					selected={list.id === active}
 					onClick={() => setCategory(list.id)}
 				>
-					<ListItemIcon className={classes.icon}>
-						<ListIcon />
-					</ListItemIcon>
-					<ListItemText
-						secondary={list.title}
-						classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
-						primaryTypographyProps={{
-							noWrap: true,
-							component: 'p'
-						}}
-					/>
-					{placeholder}
-					<ListItemSecondaryAction>
-						{list.id === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
-						<span className={classes.badge}>6</span>
-					</ListItemSecondaryAction>
+					<Droppable droppableId={list.id}>
+						{({ droppableProps, innerRef, placeholder }, snapshot) => (
+							<ul
+								className={[classes.innerList, snapshot.isDraggingOver ? classes.over : null].join(' ')}
+								ref={innerRef}
+								{...droppableProps}
+							>
+								<ListItemIcon className={classes.icon} {...draggable.dragHandleProps}>
+									<ListIcon />
+								</ListItemIcon>
+								<ListItemText
+									secondary={list.title}
+									classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
+									primaryTypographyProps={{
+										noWrap: true,
+										component: 'p'
+									}}
+								/>
+								{placeholder}
+								{list.id === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
+								<span className={classes.badge}>{list.taskIds.length}</span>
+							</ul>
+						)}
+					</Droppable>
 				</ListItem>
 			)}
-		</Droppable>
+		</Draggable>
 	);
-}
+};
 
 export default TasksListsItem;
