@@ -165,6 +165,7 @@ class LoginForm extends Component {
 
 	render() {
 		const { type, setType, classes } = this.props;
+		const { email, password, confirmPassword, hint, valid } = this.state;
 		const message = type === 'login' ? 'Don\'t have an account? ' : 'Already have an account? ';
 
 		return (
@@ -175,17 +176,17 @@ class LoginForm extends Component {
 					variant='subtitle2'
 					align='center'
 				>
-					{this.state.hint}
+					{hint}
 				</Typography>
 				<div className={classes.inputContainer}>
 					<TextField
 						className={classes.textField}
 						inputRef={this.emailRef}
-						value={this.state.email.value}
-						error={!this.state.email.valid && this.state.email.touched}
+						value={email.value}
+						error={!email.valid && email.touched}
 						onChange={(event) => this.handleInputChange(event, 'email')}
-						onBlur={this.props.type === 'signup' ? () => this.handleInputBlur('email') : null}
-						onFocus={this.props.type === 'signup' ? () => this.handleInputFocus('email') : null}
+						onBlur={type === 'signup' ? () => this.handleInputBlur('email') : null}
+						onFocus={type === 'signup' ? () => this.handleInputFocus('email') : null}
 						placeholder="Email"
 						variant="outlined"
 						type='email'
@@ -205,11 +206,11 @@ class LoginForm extends Component {
 					/>
 					<TextField
 						className={classes.textField}
-						value={this.state.password.value}
-						error={!this.state.password.valid && this.state.password.touched}
+						value={password.value}
+						error={!password.valid && password.touched}
 						onChange={(event) => this.handleInputChange(event, 'password')}
-						onBlur={this.props.type === 'signup' ? () => this.handleInputBlur('password') : null}
-						onFocus={this.props.type === 'signup' ? () => this.handleInputFocus('password') : null}
+						onBlur={type === 'signup' ? () => this.handleInputBlur('password') : null}
+						onFocus={type === 'signup' ? () => this.handleInputFocus('password') : null}
 						placeholder="Password"
 						variant="outlined"
 						type='password'
@@ -230,11 +231,11 @@ class LoginForm extends Component {
 					{type === 'signup'
 						? <TextField
 							className={classes.textField}
-							value={this.state.confirmPassword.value}
-							error={!this.state.confirmPassword.valid && this.state.confirmPassword.touched}
+							value={confirmPassword.value}
+							error={!confirmPassword.valid && confirmPassword.touched}
 							onChange={(event) => this.handleInputChange(event, 'confirmPassword')}
-							onBlur={this.props.type === 'signup' ? () => this.handleInputBlur('confirmPassword') : null}
-							onFocus={this.props.type === 'signup' ? () => this.handleInputFocus('confirmPassword') : null}
+							onBlur={type === 'signup' ? () => this.handleInputBlur('confirmPassword') : null}
+							onFocus={type === 'signup' ? () => this.handleInputFocus('confirmPassword') : null}
 							placeholder="Confirm password"
 							variant="outlined"
 							type='password'
@@ -254,7 +255,7 @@ class LoginForm extends Component {
 						/>
 						: null}
 					<Button
-						disabled={!this.state.valid}
+						disabled={!valid}
 						form={'login-form'}
 						type='submit'
 						variant='contained'

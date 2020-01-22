@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { Route, withRouter } from 'react-router-dom';
 
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
@@ -8,7 +9,13 @@ import Login from '../../Components/Login/Login';
 
 
 class App extends Component {
-	state = data
+	state = {
+		...data,
+		isAuth: false
+	}
+	componentDidMount() {
+		console.log(this.props);
+	}
 
 	onDragEnd = res => {
 		const { destination, source, draggableId, type } = res;
@@ -25,9 +32,9 @@ class App extends Component {
 
 		if (type === 'list') {
 			const newListsOrder = Array.from(this.state.listsOrder);
-			newListsOrder.splice(source.index,1);
-			newListsOrder.splice(destination.index,0,draggableId);
-			return this.setState({listsOrder: newListsOrder});
+			newListsOrder.splice(source.index, 1);
+			newListsOrder.splice(destination.index, 0, draggableId);
+			return this.setState({ listsOrder: newListsOrder });
 		}
 
 		const start = this.state.lists[this.state.active];
@@ -79,14 +86,15 @@ class App extends Component {
 
 	render() {
 		return (
-			// <DragDropContext
+			<Route />
+			// {/* <DragDropContext
 			// 	onDragEnd={this.onDragEnd}
 			// >
 			// 	<Layout data={this.state} setCategory={this.setCategory} />
-			// </DragDropContext>
+			// </DragDropContext> */}
 			<Login />
 		);
 	}
 }
 
-export default WithStyles(App);
+export default withRouter(WithStyles(App));
