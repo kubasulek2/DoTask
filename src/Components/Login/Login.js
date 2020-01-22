@@ -49,7 +49,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	card: {
 		background: palette.background.default,
 		width: 450,
-		padding: `${ spacing(5) }px ${ spacing(3) }px`,
+		padding: `${ spacing(3) }px ${ spacing(3) }px`,
 		[xxs]: {
 			padding: `${ spacing(3) }px ${ spacing(1) }px`,
 			width: '95%',
@@ -71,17 +71,17 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	welcome: {
 		color: palette.secondary.dark,
 		margin: '16px 0 0',
-		fontSize: 40,
+		fontSize: 45,
 		fontWeight: 'bold',
 		[xxs]: {
-			fontSize: 24,
+			fontSize: 30,
 		}
 	},
 	subHeader: {
 		color: palette.text.primary,
-		fontSize: 20,
+		fontSize: 22,
 		[xxs]: {
-			fontSize: 16,
+			fontSize: 18,
 		}
 	}
 
@@ -122,7 +122,7 @@ const Login = () => {
 					align='center'
 				>Your best personal manager!</Typography>
 				<CardContent>
-					<LoginForm type={authType} />
+					<LoginForm type={authType} setType={switchAuthType} />
 				</CardContent>
 			</Card>
 		</div>
