@@ -4,19 +4,26 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
-		marginTop: spacing(1.5),
-		padding: spacing(1),
+		marginBottom: spacing(1.5),
+		display: 'flex',
+		justifyContent: 'center',
+	},
+	badge: {
+		background: palette.secondary.light,
 		borderRadius: 4,
-		background: palette.secondary.light
+		padding: `${spacing(1)}px ${spacing(2.5)}px`,
+		color: palette.background.paper 
 	}
 }));
 
-const CategoryBadge = ({text}) => {
+const CategoryBadge = ({ text }) => {
 	const classes = useStyles();
-	
+
 	return (
 		<div className={classes.root}>
-			<Typography variant='h5' color='textPrimary'>{text}</Typography>
+			<div className={classes.badge}>
+				<Typography variant='body1' align='center'>{text}</Typography>
+			</div>
 		</div>
 	);
 };

@@ -25,7 +25,7 @@ const data = {
 	active: 'list-1',
 	listsOrder: ['list-1', 'list-2', 'list-3'],
 	favorites: [],
-	todays: []
+	todays: []	
 };
 
 export default data;
