@@ -10,7 +10,14 @@ const useStyles = makeStyles(({ palette }) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	content: { display: 'flex' }
+	content: { 
+		alignItems: 'flex-end',
+		display: 'flex' 
+	},
+	secondary: {
+		marginBottom: 12,
+		marginLeft: 6
+	}
 }));
 const FourOhFour = () => {
 	const classes = useStyles();
@@ -18,10 +25,10 @@ const FourOhFour = () => {
 		<div className={classes.root}>
 			<div className={classes.content}>
 				<Typography variant='h1' style={{fontWeight: 'bold'}} color='textPrimary'>404</Typography>
-				<Typography variant='h6' color='textSecondary'>404</Typography>
+				<Typography variant='h6' color='textSecondary' className={classes.secondary} >Page not found.</Typography>
 			</div>
 		</div>
 	);
-}
+};
 
 export default FourOhFour;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import Helmet from 'react-helmet';
 
@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import { ReactComponent as LogoIcon } from '../../Assets/logo.svg';
 import LoginForm from '../../Containers/Forms/Login';
+import isLoggedIn from '../../Utils/is_logged_in';
 
 
 const xxs = '@media (max-width:500px), (orientation: landscape) and (max-height: 450px)';
@@ -92,14 +93,14 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 }));
 
 
-const Login = ({isAuth, logIn}) => {
+const Login = ({logIn}) => {
 	const classes = useStyles();
 
 	const [authType, setAuthType] = useState('login');
 	const switchAuthType = () => setAuthType(prev => prev === 'login' ? 'signup' : 'login');
 
-	if(isAuth) {
-		return <Redirect to='/' />;
+	if(isLoggedIn()) {
+		return <Redirect to='/tasks/all' />;
 	}
 
 	return (

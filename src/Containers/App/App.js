@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import store from 'store';
 
+import isLoggedIn from '../../Utils/is_logged_in';
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import data from '../../Utils/data';
@@ -15,7 +16,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		if (store.get('auth')) {
+		if (isLoggedIn()) {
 			this.setState({ isAuth: true });
 		}
 	}
@@ -89,8 +90,9 @@ class App extends Component {
 
 	logIn = persist => {
 		if (persist) {
-			store.set('auth', true);
+			// token persisting
 		}
+		store.set('auth', true);
 		this.setState({ isAuth: true });
 	};
 
@@ -103,7 +105,7 @@ class App extends Component {
 	render() {
 		return (
 			<Switch>
-				<Route path='/login' render={() => <Login isAuth={this.state.isAuth} logIn={this.logIn} />} />
+				<Route path='/login' render={() => <Login logIn={this.logIn} />} />
 				<Route path='/' render={() => <Layout data={this.state} setCategory={this.setCategory} onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
 			</Switch>
 		);
