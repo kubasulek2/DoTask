@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-import FourOhFour from '../../FourOhFour';
+import NotFound from '../../UI/NotFound';
 import NoDragTask from '../Task/NoDragTask';
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -23,7 +23,7 @@ const Tasks = ({ location: { search }, tasks: { tasks } }) => {
 	return (
 		taskList.length
 			? <List className={classes.root}>{taskList}</List>
-			: <FourOhFour />
+			: <NotFound />
 	);
 
 };

@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
 import NoDragTask from '../Task/NoDragTask';
-import CategoryBadge from '../../UI/CategoryBadge';
+import NotFound from '../../UI/NotFound';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {
@@ -11,17 +11,16 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks: { tasks, lists } }) => {
+const Tasks = ({ tasks: { tasks } }) => {
 	const classes = useStyles();
 
-	const taskList = Object.values(lists).filter(list => list.taskIds.length).map(list => (
-		<List className={classes.root} key={list.id}>
-			<CategoryBadge text={list.title}/>
-			{list.taskIds.map(id => (<NoDragTask key={id} text={tasks[id].content} />))}
-		</List>
-	));
-	
-	return taskList;
+	const taskList = Object.values(tasks).filter(task => task.favorite).map(task => <NoDragTask key={task.id} text={task.content} />);
+
+	return (
+		taskList.length
+			? <List className={classes.root} >{taskList}</List>
+			: <NotFound />
+	);
 };
 
 export default Tasks;

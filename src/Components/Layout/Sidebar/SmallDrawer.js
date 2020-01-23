@@ -91,7 +91,7 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 					</Tooltip>
 				</ListItem>
 			</Link>
-			<Link to='tasks/today'>
+			<Link to='/tasks/today'>
 				<ListItem className={classes.listItem}>
 					<Tooltip title="today's tasks" arrow classes={{ popper: classes.tooltip }}>
 						<IconButton color='secondary'>
