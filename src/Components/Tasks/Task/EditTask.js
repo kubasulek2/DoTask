@@ -1,11 +1,11 @@
 import React from 'react';
 
-const TasksToday = () => {
+const EditTask = () => {
 	return (
 		<div>
 			
 		</div>
 	);
-}
+};
 
-export default TasksToday;
+export default EditTask;

@@ -5,8 +5,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import CreateTask from '../Tasks/CreateTask';
-import Tasks from '../Tasks/Tasks/Tasks';
+import Tasks from '../Tasks';
 import FourOhFour from '../FourOhFour';
 import isLoggedIn from '../../Utils/is_logged_in';
 
