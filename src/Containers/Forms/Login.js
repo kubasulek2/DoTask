@@ -7,6 +7,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
 import { Typography } from '@material-ui/core';
 
+import Checkbox from '../../Components/Login/LoginCheckbox';
+
 const xxs = '@media (max-width:400px)';
 const styles = (({ palette, spacing }) => ({
 	root: {
@@ -14,7 +16,7 @@ const styles = (({ palette, spacing }) => ({
 		width: '100%'
 	},
 	errorMessage: {
-		margin: 8,
+		marginBottom: 8,
 		minHeight: 35,
 		fontSize: 12,
 	},
@@ -43,7 +45,7 @@ const styles = (({ palette, spacing }) => ({
 		color: palette.secondary.dark
 	},
 	button: {
-		marginTop: spacing(1),
+		marginTop: spacing(2),
 		marginBottom: spacing(1.5),
 		width: '80%',
 		borderRadius: 4,
@@ -92,7 +94,8 @@ const initialState = {
 		hint: 'Passwords must match.'
 	},
 	valid: false,
-	hint: ''
+	hint: '',
+	persist: true
 };
 
 class LoginForm extends Component {
@@ -133,7 +136,7 @@ class LoginForm extends Component {
 	}
 
 	handleFormValidation() {
-		let keys = Object.keys(this.state).slice(0, -2),
+		let keys = Object.keys(this.state).slice(0, 3),
 			allValid;
 
 		keys = this.props.type === 'login' ? keys.slice(0, -1) : keys;
@@ -142,13 +145,13 @@ class LoginForm extends Component {
 		return this.setState({ valid: allValid });
 	}
 
-	handleInputFocus = (type) => {
+	handleInputFocus = type => {
 		return this.setState({
 			hint: this.state[type].hint,
 
 		});
 	}
-	handleInputBlur = (type) => {
+	handleInputBlur = type => {
 		return this.setState({
 			[type]: {
 				...this.state[type],
@@ -160,12 +163,14 @@ class LoginForm extends Component {
 
 	handleFormSubmit = event => {
 		event.preventDefault();
-		this.props.logIn();
+		this.props.logIn(this.state.persist);
 	}
+
+	handleCheckbox = () => this.setState(({ persist }) => ({ persist: !persist }))
 
 	render() {
 		const { type, setType, classes } = this.props;
-		const { email, password, confirmPassword, hint, valid } = this.state;
+		const { email, password, confirmPassword, hint, valid, persist } = this.state;
 		const message = type === 'login' ? 'Don\'t have an account? ' : 'Already have an account? ';
 
 		return (
@@ -254,6 +259,7 @@ class LoginForm extends Component {
 							}}
 						/>
 						: null}
+					<Checkbox persist={persist} handleCheckbox={this.handleCheckbox} styles={classes.checkbox} />
 					<Button
 						disabled={!valid}
 						form={'login-form'}

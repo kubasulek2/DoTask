@@ -15,8 +15,8 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		if(store.get('auth')){
-			this.setState({isAuth: true});
+		if (store.get('auth')) {
+			this.setState({ isAuth: true });
 		}
 	}
 
@@ -86,12 +86,14 @@ class App extends Component {
 	}
 
 	setCategory = id => this.setState({ active: id })
-	
-	logIn = () => {
-		store.set('auth', true);
+
+	logIn = persist => {
+		if (persist) {
+			store.set('auth', true);
+		}
 		this.setState({ isAuth: true });
 	};
-	
+
 	logOut = () => {
 		store.remove('auth');
 		this.setState({ isAuth: false });
