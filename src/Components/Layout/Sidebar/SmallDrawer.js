@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -12,6 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Grade';
 import SearchIcon from '@material-ui/icons/Search';
 import TodayIcon from '@material-ui/icons/Today';
 import Tooltip from '@material-ui/core/Tooltip';
+
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
@@ -36,50 +38,65 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		left: '-2px !important'
 	}
 }));
-const SmallDrawer = ({ handleSidebar }) => {
+const SmallDrawer = ({ handleSidebar, setSearchFocus}) => {
 	const classes = useStyles();
+	
+	const handleSearch = () => {
+		handleSidebar();
+		setSearchFocus(true);
+	};
 	return (
 		<List className={classes.root}>
-			<ListItem className={classes.listItem}>
-				<Tooltip title='profile' arrow classes={{ popper: classes.tooltip }}>
-					<ListItemAvatar>
-						<Avatar
-							className={classes.avatar}
-							alt='profile'
-							src={img}
-						/>
-					</ListItemAvatar>
+			<Link to='/user'>
+				<ListItem className={classes.listItem}>
+					<Tooltip title='profile' arrow classes={{ popper: classes.tooltip }}>
+						<ListItemAvatar>
+							<Avatar
+								className={classes.avatar}
+								alt='profile'
+								src={img}
+							/>
+						</ListItemAvatar>
 
-				</Tooltip>
-			</ListItem>
-			<ListItem className={classes.listItem}>
-				<Tooltip title='search' arrow classes={{ popper: classes.tooltip }}>
-					<IconButton className={classes.searchButton} onClick={handleSidebar}>
-						<SearchIcon />
-					</IconButton>
-				</Tooltip>
-			</ListItem>
-			<ListItem className={classes.listItem} selected={true}>
-				<Tooltip title='all tasks' arrow classes={{ popper: classes.tooltip }}>
-					<IconButton color='secondary'>
-						<AllIcon />
-					</IconButton>
-				</Tooltip>
-			</ListItem>
-			<ListItem className={classes.listItem}>
-				<Tooltip title='favorite tasks' arrow classes={{ popper: classes.tooltip }}>
-					<IconButton color='secondary'>
-						<FavoriteIcon />
-					</IconButton>
-				</Tooltip>
-			</ListItem>
-			<ListItem className={classes.listItem}>
-				<Tooltip title="today's tasks" arrow classes={{ popper: classes.tooltip }}>
-					<IconButton color='secondary'>
-						<TodayIcon />
-					</IconButton>
-				</Tooltip>
-			</ListItem>
+					</Tooltip>
+				</ListItem>
+			</Link>
+			<Link to='/tasks/search'>
+				<ListItem className={classes.listItem}>
+					<Tooltip title='search' arrow classes={{ popper: classes.tooltip }}>
+						<IconButton className={classes.searchButton} onClick={handleSearch}>
+							<SearchIcon />
+						</IconButton>
+					</Tooltip>
+				</ListItem>
+			</Link>
+			<Link to='/tasks/all'>
+				<ListItem className={classes.listItem} selected={true}>
+					<Tooltip title='all tasks' arrow classes={{ popper: classes.tooltip }}>
+						<IconButton color='secondary'>
+							<AllIcon />
+						</IconButton>
+					</Tooltip>
+				</ListItem>
+			</Link>
+			<Link to='/tasks/favorite'>
+				<ListItem className={classes.listItem}>
+					<Tooltip title='favorite tasks' arrow classes={{ popper: classes.tooltip }}>
+						<IconButton color='secondary'>
+							<FavoriteIcon />
+						</IconButton>
+					</Tooltip>
+				</ListItem>
+			</Link>
+			<Link to='tasks/today'>
+				<ListItem className={classes.listItem}>
+					<Tooltip title="today's tasks" arrow classes={{ popper: classes.tooltip }}>
+						<IconButton color='secondary'>
+							<TodayIcon />
+						</IconButton>
+					</Tooltip>
+				</ListItem>
+			</Link>
 			<ListItem className={classes.listItem}>
 				<Tooltip title='expand' arrow classes={{ popper: classes.tooltip }}>
 					<IconButton color='secondary' onClick={handleSidebar}>

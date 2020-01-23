@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,13 +8,13 @@ import SmallDrawer from './SmallDrawer';
 import BottomPanel from './BottomPanel';
 
 
-const useStyles = makeStyles(({ mixins, palette}) => ({
+const useStyles = makeStyles(({ mixins, palette }) => ({
 	drawer: {
 		position: 'fixed',
 		zIndex: 2,
 		flexShrink: 0,
 		backgroundColor: palette.secondary.light,
-		width: props => props.open ? 270 : 59,	
+		width: props => props.open ? 270 : 59,
 	},
 	drawerPaper: {
 		overflowX: 'hidden',
@@ -30,13 +30,13 @@ const useStyles = makeStyles(({ mixins, palette}) => ({
 		height: 64,
 		display: 'flex',
 		alignItems: 'center',
-	}	
+	}
 }));
 
 const Sidebar = props => {
 	const classes = useStyles(props);
-	
-	
+	const [searchFocus, setSearchFocus] = useState(false);
+
 	return (
 		<Drawer
 			className={classes.drawer}
@@ -47,8 +47,19 @@ const Sidebar = props => {
 			anchor='left'
 		>
 			<div className={classes.toolbar} />
-			{props.open ? <ExpandedDrawer tasks={props.tasks} setCategory={props.setCategory}/> : <SmallDrawer handleSidebar={props.handleSidebar} />}
-			{<BottomPanel width={239} open={props.open}/>}
+			{props.open 
+				? <ExpandedDrawer 
+					tasks={props.tasks} 
+					setCategory={props.setCategory} 
+					searchFocus={searchFocus}	
+					setSearchFocus={setSearchFocus}	
+				/> 
+				: <SmallDrawer 
+					handleSidebar={props.handleSidebar} 
+					setSearchFocus={setSearchFocus}
+				/>
+			}
+			{<BottomPanel width={239} open={props.open} />}
 		</Drawer>);
 }
 

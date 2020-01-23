@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import { Droppable } from 'react-beautiful-dnd';
 
-import Task from './Task';
+import Task from '../Task';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {

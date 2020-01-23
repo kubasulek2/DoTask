@@ -6,7 +6,7 @@ import isLoggedIn from '../../Utils/is_logged_in';
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import data from '../../Utils/data';
-import Login from '../../Components/Login/Login';
+import Login from '../../Components/Login';
 
 
 class App extends Component {

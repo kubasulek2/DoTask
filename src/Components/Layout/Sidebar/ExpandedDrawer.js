@@ -55,7 +55,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ tasks, setCategory }) => {
+const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => {
 	const classes = useStyles();
 	return (
 		<List className={classes.root}>
@@ -76,7 +76,7 @@ const ExpandedDrawer = ({ tasks, setCategory }) => {
 					}}
 				/>
 			</ListItem>
-			<SearchForm />
+			<SearchForm focus={searchFocus} setFocus={setSearchFocus} />
 			<ListItem className={classes.listItem} button>
 				<ListItemIcon className={classes.icon}>
 					<AllIcon color='secondary' />
