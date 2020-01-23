@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -162,8 +164,11 @@ class LoginForm extends Component {
 	}
 
 	handleFormSubmit = event => {
+		const { history } = this.props;
+		
 		event.preventDefault();
 		this.props.logIn(this.state.persist);
+		history.push('/tasks');
 	}
 
 	handleCheckbox = () => this.setState(({ persist }) => ({ persist: !persist }))
@@ -283,5 +288,4 @@ class LoginForm extends Component {
 
 
 }
-
-export default withStyles(styles)(LoginForm);
+export default withRouter(withStyles(styles)(LoginForm));

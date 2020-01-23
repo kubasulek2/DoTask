@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router';
+import Helmet from 'react-helmet';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Redirect } from 'react-router';
 
 import { ReactComponent as LogoIcon } from '../../Assets/logo.svg';
 import LoginForm from '../../Containers/Forms/Login';
@@ -102,6 +104,9 @@ const Login = ({isAuth, logIn}) => {
 
 	return (
 		<div className={classes.root}>
+			<Helmet>
+				<title>DoTask | Login</title>
+			</Helmet>
 			<div className={classes.switchType}>
 				<Button
 					variant='contained'

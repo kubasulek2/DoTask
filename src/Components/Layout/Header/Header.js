@@ -80,7 +80,7 @@ const Header = ({ handleSidebar, logOut }) => {
 					<LogoIcon className={classes.logoIcon} />
 					<Hidden xsDown>
 						<Typography variant='h6' className={classes.logoTitle}>
-							DO TASK
+							DoTask
 						</Typography>
 					</Hidden>
 				</div>
