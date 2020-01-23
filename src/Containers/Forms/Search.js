@@ -53,11 +53,14 @@ class Search extends Component {
 	handleChange = event => this.setState({ value: event.target.value });
 
 	handleSubmit = event => {
+		event.preventDefault();
+		
+		if(!this.state.value.length) return;
+
 		const {history} = this.props;
 		const uri = encodeURIComponent(this.state.value);
 		const query = '?query='+ uri;
 		
-		event.preventDefault();
 		history.push('/tasks/search' + query);
 		this.setState({value: ''});
 	}

@@ -43,9 +43,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		left: '-2px !important'
 	}
 }));
-const SmallDrawer = ({ handleSidebar, setSearchFocus}) => {
+const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 	const classes = useStyles();
-	
+
 	const handleSearch = () => {
 		handleSidebar();
 		setSearchFocus(true);
@@ -66,15 +66,13 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus}) => {
 					</Tooltip>
 				</ListItem>
 			</Link>
-			<Link to='/tasks/search'>
-				<ListItem className={classes.listItem}>
-					<Tooltip title='search' arrow classes={{ popper: classes.tooltip }}>
-						<IconButton className={classes.searchButton} onClick={handleSearch}>
-							<SearchIcon />
-						</IconButton>
-					</Tooltip>
-				</ListItem>
-			</Link>
+			<ListItem className={classes.listItem}>
+				<Tooltip title='search' arrow classes={{ popper: classes.tooltip }}>
+					<IconButton className={classes.searchButton} onClick={handleSearch}>
+						<SearchIcon />
+					</IconButton>
+				</Tooltip>
+			</ListItem>
 			<Link to='/tasks/all'>
 				<ListItem className={classes.listItem} selected={true}>
 					<Tooltip title='all tasks' arrow classes={{ popper: classes.tooltip }}>
