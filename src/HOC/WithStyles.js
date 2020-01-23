@@ -22,6 +22,12 @@ const useStyles = makeStyles(({ palette }) => ({
 		'*::-webkit-scrollbar-thumb': {
 			backgroundColor: palette.grey[300],
 			outline: '1px solid ' + palette.grey[200]
+		},
+		'a': {
+			textDecoration: 'none',
+		},
+		'a:active': {
+			color: 'inherit'
 		}
 
 	}

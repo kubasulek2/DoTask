@@ -10,7 +10,7 @@ import FourOhFour from '../FourOhFour';
 import isLoggedIn from '../../Utils/is_logged_in';
 
 
-const Layout = ({ data, setCategory, onDragEnd, logOut }) => {
+const Layout = ({ data, onDragEnd, logOut, setActive }) => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
 	if (!isLoggedIn()) {
@@ -23,12 +23,12 @@ const Layout = ({ data, setCategory, onDragEnd, logOut }) => {
 			<Sidebar 
 				open={sideBarOpen} 
 				handleSidebar={handleSidebar} 
-				tasks={data} 
-				setCategory={setCategory} 
+				tasks={data}
+				setActive={setActive} 
 			/>
 			<Main open={sideBarOpen}>
 				<Switch>
-					<Route path='/tasks' render={() => <Tasks tasks={data} />} />
+					<Route path='/tasks' render={(props) => <Tasks {...props}  tasks={data} />} />
 					<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
 					<Route path='/' component={FourOhFour} />
 				</Switch>

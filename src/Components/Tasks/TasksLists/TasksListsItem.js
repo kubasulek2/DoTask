@@ -52,9 +52,12 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksListsItem = ({ setCategory, active, list, index }) => {
+const TasksListsItem = ({ handleClick, active, list, index, handleActive }) => {
 	const classes = useStyles();
-
+	const clicked = event => {
+		handleClick(event);
+		handleActive();
+	};
 	return (
 		<Draggable draggableId={list.id} index={index}>
 			{(draggable) => (
@@ -64,7 +67,8 @@ const TasksListsItem = ({ setCategory, active, list, index }) => {
 					className={classes.listItem}
 					button
 					selected={list.id === active}
-					onClick={() => setCategory(list.id)}
+					onClick={clicked}
+					data-type={list.id}
 				>
 					<Droppable droppableId={list.id}>
 						{({ droppableProps, innerRef, placeholder }, snapshot) => (

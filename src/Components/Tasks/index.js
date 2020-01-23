@@ -6,6 +6,7 @@ import TasksAll from './Tasks/TasksAll';
 import TasksSearch from './Tasks/TasksSearch';
 import TasksFavorite from './Tasks/TasksFavorite';
 import TasksToday from './Tasks/TasksToday';
+import TasksList from './Tasks/TasksList';
 
 const Tasks = ({ tasks }) => {
 	return (
@@ -18,6 +19,7 @@ const Tasks = ({ tasks }) => {
 				<Route path='/tasks/search' render={(props) => <TasksSearch {...props} tasks={tasks} />} />
 				<Route path='/tasks/favorite' render={() => <TasksFavorite tasks={tasks} />} />
 				<Route path='/tasks/today' render={() => <TasksToday tasks={tasks} />} />
+				<Route path='/tasks/:category' render={(props) => <TasksList {...props} tasks={tasks} />} />
 			</Switch>
 		</Fragment>
 	);

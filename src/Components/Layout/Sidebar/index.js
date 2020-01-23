@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -36,6 +37,9 @@ const useStyles = makeStyles(({ mixins, palette }) => ({
 const Sidebar = props => {
 	const classes = useStyles(props);
 	const [searchFocus, setSearchFocus] = useState(false);
+	const { tasks, handleSidebar, location, open, setActive } = props;
+	const match = location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))|user/);
+	const active = match ? match[0] : null;
 
 	return (
 		<Drawer
@@ -47,20 +51,22 @@ const Sidebar = props => {
 			anchor='left'
 		>
 			<div className={classes.toolbar} />
-			{props.open 
-				? <ExpandedDrawer 
-					tasks={props.tasks} 
-					setCategory={props.setCategory} 
-					searchFocus={searchFocus}	
-					setSearchFocus={setSearchFocus}	
-				/> 
-				: <SmallDrawer 
-					handleSidebar={props.handleSidebar} 
+			{open
+				? <ExpandedDrawer
+					setActive={setActive}
+					active={active}
+					tasks={tasks}
+					searchFocus={searchFocus}
+					setSearchFocus={setSearchFocus}
+				/>
+				: <SmallDrawer
+					active={active}
+					handleSidebar={handleSidebar}
 					setSearchFocus={setSearchFocus}
 				/>
 			}
-			{<BottomPanel width={239} open={props.open} />}
+			{<BottomPanel width={239} open={open} />}
 		</Drawer>);
-}
+};
 
-export default Sidebar;
+export default withRouter(Sidebar);

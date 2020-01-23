@@ -13,7 +13,8 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ location: { search }, tasks: { tasks } }) => {
+const Tasks = ({ location: { search }, tasks: { tasks }}) => {
+
 	const classes = useStyles();
 	const query = queryString.parse(search).query.toLowerCase();
 	let taskList = [];

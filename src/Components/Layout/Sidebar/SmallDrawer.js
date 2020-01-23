@@ -43,7 +43,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		left: '-2px !important'
 	}
 }));
-const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
+const SmallDrawer = ({ handleSidebar, setSearchFocus, active }) => {
 	const classes = useStyles();
 
 	const handleSearch = () => {
@@ -53,7 +53,7 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 	return (
 		<List className={classes.root}>
 			<Link to='/user'>
-				<ListItem className={classes.listItem}>
+				<ListItem className={classes.listItem} selected={active===''}>
 					<Tooltip title='profile' arrow classes={{ popper: classes.tooltip }}>
 						<ListItemAvatar>
 							<Avatar
@@ -74,7 +74,7 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 				</Tooltip>
 			</ListItem>
 			<Link to='/tasks/all'>
-				<ListItem className={classes.listItem} selected={true}>
+				<ListItem className={classes.listItem} selected={active==='all'}>
 					<Tooltip title='all tasks' arrow classes={{ popper: classes.tooltip }}>
 						<IconButton color='secondary'>
 							<AllIcon />
@@ -83,7 +83,7 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 				</ListItem>
 			</Link>
 			<Link to='/tasks/favorite'>
-				<ListItem className={classes.listItem}>
+				<ListItem className={classes.listItem} selected={active==='favorite'}>
 					<Tooltip title='favorite tasks' arrow classes={{ popper: classes.tooltip }}>
 						<IconButton color='secondary'>
 							<FavoriteIcon />
@@ -92,7 +92,7 @@ const SmallDrawer = ({ handleSidebar, setSearchFocus }) => {
 				</ListItem>
 			</Link>
 			<Link to='/tasks/today'>
-				<ListItem className={classes.listItem}>
+				<ListItem className={classes.listItem} selected={active==='today'}>
 					<Tooltip title="today's tasks" arrow classes={{ popper: classes.tooltip }}>
 						<IconButton color='secondary'>
 							<TodayIcon />

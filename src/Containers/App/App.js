@@ -12,7 +12,8 @@ import Login from '../../Components/Login';
 class App extends Component {
 	state = {
 		...data,
-		isAuth: false
+		isAuth: false,
+		active: null
 	}
 
 	componentDidMount() {
@@ -86,8 +87,6 @@ class App extends Component {
 
 	}
 
-	setCategory = id => this.setState({ active: id })
-
 	logIn = persist => {
 		if (persist) {
 			// token persisting
@@ -100,13 +99,14 @@ class App extends Component {
 		store.remove('auth');
 		this.setState({ isAuth: false });
 	};
+	setActive = category => this.setState({active: category})
 
 
 	render() {
 		return (
 			<Switch>
 				<Route path='/login' render={() => <Login logIn={this.logIn} />} />
-				<Route path='/' render={() => <Layout data={this.state} setCategory={this.setCategory} onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
+				<Route path='/' render={() => <Layout data={this.state} onDragEnd={this.onDragEnd} logOut={this.logOut} setActive={this.setActive} />} />
 			</Switch>
 		);
 	}

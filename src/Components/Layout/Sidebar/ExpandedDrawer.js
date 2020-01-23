@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -28,7 +29,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		scrollbarColor: palette.grey[300] + ' ' + palette.background.paper
 	},
 	listItem: {
-		padding: spacing(.5)
+		padding: spacing(.5),
 	},
 	user: {
 		fontWeight: 'bold',
@@ -55,11 +56,26 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => {
+const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active, setActive }) => {
 	const classes = useStyles();
+	const favorites = Object.values(tasks.tasks).filter(task => task.favorite).length;
+	
+	const handleClick = event => {
+		let location = '/' + event.currentTarget.dataset.type;
+
+		location = location !== 'user' ? '/tasks' + location : location;
+		history.push(location);
+	};
+
 	return (
 		<List className={classes.root}>
-			<ListItem className={classes.listItem} button>
+			<ListItem
+				className={classes.listItem}
+				button
+				onClick={handleClick}
+				data-type='user'
+				selected={active === 'user'}
+			>
 				<ListItemAvatar>
 					<Avatar
 						className={classes.avatar}
@@ -77,7 +93,13 @@ const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => 
 				/>
 			</ListItem>
 			<SearchForm focus={searchFocus} setFocus={setSearchFocus} />
-			<ListItem className={classes.listItem} button>
+			<ListItem
+				className={classes.listItem}
+				button
+				onClick={handleClick}
+				data-type='all'
+				selected={active === 'all'}
+			>
 				<ListItemIcon className={classes.icon}>
 					<AllIcon color='secondary' />
 				</ListItemIcon>
@@ -94,7 +116,13 @@ const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => 
 					{Object.keys(tasks.tasks).length}
 				</ListItemSecondaryAction>
 			</ListItem>
-			<ListItem className={classes.listItem} button>
+			<ListItem
+				className={classes.listItem}
+				button
+				onClick={handleClick}
+				data-type='favorite'
+				selected={active === 'favorite'}
+			>
 				<ListItemIcon className={classes.icon}>
 					<FavoriteIcon color='secondary' />
 				</ListItemIcon>
@@ -108,10 +136,16 @@ const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => 
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					{tasks.favorites.length}
+					{favorites}
 				</ListItemSecondaryAction>
 			</ListItem>
-			<ListItem className={classes.listItem} button>
+			<ListItem
+				className={classes.listItem}
+				button
+				onClick={handleClick}
+				data-type='today'
+				selected={active === 'today'}
+			>
 				<ListItemIcon className={classes.icon}>
 					<TodayIcon color='secondary' />
 				</ListItemIcon>
@@ -125,16 +159,18 @@ const ExpandedDrawer = ({ tasks, setCategory, setSearchFocus, searchFocus }) => 
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					{tasks.todays.length}
+					0
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Divider />
 			<TasksLists
 				tasks={tasks}
-				setCategory={setCategory}
+				handleClick={handleClick}
+				active={active}
+				setActive={setActive}
 			/>
 		</List>
 	);
 };
 
-export default ExpandedDrawer;
+export default withRouter(ExpandedDrawer);
