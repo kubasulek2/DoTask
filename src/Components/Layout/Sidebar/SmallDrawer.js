@@ -19,7 +19,12 @@ import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
 		paddingTop: spacing(2.5),
-		flexGrow: 0
+		paddingBottom: spacing(8),
+		flexGrow: 1,
+		height: 'calc(100vh - 57px - 56px)',
+		overflowY: 'auto',
+		overflowX: 'hidden',
+		scrollbarColor: palette.grey[300] + ' ' + palette.background.paper
 	},
 	listItem: {
 		padding: spacing(.5)

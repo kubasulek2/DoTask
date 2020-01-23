@@ -4,12 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(({spacing, mixins, breakpoints }) => ({
 	root: { 
-		height: '100%',
+		height: '100vh',
 		marginLeft: 59,
 		transition: 'margin-left .15s ease-out',
 		padding: spacing(),
 		paddingTop: spacing(2.5),
 		overflowX : 'hidden',
+		overflowY : 'auto',
 		[breakpoints.up('sm')]: {
 			marginLeft: props => props.open ? 270 : 59,
 		}
