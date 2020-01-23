@@ -158,9 +158,9 @@ class LoginForm extends Component {
 		});
 	}
 
-	handleFormSubmit(event){
+	handleFormSubmit = event => {
 		event.preventDefault();
-		// send data to server
+		this.props.logIn();
 	}
 
 	render() {
@@ -169,7 +169,7 @@ class LoginForm extends Component {
 		const message = type === 'login' ? 'Don\'t have an account? ' : 'Already have an account? ';
 
 		return (
-			<form className={classes.root} id='login-form'>
+			<form className={classes.root} id='login-form' onSubmit={this.handleFormSubmit}>
 				<Typography
 					className={classes.errorMessage}
 					color='primary'

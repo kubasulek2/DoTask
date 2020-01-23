@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router';
 
 import { ReactComponent as LogoIcon } from '../../Assets/logo.svg';
 import LoginForm from '../../Containers/Forms/Login';
@@ -89,11 +90,15 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 }));
 
 
-const Login = () => {
+const Login = ({isAuth, logIn}) => {
 	const classes = useStyles();
 
 	const [authType, setAuthType] = useState('login');
 	const switchAuthType = () => setAuthType(prev => prev === 'login' ? 'signup' : 'login');
+
+	if(isAuth) {
+		return <Redirect to='/' />;
+	}
 
 	return (
 		<div className={classes.root}>
@@ -122,7 +127,7 @@ const Login = () => {
 					align='center'
 				>Your best personal manager!</Typography>
 				<CardContent>
-					<LoginForm type={authType} setType={switchAuthType} />
+					<LoginForm type={authType} setType={switchAuthType} logIn={logIn}/>
 				</CardContent>
 			</Card>
 		</div>

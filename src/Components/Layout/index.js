@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
@@ -7,21 +9,28 @@ import CreateTask from '../Tasks/CreateTask';
 import Tasks from '../Tasks/Tasks/Tasks';
 
 
-const Layout = ({ data, setCategory }) => {
+const Layout = ({ data, setCategory, onDragEnd, logOut }) => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
+	const { isAuth } = data;
 	
+	if (!isAuth) {
+		return <Redirect to='/login'/>;
+	}
+
 	return (
-		<Fragment>
-			<Header handleSidebar={handleSidebar} />
-			<Sidebar open={sideBarOpen} handleSidebar={handleSidebar} tasks={data} setCategory={setCategory}/>
+		<DragDropContext onDragEnd={onDragEnd}>
+			<Header handleSidebar={handleSidebar} logOut={logOut}/>
+			<Sidebar open={sideBarOpen} handleSidebar={handleSidebar} tasks={data} setCategory={setCategory} />
 			<Main open={sideBarOpen}>
 				<CreateTask />
 				<Tasks
 					tasks={data}
 				/>
+				{/* routes here */}
+				{/* 404 here */}
 			</Main>
-		</Fragment>
+		</DragDropContext>
 	);
 };
 

@@ -60,12 +60,9 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	}
 }));
 
-const Header = ({ handleSidebar }) => {
+const Header = ({ handleSidebar, logOut }) => {
 	const classes = useStyles();
 
-	const handleLogOut = () => {
-		window.location.reload();
-	};
 	return (
 		<AppBar className={classes.root}>
 			<Toolbar className={classes.toolbar}>
@@ -88,7 +85,7 @@ const Header = ({ handleSidebar }) => {
 					</Hidden>
 				</div>
 				<Dropdown />
-				<Button className={classes.logoutButton} onClick={handleLogOut} >Logout</Button>
+				<Button className={classes.logoutButton} onClick={logOut} >Logout</Button>
 			</Toolbar>
 		</AppBar>
 	);

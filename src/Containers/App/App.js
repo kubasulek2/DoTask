@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import store from 'store';
 
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
@@ -13,8 +13,11 @@ class App extends Component {
 		...data,
 		isAuth: false
 	}
+
 	componentDidMount() {
-		console.log(this.props);
+		if(store.get('auth')){
+			this.setState({isAuth: true});
+		}
 	}
 
 	onDragEnd = res => {
@@ -83,18 +86,26 @@ class App extends Component {
 	}
 
 	setCategory = id => this.setState({ active: id })
+	
+	logIn = () => {
+		store.set('auth', true);
+		this.setState({ isAuth: true });
+	};
+	
+	logOut = () => {
+		store.remove('auth');
+		this.setState({ isAuth: false });
+	};
+
 
 	render() {
 		return (
-			<Route />
-			// {/* <DragDropContext
-			// 	onDragEnd={this.onDragEnd}
-			// >
-			// 	<Layout data={this.state} setCategory={this.setCategory} />
-			// </DragDropContext> */}
-			<Login />
+			<Switch>
+				<Route path='/login' render={() => <Login isAuth={this.state.isAuth} logIn={this.logIn} />} />
+				<Route path='/' render={() => <Layout data={this.state} setCategory={this.setCategory} onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
+			</Switch>
 		);
 	}
 }
 
-export default withRouter(WithStyles(App));
+export default WithStyles(App);
