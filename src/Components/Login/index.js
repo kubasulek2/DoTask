@@ -93,7 +93,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 }));
 
 
-const Login = ({logIn}) => {
+const Login = () => {
 	const classes = useStyles();
 
 	const [authType, setAuthType] = useState('login');
@@ -133,7 +133,7 @@ const Login = ({logIn}) => {
 					align='center'
 				>Your best personal manager!</Typography>
 				<CardContent>
-					<LoginForm type={authType} setType={switchAuthType} logIn={logIn}/>
+					<LoginForm type={authType} setType={switchAuthType} />
 				</CardContent>
 			</Card>
 		</div>

@@ -1,4 +1,8 @@
 import React from 'react';
+import store from 'store';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { ReactComponent as LogoIcon } from '../../../Assets/logo.svg';
 import Dropdown from './DropDown';
+import * as actionTypes from '../../../Store/Actions';
 
 const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }) => ({
 	root: {
@@ -60,8 +65,14 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	}
 }));
 
-const Header = ({ handleSidebar, logOut }) => {
+const Header = ({ handleSidebar, handleAuth, history }) => {
 	const classes = useStyles();
+
+	const logOut = () => {
+		store.remove('auth');
+		handleAuth(false);
+		history.push('/login');
+	};
 
 	return (
 		<AppBar className={classes.root}>
@@ -90,4 +101,7 @@ const Header = ({ handleSidebar, logOut }) => {
 		</AppBar>
 	);
 };
-export default Header;
+const mapDispatchToProps = dispatch => ({
+	handleAuth: bool => dispatch({ type: actionTypes.HANDLE_AUTH, auth: bool })
+});
+export default connect(null, mapDispatchToProps)(withRouter(Header));

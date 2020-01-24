@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
-import { DragDropContext } from 'react-beautiful-dnd';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -10,7 +9,7 @@ import FourOhFour from '../FourOhFour';
 import isLoggedIn from '../../Utils/is_logged_in';
 
 
-const Layout = ({ onDragEnd, logOut }) => {
+const Layout = () => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
 	if (!isLoggedIn()) {
@@ -18,8 +17,8 @@ const Layout = ({ onDragEnd, logOut }) => {
 	}
 
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Header handleSidebar={handleSidebar} logOut={logOut} />
+		<Fragment>
+			<Header handleSidebar={handleSidebar} />
 			<Sidebar 
 				open={sideBarOpen} 
 				handleSidebar={handleSidebar} 
@@ -31,7 +30,7 @@ const Layout = ({ onDragEnd, logOut }) => {
 					<Route path='/' component={FourOhFour} />
 				</Switch>
 			</Main>
-		</DragDropContext>
+		</Fragment>
 	);
 };
 

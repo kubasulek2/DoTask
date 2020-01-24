@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import store from 'store';
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +12,8 @@ import Lock from '@material-ui/icons/Lock';
 import { Typography } from '@material-ui/core';
 
 import Checkbox from '../../Components/Login/LoginCheckbox';
+import * as actionTypes from '../../Store/Actions';
+
 
 const xxs = '@media (max-width:400px)';
 const styles = (({ palette, spacing }) => ({
@@ -147,12 +151,28 @@ class LoginForm extends Component {
 		return this.setState({ valid: allValid });
 	}
 
+	handleFormSubmit = event => {
+		event.preventDefault();
+		this.handleLogIn(this.state.persist);
+	}
+	
+	handleLogIn = persist => {
+		const {handleAuth, history} = this.props;
+		if (persist) {
+			// token persisting
+		}
+		store.set('auth', true);
+		handleAuth(true);
+		history.push('/tasks/all');
+	};
+
 	handleInputFocus = type => {
 		return this.setState({
 			hint: this.state[type].hint,
 
 		});
 	}
+
 	handleInputBlur = type => {
 		return this.setState({
 			[type]: {
@@ -163,15 +183,8 @@ class LoginForm extends Component {
 		});
 	}
 
-	handleFormSubmit = event => {
-		const { history } = this.props;
-		
-		event.preventDefault();
-		this.props.logIn(this.state.persist);
-		history.push('/tasks');
-	}
-
 	handleCheckbox = () => this.setState(({ persist }) => ({ persist: !persist }))
+
 
 	render() {
 		const { type, setType, classes } = this.props;
@@ -285,7 +298,10 @@ class LoginForm extends Component {
 			</form>
 		);
 	}
-
-
 }
-export default withRouter(withStyles(styles)(LoginForm));
+
+const mapDispatchToProps = dispatch => ({
+	handleAuth: bool => dispatch({ type: actionTypes.HANDLE_AUTH, auth: bool })
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(withStyles(styles)(LoginForm)));

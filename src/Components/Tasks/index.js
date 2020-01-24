@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
@@ -21,6 +21,7 @@ const Tasks = ({ tasks, lists }) => {
 				<Route path='/tasks/favorite' render={() => <TasksFavorite tasks={tasks} />} />
 				<Route path='/tasks/today' render={() => <TasksToday tasks={tasks} />} />
 				<Route path='/tasks/:category' render={(props) => <TasksList {...props} tasks={tasks} lists={lists} />} />
+				<Route path='/tasks' exact render={() => <Redirect to='/tasks/all' />} />
 			</Switch>
 		</Fragment>
 	);

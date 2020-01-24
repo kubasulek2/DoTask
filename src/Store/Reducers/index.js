@@ -49,6 +49,9 @@ const reducer = (state = initialState, action) => {
 				draft.listsOrder.splice(action.destIdx, 0, action.taskId);
 			});
 
+		case actionTypes.HANDLE_AUTH:
+			return produce(state, draft => { draft.isAuth = action.auth; });
+
 		default:
 			return state;
 	}
