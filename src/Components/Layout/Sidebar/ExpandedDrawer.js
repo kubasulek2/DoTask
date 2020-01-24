@@ -62,8 +62,7 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active, s
 	
 	const handleClick = event => {
 		let location = '/' + event.currentTarget.dataset.type;
-
-		location = location !== 'user' ? '/tasks' + location : location;
+		location = location !== '/user' ? '/tasks' + location : location;
 		history.push(location);
 	};
 

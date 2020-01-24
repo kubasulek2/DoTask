@@ -54,7 +54,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 const TasksListsItem = ({ handleClick, active, list, index, handleActive }) => {
 	const classes = useStyles();
-	const clicked = event => {
+	const clicked = 	event => {
 		handleClick(event);
 		handleActive();
 	};

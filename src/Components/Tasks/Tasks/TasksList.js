@@ -1,9 +1,11 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import { makeStyles } from '@material-ui/core/styles';
 import { Droppable } from 'react-beautiful-dnd';
 
+import List from '@material-ui/core/List';
+import { makeStyles } from '@material-ui/core/styles';
+
 import Task from '../Task/Task';
+import FourOhFour from '../../FourOhFour';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {
@@ -13,6 +15,8 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Tasks = ({ tasks: { lists, tasks }, match: { params } }) => {
 	const classes = useStyles();
+	console.log(params.category, lists);
+	if (!lists[params.category]) return <FourOhFour />;
 	const taskList = lists[params.category].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
 	return (
 		<Droppable droppableId={'inner'}>
