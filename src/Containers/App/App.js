@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import store from 'store';
 
 import isLoggedIn from '../../Utils/is_logged_in';
@@ -13,7 +13,6 @@ class App extends Component {
 	state = {
 		...data,
 		isAuth: false,
-		active: null
 	}
 
 	componentDidMount() {
@@ -42,8 +41,9 @@ class App extends Component {
 			return this.setState({ listsOrder: newListsOrder });
 		}
 
-		const start = this.state.lists[this.state.active];
-		const finish = destination.droppableId === 'inner' ? this.state.lists[this.state.active] : this.state.lists[destination.droppableId];
+		const activeId = this.props.location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/);
+		const start = this.state.lists[activeId];
+		const finish = destination.droppableId === 'inner' ? this.state.lists[activeId] : this.state.lists[destination.droppableId];
 		if (start === finish) {
 			const newTaskIds = Array.from(start.taskIds);
 			newTaskIds.splice(source.index, 1);
@@ -99,17 +99,15 @@ class App extends Component {
 		store.remove('auth');
 		this.setState({ isAuth: false });
 	};
-	setActive = category => this.setState({active: category})
-
 
 	render() {
 		return (
 			<Switch>
 				<Route path='/login' render={() => <Login logIn={this.logIn} />} />
-				<Route path='/' render={() => <Layout data={this.state} onDragEnd={this.onDragEnd} logOut={this.logOut} setActive={this.setActive} />} />
+				<Route path='/' render={() => <Layout data={this.state} onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
 			</Switch>
 		);
 	}
 }
 
-export default WithStyles(App);
+export default withRouter(WithStyles(App));

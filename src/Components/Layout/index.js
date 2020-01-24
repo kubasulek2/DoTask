@@ -10,7 +10,7 @@ import FourOhFour from '../FourOhFour';
 import isLoggedIn from '../../Utils/is_logged_in';
 
 
-const Layout = ({ data, onDragEnd, logOut, setActive }) => {
+const Layout = ({ data, onDragEnd, logOut }) => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
 	if (!isLoggedIn()) {
@@ -24,7 +24,6 @@ const Layout = ({ data, onDragEnd, logOut, setActive }) => {
 				open={sideBarOpen} 
 				handleSidebar={handleSidebar} 
 				tasks={data}
-				setActive={setActive} 
 			/>
 			<Main open={sideBarOpen}>
 				<Switch>

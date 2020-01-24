@@ -50,19 +50,19 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksLists = ({ tasks: { lists, listsOrder}, active, handleClick, setActive}) => {
+const TasksLists = ({ tasks: { lists, listsOrder }, active, handleClick }) => {
 	const classes = useStyles();
-	
+
 	return (
 		<Droppable droppableId='lists' type='list'>
 			{({ innerRef, placeholder, droppableProps }, snapshot) => (
-				<List 
-					className={[classes.root, snapshot.isDraggingOver ? classes.over : null ].join(' ')}
-					ref={innerRef} 
+				<List
+					className={[classes.root, snapshot.isDraggingOver ? classes.over : null].join(' ')}
+					ref={innerRef}
 					{...droppableProps}
 				>
 					{listsOrder.map((id, i) => (
-						<TasksListsItem key={id + i} active={active} handleClick={handleClick} handleActive={() => setActive(id)} list={lists[id]} index={i} />
+						<TasksListsItem key={id + i} active={active} handleClick={handleClick} list={lists[id]} index={i} />
 					))}
 					{placeholder}
 				</List>

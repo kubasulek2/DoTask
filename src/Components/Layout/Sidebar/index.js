@@ -37,7 +37,7 @@ const useStyles = makeStyles(({ mixins, palette }) => ({
 const Sidebar = props => {
 	const classes = useStyles(props);
 	const [searchFocus, setSearchFocus] = useState(false);
-	const { tasks, handleSidebar, location, open, setActive } = props;
+	const { tasks, handleSidebar, location, open } = props;
 	const match = location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))|user/);
 	const active = match ? match[0] : null;
 
@@ -53,7 +53,6 @@ const Sidebar = props => {
 			<div className={classes.toolbar} />
 			{open
 				? <ExpandedDrawer
-					setActive={setActive}
 					active={active}
 					tasks={tasks}
 					searchFocus={searchFocus}

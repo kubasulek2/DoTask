@@ -15,7 +15,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
-import TasksLists from '../../Tasks/TasksLists/TasksLists';
+import TasksLists from './TasksLists/TasksLists';
 import SearchForm from '../../../Containers/Forms/Search';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
@@ -56,7 +56,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active, setActive }) => {
+const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active}) => {
 	const classes = useStyles();
 	const favorites = Object.values(tasks.tasks).filter(task => task.favorite).length;
 	
@@ -166,7 +166,6 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active, s
 				tasks={tasks}
 				handleClick={handleClick}
 				active={active}
-				setActive={setActive}
 			/>
 		</List>
 	);

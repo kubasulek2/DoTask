@@ -52,12 +52,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksListsItem = ({ handleClick, active, list, index, handleActive }) => {
+const TasksListsItem = ({ handleClick, active, list, index }) => {
 	const classes = useStyles();
-	const clicked = 	event => {
-		handleClick(event);
-		handleActive();
-	};
+	
 	return (
 		<Draggable draggableId={list.id} index={index}>
 			{(draggable) => (
@@ -67,7 +64,7 @@ const TasksListsItem = ({ handleClick, active, list, index, handleActive }) => {
 					className={classes.listItem}
 					button
 					selected={list.id === active}
-					onClick={clicked}
+					onClick={handleClick}
 					data-type={list.id}
 				>
 					<Droppable droppableId={list.id}>

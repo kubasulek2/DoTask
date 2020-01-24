@@ -15,9 +15,11 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Tasks = ({ tasks: { lists, tasks }, match: { params } }) => {
 	const classes = useStyles();
-	console.log(params.category, lists);
+	
 	if (!lists[params.category]) return <FourOhFour />;
+	
 	const taskList = lists[params.category].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
+	
 	return (
 		<Droppable droppableId={'inner'}>
 			{({ droppableProps, innerRef, placeholder }) => (
