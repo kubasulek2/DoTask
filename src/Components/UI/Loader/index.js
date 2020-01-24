@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Loader from '@material-ui/core/CircularProgress';
+
+import styles from './Loader.module.css';
 
 const useStyles = makeStyles(() => ({
 	root: {
-		background: props => props.color,
 		position: 'absolute',
 		zIndex: 1000,
 		top: 0,
@@ -14,16 +14,26 @@ const useStyles = makeStyles(() => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	spinner: {
+		'& div': {
+			backgroundColor: props => props.color,
+		}
 	}
 }));
 
-const Spinner = (props) => {
+const Loader = (props) => {
 	const classes = useStyles(props);
 
 	return (
 		<div className={classes.root}>
-			<Loader color='primary' size={70} />
-		</div>);
+			<div className={[classes.spinner, styles.spinner].join(' ')}>
+				<div className={styles.bounce1}></div>
+				<div className={styles.bounce2}></div>
+				<div className={styles.bounce3}></div>
+			</div>
+		</div>
+	);
 };
 
-export default Spinner;
+export default Loader;

@@ -7,6 +7,7 @@ import isLoggedIn from '../../Utils/is_logged_in';
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
+import Loader from '../../Components/UI/Loader/';
 import * as actionTypes from '../../Store/Actions';
 
 
@@ -58,6 +59,7 @@ class App extends Component {
 		);
 
 		return (
+			//<Loader color='#4fa84a'/>
 			<Switch>
 				<Route path='/login' component={Login} />
 				<Route path='/' render={() => app} />

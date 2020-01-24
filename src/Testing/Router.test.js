@@ -15,6 +15,6 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 
 it('renders Switch component.', () => {
 	const wrapper = shallow(app);
-	const component = wrapper.find(App);
+	const component = wrapper.find(Route);
 	expect(component.length).not.toBe(0);
 });
