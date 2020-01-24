@@ -11,7 +11,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks: { tasks, lists } }) => {
+const Tasks = ({ tasks, lists }) => {
 	const classes = useStyles();
 
 	const taskList = Object.values(lists).filter(list => list.taskIds.length).map(list => (

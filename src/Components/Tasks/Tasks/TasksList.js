@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks: { lists, tasks }, match: { params } }) => {
+const Tasks = ({ lists, tasks, match: { params } }) => {
 	const classes = useStyles();
 	
 	if (!lists[params.category]) return <FourOhFour />;

@@ -11,7 +11,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks: { tasks } }) => {
+const Tasks = ({ tasks }) => {
 	const classes = useStyles();
 
 	const taskList = Object.values(tasks).filter(task => task.favorite).map(task => <NoDragTask key={task.id} text={task.content} />);

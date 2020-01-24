@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -56,10 +57,10 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active}) => {
+const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active }) => {
 	const classes = useStyles();
-	const favorites = Object.values(tasks.tasks).filter(task => task.favorite).length;
-	
+	const favorites = Object.values(tasks).filter(task => task.favorite).length;
+
 	const handleClick = event => {
 		let location = '/' + event.currentTarget.dataset.type;
 		location = location !== '/user' ? '/tasks' + location : location;
@@ -112,7 +113,7 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active}) 
 					}}
 				/>
 				<ListItemSecondaryAction className={classes.badge}>
-					{Object.keys(tasks.tasks).length}
+					{Object.keys(tasks).length}
 				</ListItemSecondaryAction>
 			</ListItem>
 			<ListItem
@@ -163,7 +164,6 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active}) 
 			</ListItem>
 			<Divider />
 			<TasksLists
-				tasks={tasks}
 				handleClick={handleClick}
 				active={active}
 			/>
@@ -171,4 +171,8 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active}) 
 	);
 };
 
-export default withRouter(ExpandedDrawer);
+const mapStateToProps = state => ({
+	tasks: state.tasks
+});
+
+export default connect(mapStateToProps)(withRouter(ExpandedDrawer));

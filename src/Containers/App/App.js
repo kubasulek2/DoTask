@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import store from 'store';
 
 import isLoggedIn from '../../Utils/is_logged_in';
@@ -7,6 +8,7 @@ import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import data from '../../Utils/data';
 import Login from '../../Components/Login';
+import * as actionTypes from '../../Store/Actions';
 
 
 class App extends Component {
@@ -22,6 +24,7 @@ class App extends Component {
 	}
 
 	onDragEnd = res => {
+		const { addTask, removeTask, changeListsOrder } = this.props;
 		const { destination, source, draggableId, type } = res;
 		if (!destination) {
 			return;
@@ -35,56 +38,21 @@ class App extends Component {
 
 
 		if (type === 'list') {
-			const newListsOrder = Array.from(this.state.listsOrder);
-			newListsOrder.splice(source.index, 1);
-			newListsOrder.splice(destination.index, 0, draggableId);
-			return this.setState({ listsOrder: newListsOrder });
+			return changeListsOrder(source.index, destination.index, draggableId);
 		}
 
-		const activeId = this.props.location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/);
+		const activeId = this.props.location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/)[0];
 		const start = this.state.lists[activeId];
 		const finish = destination.droppableId === 'inner' ? this.state.lists[activeId] : this.state.lists[destination.droppableId];
 		if (start === finish) {
-			const newTaskIds = Array.from(start.taskIds);
-			newTaskIds.splice(source.index, 1);
-			newTaskIds.splice(destination.index, 0, draggableId);
-			const newList = {
-				...start,
-				taskIds: newTaskIds
-			};
-			const newState = {
-				...this.state,
-				lists: {
-					...this.state.lists,
-					[newList.id]: newList
-				}
-			};
-			return this.setState(newState);
+			removeTask(activeId, source.index);
+			addTask(activeId, destination.index, draggableId);
+			return;
 		}
-		const startTaskIds = Array.from(start.taskIds);
-		startTaskIds.splice(source.index, 1);
-		const newStart = {
-			...start,
-			taskIds: startTaskIds
-		};
 
-		const finishTaskIds = Array.from(finish.taskIds);
-		finishTaskIds.push(draggableId);
-		const newFinish = {
-			...finish,
-			taskIds: finishTaskIds
-		};
-
-		const newState = {
-			...this.state,
-			lists: {
-				...this.state.lists,
-				[newStart.id]: newStart,
-				[newFinish.id]: newFinish,
-			}
-		};
-		return this.setState(newState);
-
+		console.log(finish.id, source.index, activeId);
+		removeTask(activeId, source.index);
+		addTask(finish.id, finish.taskIds.length, draggableId);
 	}
 
 	logIn = persist => {
@@ -104,10 +72,16 @@ class App extends Component {
 		return (
 			<Switch>
 				<Route path='/login' render={() => <Login logIn={this.logIn} />} />
-				<Route path='/' render={() => <Layout data={this.state} onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
+				<Route path='/' render={() => <Layout onDragEnd={this.onDragEnd} logOut={this.logOut} />} />
 			</Switch>
 		);
 	}
 }
 
-export default withRouter(WithStyles(App));
+const mapDispatchToProps = dispatch => ({
+	addTask: (listId, idx, taskId) => dispatch({ type: actionTypes.ADD_TASK_TO_LIST, listId, taskId, idx }),
+	removeTask: (listId, idx) => dispatch({ type: actionTypes.REMOVE_TASK_FROM_LIST, listId, idx }),
+	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, taskId })
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(WithStyles(App)));

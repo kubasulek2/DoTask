@@ -1,8 +1,9 @@
 import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import { Droppable } from 'react-beautiful-dnd';
 
 
 import TasksListsItem from './TasksListsItem';
@@ -50,7 +51,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksLists = ({ tasks: { lists, listsOrder }, active, handleClick }) => {
+const TasksLists = ({ lists, listsOrder , active, handleClick }) => {
 	const classes = useStyles();
 
 	return (
@@ -70,4 +71,10 @@ const TasksLists = ({ tasks: { lists, listsOrder }, active, handleClick }) => {
 		</Droppable>
 	);
 };
-export default TasksLists;
+
+const mapStateToProps = state => ({
+	lists: state.lists,
+	listsOrder: state.listsOrder
+});
+
+export default connect(mapStateToProps)(TasksLists);
