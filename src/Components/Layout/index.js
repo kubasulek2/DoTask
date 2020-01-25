@@ -1,18 +1,17 @@
 import React, { useState, Fragment } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
-
+import { connect } from 'react-redux';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Main from './Main';
 import Tasks from '../Tasks';
 import FourOhFour from '../FourOhFour';
-import isLoggedIn from '../../Utils/is_logged_in';
 
 
-const Layout = () => {
+export const Layout = ({auth}) => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
-	if (!isLoggedIn()) {
+	if (!auth) {
 		return <Redirect to='/login' />;
 	}
 
@@ -34,4 +33,8 @@ const Layout = () => {
 	);
 };
 
-export default Layout;
+const mapStateToProps = ({app}) => ({
+	auth: app.auth
+});
+
+export default connect(mapStateToProps)(Layout);
