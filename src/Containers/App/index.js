@@ -14,10 +14,11 @@ import * as actions from '../../Store/Actions';
 class App extends Component {
 
 	componentDidMount() {
-		const { handleAuth } = this.props;
+		const { handleAuth, fetchTasks } = this.props;
 		if (isLoggedIn()) {
 			handleAuth(true);
 		}
+		fetchTasks();
 	}
 
 	onDragEnd = res => {
@@ -76,6 +77,7 @@ const mapDispatchToProps = dispatch => ({
 	addTask: (listId, idx, taskId) => dispatch(actions.addTask(listId, taskId, idx)),
 	removeTask: (listId, idx) => dispatch(actions.removeTask(listId, idx)),
 	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch(actions.changeListsOrder(sourceIdx, destIdx, taskId)),
+	fetchTasks: () => dispatch(actions.fetchTasks()),
 	handleAuth: bool => dispatch(actions.handleAuth(bool))
 });
 

@@ -3,13 +3,21 @@ import { produce } from 'immer';
 
 const initialState = {
 	isAuth: false,
+	loading: false,
+	error: false
 };
 
 const reducer = (state = initialState, action) => {
-	switch (action.type) {
 
+	switch (action.type) {
 		case actionTypes.HANDLE_AUTH:
 			return produce(state, draft => { draft.isAuth = action.auth; });
+
+		case actionTypes.INIT_REQUEST:
+			return produce(state, draft => { draft.loading = true; draft.error = false; });
+
+		case actionTypes.REQUEST_FAILED:
+			return produce(state, draft => { draft.loading = false; draft.error = action.error; });
 
 		default:
 			return state;
