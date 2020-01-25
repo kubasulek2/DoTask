@@ -20,6 +20,8 @@ export const fetchTasks = () => dispatch => {
 			dispatch(setTasks(data));
 			dispatch(requestSuccess());
 		})
-		.catch(err => requestFailed(err.message));
+		.catch(err => {
+			dispatch(requestFailed(err.message));
+		});
 
 };

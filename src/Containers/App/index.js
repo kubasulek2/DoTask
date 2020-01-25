@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -8,6 +8,7 @@ import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
 import Loader from '../../Components/UI/Loader/';
+import Error from '../../Components/UI/ErrorModal';
 import * as actions from '../../Store/Actions';
 
 
@@ -53,6 +54,7 @@ class App extends Component {
 	}
 
 	render() {
+		const { error, loading, cancelError, fetchTasks } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />
@@ -60,17 +62,23 @@ class App extends Component {
 		);
 
 		return (
-			//<Loader color='#4fa84a'/>
-			<Switch>
-				<Route path='/login' component={Login} />
-				<Route path='/' render={() => app} />
-			</Switch>
+			<Fragment>
+				{loading ? <Loader color='#4fa84a' /> : null}
+				{error ? <Error error={error} cancelError={cancelError} reconnect={fetchTasks} /> : null}
+				<Switch>
+					<Route path='/login' component={Login} />
+					<Route path='/' render={() => app} />
+				</Switch>
+
+			</Fragment>
 		);
 	}
 }
 
-const mapStateToProps = ({ tasks }) => ({
-	lists: tasks.lists
+const mapStateToProps = ({ tasks, app }) => ({
+	lists: tasks.lists,
+	loading: app.loading,
+	error: app.error,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -78,6 +86,7 @@ const mapDispatchToProps = dispatch => ({
 	removeTask: (listId, idx) => dispatch(actions.removeTask(listId, idx)),
 	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch(actions.changeListsOrder(sourceIdx, destIdx, taskId)),
 	fetchTasks: () => dispatch(actions.fetchTasks()),
+	cancelError: () => dispatch(actions.requestSuccess()),
 	handleAuth: bool => dispatch(actions.handleAuth(bool))
 });
 

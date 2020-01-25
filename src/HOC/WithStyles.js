@@ -28,6 +28,9 @@ const useStyles = makeStyles(({ palette }) => ({
 		},
 		'a:active': {
 			color: 'inherit'
+		},
+		'.MuiBackdrop-root': {
+			backgroundColor: 'rgba(100,100,100,.5)!important',
 		}
 
 	}

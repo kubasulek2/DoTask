@@ -1,4 +1,5 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,22 +9,27 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
-import { AppStateContext, DispatchContext } from '../../../containers/App';
 
 const useStyles = makeStyles(({ palette, shadows }) => ({
 	paper: {
-		minWidth: 300,
+		width: 350,
 		maxWidth: '98%',
 		backgroundColor: palette.background.paper,
-		border: '1px solid rgba(66,66,66, 0.4)',
-		boxShadow: shadows[2],
+		border: 'none',
+		boxShadow: shadows[0],
 	},
 	bold: {
+		fontSize: 24,
 		fontWeight: 'bold',
-		color: palette.primary.main
+		color: palette.error.dark
 	},
 	error: {
-		color: palette.error.dark
+		fontSize: 20,
+		fontWeight: 'bold',
+		color: palette.text.primary
+	},
+	info: {
+		//fontWeight: 'bold',
 	}
 }));
 
@@ -31,22 +37,20 @@ const useStyles = makeStyles(({ palette, shadows }) => ({
 /* eslint-disable react/display-name */
 
 /* Create Transition component with ref forwarded. */
-const Transition = forwardRef(function Transition (props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction='up' ref={ref} unmountOnExit {...props} />;
 });
 /* eslint-enable react/display-name */
 
 
 /* Modal showing up when error state is set to true.  */
-const ErrorModal = () => {
+const ErrorModal = ({ error, cancelError, reconnect }) => {
 	const classes = useStyles();
 
-	const { error } = useContext(AppStateContext);
-	const { dispatchAppState } = useContext(DispatchContext);
 
 	/* Handle cancel error and close modal. */
 	const handleClose = () => {
-		dispatchAppState({ type: 'CANCEL_ERROR' });
+		cancelError();
 	};
 
 	const open = !!error;
@@ -64,15 +68,18 @@ const ErrorModal = () => {
 				}
 			}}
 		>
-			<DialogTitle><span className={classes.bold}>Ups!</span> Error: <span className={classes.error}>{error.type}</span></DialogTitle>
+			<DialogTitle><span className={classes.bold}>Ups! </span><span className={classes.error}>{error}</span></DialogTitle>
 			<DialogContent>
-				<DialogContentText >
-					{error.message}
+				<DialogContentText color='textSecondary' className={classes.info} >
+					Something Went Wrong...
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
-					Ok
+				<Button onClick={reconnect} color="primary">
+					Try Again
+				</Button>
+				<Button onClick={handleClose} color="default">
+					Cancel
 				</Button>
 			</DialogActions>
 		</Dialog>

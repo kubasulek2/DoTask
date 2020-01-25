@@ -19,6 +19,9 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.REQUEST_FAILED:
 			return produce(state, draft => { draft.loading = false; draft.error = action.error; });
 
+		case actionTypes.REQUEST_SUCCESS:
+			return produce(state, draft => { draft.loading = false; draft.error = false; });
+
 		default:
 			return state;
 	}

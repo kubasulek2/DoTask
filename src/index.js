@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 
 import App from './Containers/App';
 import tasksReducer from './Store/Reducers/tasks';
-import authReducer from './Store/Reducers/state';
+import appReducer from './Store/Reducers/app';
 
 require('dotenv').config();
 
@@ -16,7 +16,7 @@ require('dotenv').config();
 
 const rootReducer = combineReducers({
 	tasks: tasksReducer,
-	auth: authReducer
+	app: appReducer
 });
 const composeEnhancers = (process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 const store = createStore(rootReducer, composeEnhancers(

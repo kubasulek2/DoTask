@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
 	spinner: {
 		'& div': {
 			backgroundColor: props => props.color,
+			opacity: .8
 		}
 	}
 }));
