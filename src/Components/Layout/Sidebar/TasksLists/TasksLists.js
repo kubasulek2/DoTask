@@ -72,9 +72,9 @@ const TasksLists = ({ lists, listsOrder , active, handleClick }) => {
 	);
 };
 
-const mapStateToProps = state => ({
-	lists: state.lists,
-	listsOrder: state.listsOrder
+const mapStateToProps = ({tasks}) => ({
+	lists: tasks.lists,
+	listsOrder: tasks.listsOrder
 });
 
 export default connect(mapStateToProps)(TasksLists);

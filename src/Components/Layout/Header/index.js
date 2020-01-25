@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { ReactComponent as LogoIcon } from '../../../Assets/logo.svg';
 import Dropdown from './DropDown';
-import * as actionTypes from '../../../Store/Actions';
+import * as actions from '../../../Store/Actions';
 
 const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }) => ({
 	root: {
@@ -102,6 +102,6 @@ const Header = ({ handleSidebar, handleAuth, history }) => {
 	);
 };
 const mapDispatchToProps = dispatch => ({
-	handleAuth: bool => dispatch({ type: actionTypes.HANDLE_AUTH, auth: bool })
+	handleAuth: bool => dispatch(actions.handleAuth(bool))
 });
 export default connect(null, mapDispatchToProps)(withRouter(Header));

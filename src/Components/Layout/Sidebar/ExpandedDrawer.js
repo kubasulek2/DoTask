@@ -171,8 +171,8 @@ const ExpandedDrawer = ({ tasks, setSearchFocus, searchFocus, history, active })
 	);
 };
 
-const mapStateToProps = state => ({
-	tasks: state.tasks
+const mapStateToProps = ({ tasks }) => ({
+	tasks: tasks.tasks
 });
 
 export default connect(mapStateToProps)(withRouter(ExpandedDrawer));

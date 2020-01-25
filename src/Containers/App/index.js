@@ -8,7 +8,7 @@ import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
 import Loader from '../../Components/UI/Loader/';
-import * as actionTypes from '../../Store/Actions';
+import * as actions from '../../Store/Actions';
 
 
 class App extends Component {
@@ -68,15 +68,15 @@ class App extends Component {
 	}
 }
 
-const mapStateToProps = ({lists}) => ({
-	lists
-}); 
+const mapStateToProps = ({ tasks }) => ({
+	lists: tasks.lists
+});
 
 const mapDispatchToProps = dispatch => ({
-	addTask: (listId, idx, taskId) => dispatch({ type: actionTypes.ADD_TASK_TO_LIST, listId, taskId, idx }),
-	removeTask: (listId, idx) => dispatch({ type: actionTypes.REMOVE_TASK_FROM_LIST, listId, idx }),
-	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, taskId }),
-	handleAuth: bool => dispatch({ type: actionTypes.HANDLE_AUTH, auth: bool })
+	addTask: (listId, idx, taskId) => dispatch(actions.addTask(listId, taskId, idx)),
+	removeTask: (listId, idx) => dispatch(actions.removeTask(listId, idx)),
+	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch(actions.changeListsOrder(sourceIdx, destIdx, taskId)),
+	handleAuth: bool => dispatch(actions.handleAuth(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WithStyles(App)));

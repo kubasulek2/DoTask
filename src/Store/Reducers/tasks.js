@@ -1,4 +1,4 @@
-import * as actionTypes from '../Actions';
+import * as actionTypes from '../Actions/actionTypes';
 import produce from 'immer';
 
 

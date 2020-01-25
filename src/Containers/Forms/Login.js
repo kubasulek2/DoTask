@@ -12,7 +12,7 @@ import Lock from '@material-ui/icons/Lock';
 import { Typography } from '@material-ui/core';
 
 import Checkbox from '../../Components/Login/LoginCheckbox';
-import * as actionTypes from '../../Store/Actions';
+import * as actions from '../../Store/Actions';
 
 
 const xxs = '@media (max-width:400px)';
@@ -155,9 +155,9 @@ class LoginForm extends Component {
 		event.preventDefault();
 		this.handleLogIn(this.state.persist);
 	}
-	
+
 	handleLogIn = persist => {
-		const {handleAuth, history} = this.props;
+		const { handleAuth, history } = this.props;
 		if (persist) {
 			// token persisting
 		}
@@ -301,7 +301,7 @@ class LoginForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	handleAuth: bool => dispatch({ type: actionTypes.HANDLE_AUTH, auth: bool })
+	handleAuth: bool => dispatch(actions.handleAuth(bool))
 });
 
 export default connect(null, mapDispatchToProps)(withRouter(withStyles(styles)(LoginForm)));
