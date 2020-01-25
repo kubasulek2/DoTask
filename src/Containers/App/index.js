@@ -12,7 +12,7 @@ import Error from '../../Components/UI/ErrorModal';
 import * as actions from '../../Store/Actions';
 
 
-class App extends Component {
+export class App extends Component {
 
 	componentDidMount() {
 		const { handleAuth, fetchTasks } = this.props;
@@ -54,7 +54,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { error, loading, cancelError, fetchTasks } = this.props;
+		const { error, loading, cancelError, fetchTasks, auth } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />
@@ -65,10 +65,13 @@ class App extends Component {
 			<Fragment>
 				{loading ? <Loader color='#4fa84a' /> : null}
 				{error ? <Error error={error} cancelError={cancelError} reconnect={fetchTasks} /> : null}
-				<Switch>
-					<Route path='/login' component={Login} />
-					<Route path='/' render={() => app} />
-				</Switch>
+				{auth
+					? <Switch>
+						<Route path='/login' component={Login} />
+						<Route path='/' render={() => app} />
+					</Switch>
+					: null}
+
 
 			</Fragment>
 		);
@@ -79,6 +82,7 @@ const mapStateToProps = ({ tasks, app }) => ({
 	lists: tasks.lists,
 	loading: app.loading,
 	error: app.error,
+	auth: app.auth
 });
 
 const mapDispatchToProps = dispatch => ({

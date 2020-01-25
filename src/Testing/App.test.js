@@ -1,20 +1,62 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
 import Enzyme, { shallow } from 'enzyme';
 import { Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import Error from '../Components/UI/ErrorModal';
+import Loader from '../Components/UI/Loader';
+import Layout from '../Components/Layout/';
+import { App } from '../Containers/App';
 
-import reducer from '../Store/Reducers';
-import App from '../Containers/App';
 
-const store = createStore(reducer);
-const app = <App store={store} />;
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
-it('renders Switch component.', () => {
-	const wrapper = shallow(app);
-	const component = wrapper.find(App);
-	expect(component.length).not.toBe(0);
+describe('App Displays components correctly if authenticated', () => {
+	let wrapper;
+	beforeEach(() => {
+		wrapper = shallow(<App fetchTasks={() => { }} auth />);
+	});
+
+	it('should render 2 Route components.', () => {
+		const component = wrapper.find(Route);
+		expect(component).toHaveLength(2);
+	});
+
+	it('should render 1 Switch component.', () => {
+		const component = wrapper.find(Switch);
+		expect(component).toHaveLength(1);
+	});
+
+	it('should render Error component when error is set', () => {
+		wrapper.setProps({error: true});
+		const component = wrapper.find(Error);
+		expect(component).toHaveLength(1);
+	});
+
+	it('should render Error component when error is set', () => {
+		wrapper.setProps({ loading: true });
+		const component = wrapper.find(Loader);
+		expect(component).toHaveLength(1);
+	});
+
+
 });
+
+describe('App is guarded if not authenticated.', () => {
+	let wrapper;
+	beforeEach(() => {
+		wrapper = shallow(<App fetchTasks={() => { }} />);
+	});
+
+	it('should not render Route components.', () => {
+		const component = wrapper.find(Route);
+		expect(component).toHaveLength(0);
+	});
+
+	it('should not render Switch component.', () => {
+		const component = wrapper.find(Switch);
+		expect(component).toHaveLength(0);
+	});
+
+});
+
+
