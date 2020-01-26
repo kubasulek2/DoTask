@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.CHANGE_LISTS_ORDER:
 			return produce(state, draft => {
 				draft.listsOrder.splice(action.sourceIdx, 1);
-				draft.listsOrder.splice(action.destIdx, 0, action.taskId);
+				draft.listsOrder.splice(action.destIdx, 0, action.listId);
 			});
 
 		case actionTypes.SET_TASKS:
