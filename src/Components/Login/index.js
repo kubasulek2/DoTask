@@ -98,7 +98,6 @@ const Login = () => {
 
 	const [authType, setAuthType] = useState('login');
 	const switchAuthType = () => setAuthType(prev => prev === 'login' ? 'signup' : 'login');
-
 	if(isLoggedIn()) {
 		return <Redirect to='/tasks/all' />;
 	}

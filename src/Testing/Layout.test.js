@@ -13,7 +13,7 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 describe('Layout displays components correctly', () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = shallow(<Layout auth />);
+		wrapper = shallow(<Layout isAuth />);
 	});
 
 	it('should render 3 Route components.', () => {
@@ -26,9 +26,4 @@ describe('Layout displays components correctly', () => {
 		expect(component).toHaveLength(1);
 	});
 
-	it('should render Redirect when isLoggedIn returns false', () => {
-		wrapper.setProps({ auth: false });
-		const component = wrapper.find(Redirect);
-		expect(component).toHaveLength(1);
-	});
 });

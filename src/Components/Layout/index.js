@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
-import { connect } from 'react-redux';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Main from './Main';
@@ -8,12 +7,10 @@ import Tasks from '../Tasks';
 import FourOhFour from '../FourOhFour';
 
 
-export const Layout = ({auth}) => {
+export const Layout = () => {
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
-	if (!auth) {
-		return <Redirect to='/login' />;
-	}
+
 
 	return (
 		<Fragment>
@@ -33,8 +30,5 @@ export const Layout = ({auth}) => {
 	);
 };
 
-const mapStateToProps = ({app}) => ({
-	auth: app.auth
-});
 
-export default connect(mapStateToProps)(Layout);
+export default Layout;

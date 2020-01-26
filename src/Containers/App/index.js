@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 
@@ -54,7 +54,7 @@ export class App extends Component {
 	}
 
 	render() {
-		const { error, loading, cancelError, fetchTasks, auth } = this.props;
+		const { error, loading, cancelError, fetchTasks, isAuth } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />
@@ -65,14 +65,11 @@ export class App extends Component {
 			<Fragment>
 				{loading ? <Loader color='#4fa84a' /> : null}
 				{error ? <Error error={error} cancelError={cancelError} reconnect={fetchTasks} /> : null}
-				{auth
-					? <Switch>
-						<Route path='/login' component={Login} />
-						<Route path='/' render={() => app} />
-					</Switch>
-					: null}
-
-
+				<Switch>
+					<Route path='/login' component={Login} />
+					{isAuth ? <Route path='/' render={() => app} /> : null}
+					{!isAuth && !isLoggedIn() ? <Route path='/' render={() => <Redirect to='/login'/>} /> : null}
+				</Switch>
 			</Fragment>
 		);
 	}
@@ -82,7 +79,7 @@ const mapStateToProps = ({ tasks, app }) => ({
 	lists: tasks.lists,
 	loading: app.loading,
 	error: app.error,
-	auth: app.auth
+	isAuth: app.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({

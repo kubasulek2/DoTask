@@ -4,7 +4,6 @@ import Enzyme, { shallow } from 'enzyme';
 import { Route, Switch } from 'react-router-dom';
 import Error from '../Components/UI/ErrorModal';
 import Loader from '../Components/UI/Loader';
-import Layout from '../Components/Layout/';
 import { App } from '../Containers/App';
 
 
@@ -13,7 +12,7 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 describe('App Displays components correctly if authenticated', () => {
 	let wrapper;
 	beforeEach(() => {
-		wrapper = shallow(<App fetchTasks={() => { }} auth />);
+		wrapper = shallow(<App fetchTasks={() => { }} isAuth />);
 	});
 
 	it('should render 2 Route components.', () => {
@@ -47,15 +46,11 @@ describe('App is guarded if not authenticated.', () => {
 		wrapper = shallow(<App fetchTasks={() => { }} />);
 	});
 
-	it('should not render Route components.', () => {
+	it('should render two Route components.', () => {
 		const component = wrapper.find(Route);
-		expect(component).toHaveLength(0);
+		expect(component).toHaveLength(2);
 	});
-
-	it('should not render Switch component.', () => {
-		const component = wrapper.find(Switch);
-		expect(component).toHaveLength(0);
-	});
+	
 
 });
 
