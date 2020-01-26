@@ -53,22 +53,28 @@ export class App extends Component {
 		addTask(finish.id, finish.taskIds.length, draggableId);
 	}
 
+	reconnect = () => {
+		const {  cb } = this.props;
+		if(cb){
+			this.props[cb.name](...cb.args);
+		}
+	}
+
 	render() {
-		const { error, loading, cancelError, fetchTasks, isAuth } = this.props;
+		const { error, loading, cancelError, isAuth, cb } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />
 			</DragDropContext>
 		);
-
 		return (
 			<Fragment>
 				{loading ? <Loader color='#4fa84a' /> : null}
-				{error ? <Error error={error} cancelError={cancelError} reconnect={fetchTasks} /> : null}
+				{error ? <Error error={error} cancelError={cancelError} reconnect={this.reconnect} /> : null}
 				<Switch>
 					<Route path='/login' component={Login} />
 					{isAuth ? <Route path='/' render={() => app} /> : null}
-					{!isAuth && !isLoggedIn() ? <Route path='/' render={() => <Redirect to='/login'/>} /> : null}
+					{!isAuth && !isLoggedIn() ? <Route path='/' render={() => <Redirect to='/login' />} /> : null}
 				</Switch>
 			</Fragment>
 		);
@@ -79,7 +85,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 	lists: tasks.lists,
 	loading: app.loading,
 	error: app.error,
-	isAuth: app.isAuth
+	isAuth: app.isAuth,
+	cb: app.cb
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -88,7 +95,8 @@ const mapDispatchToProps = dispatch => ({
 	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch(actions.changeListsOrder(sourceIdx, destIdx, taskId)),
 	fetchTasks: () => dispatch(actions.fetchTasks()),
 	cancelError: () => dispatch(actions.requestSuccess()),
-	handleAuth: bool => dispatch(actions.handleAuth(bool))
+	handleAuth: bool => dispatch(actions.handleAuth(bool)),
+	sortTasks: (listId, sortType) => dispatch(actions.sortTasks(listId,sortType))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WithStyles(App)));

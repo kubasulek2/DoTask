@@ -1,4 +1,4 @@
-import { get } from 'axios';
+import { get, post } from 'axios';
 import { initRequest, requestFailed, requestSuccess } from './';
 import * as actionTypes from './actionTypes';
 
@@ -9,7 +9,22 @@ export const removeTask = (listId, idx) => ({ type: actionTypes.REMOVE_TASK_FROM
 
 export const changeListsOrder = (sourceIdx, destIdx, listId) => ({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, listId });
 
-export const sortTasks = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
+
+const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
+
+export const sortTasks = (listId, sortType) => (dispatch, getState) => {
+	dispatch(sortAction(listId, sortType));
+	
+	// Uncomment when api endpoint is ready
+
+	// const sortedList = getState().tasks.lists[listId];
+	// dispatch(initRequest());
+	// post('http://localhost:5000/tasks', sortedList)
+	// 	.then(() => dispatch(requestSuccess()))
+	// 	.catch(err => dispatch(requestFailed(err.message, {name: 'sortTasks', args: [listId,sortType]})));
+};
+
+
 
 const setTasks = data => {
 	return { type: actionTypes.SET_TASKS, data };
@@ -24,6 +39,8 @@ export const fetchTasks = () => dispatch => {
 			dispatch(setTasks(data));
 			dispatch(requestSuccess());
 		})
-		.catch(err => dispatch(requestFailed(err.message)));
+		.catch(err => {
+			dispatch(requestFailed(err.message, { name: 'fetchTasks', args: [] }));
+		});
 
 };
