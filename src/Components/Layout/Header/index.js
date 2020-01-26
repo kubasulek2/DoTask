@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import store from 'store';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -49,10 +49,14 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 			justifyContent: 'flex-start',
 		}
 	},
+	logo: {
+		cursor: 'pointer',
+		display: 'flex'
+	},
 	logoIcon: {
 		width: 35,
 		height: 35,
-		marginRight: spacing(1)
+		marginRight: spacing(1),
 	},
 	logoTitle: {
 		color: palette.text.white,
@@ -67,12 +71,20 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 
 const Header = ({ handleSidebar, handleAuth, history }) => {
 	const classes = useStyles();
+	useEffect(()=> {
+		let regex = /(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/;
+		let match = window.location.pathname.match(regex);
+		match = match ? match[0] : match;
+		console.log(match);
+	});
 
 	const logOut = () => {
 		store.remove('auth');
 		handleAuth(false);
 		history.push('/login');
 	};
+
+	const navigateHome = () => history.push('/');
 
 	return (
 		<AppBar className={classes.root}>
@@ -88,12 +100,14 @@ const Header = ({ handleSidebar, handleAuth, history }) => {
 					</div>
 				</IconButton>
 				<div className={classes.logoContainer}>
-					<LogoIcon className={classes.logoIcon} />
-					<Hidden xsDown>
-						<Typography variant='h6' className={classes.logoTitle}>
-							DoTask
-						</Typography>
-					</Hidden>
+					<div className={classes.logo} onClick={navigateHome}>
+						<LogoIcon className={classes.logoIcon} />
+						<Hidden xsDown>
+							<Typography variant='h6' className={classes.logoTitle}>
+								DoTask
+							</Typography>
+						</Hidden>
+					</div>
 				</div>
 				<Dropdown />
 				<Button className={classes.logoutButton} onClick={logOut} >Logout</Button>
