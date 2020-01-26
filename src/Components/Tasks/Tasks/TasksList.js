@@ -15,11 +15,22 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Tasks = ({ lists, tasks, match: { params } }) => {
 	const classes = useStyles();
+	if (!lists[params.category] && Object.keys(tasks).length) return <FourOhFour />;
 
-	if (!lists[params.category]) return <FourOhFour />;
-	
-	const taskList = lists[params.category].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
-	
+	const taskList = Object.keys(tasks).length
+		? lists[params.category].taskIds.map((id, i) => (
+			<Task
+				index={i}
+				key={id}
+				id={id}
+				text={tasks[id].content}
+				favorite={tasks[id].favorite}
+				deadline={tasks[id].deadline}
+				attachments={tasks[id].attachments}
+			/>
+		))
+		: null;
+
 	return (
 		<Droppable droppableId={'inner'}>
 			{({ droppableProps, innerRef, placeholder }) => (

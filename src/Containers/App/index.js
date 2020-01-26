@@ -61,7 +61,7 @@ export class App extends Component {
 	}
 
 	render() {
-		const { error, loading, cancelError, isAuth, cb } = this.props;
+		const { error, loading, cancelError, isAuth } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />

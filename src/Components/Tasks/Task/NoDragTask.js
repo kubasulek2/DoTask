@@ -40,7 +40,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const Task = ({ text }) => {
+const Task = ({ text, favorite }) => {
 	const classes = useStyles();
 	return (
 		<ListItem

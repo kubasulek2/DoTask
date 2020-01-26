@@ -19,8 +19,15 @@ const Tasks = ({ location: { search }, tasks }) => {
 	const query = queryString.parse(search).query.toLowerCase();
 	let taskList = [];
 
-	Object.values(tasks).forEach(task => task.content.toLowerCase().includes(query) ? taskList.push(<NoDragTask key={task.id} text={task.content} />) : null);
-	
+	Object.values(tasks).forEach(task => task.content.toLowerCase().includes(query) ? taskList.push(
+		<NoDragTask
+			key={task.id}
+			text={task.content}
+			favorite={task.favorite}
+			deadline={task.deadline}
+			attachments={task.attachments}
+		/>) : null);
+
 	return (
 		taskList.length
 			? <List className={classes.root}>{taskList}</List>

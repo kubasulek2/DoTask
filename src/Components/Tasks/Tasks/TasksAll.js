@@ -16,11 +16,19 @@ const Tasks = ({ tasks, lists }) => {
 
 	const taskList = Object.values(lists).filter(list => list.taskIds.length).map(list => (
 		<List className={classes.root} key={list.id}>
-			<CategoryBadge text={list.title}/>
-			{list.taskIds.map(id => (<NoDragTask key={id} text={tasks[id].content} />))}
+			<CategoryBadge text={list.title} />
+			{list.taskIds.map(id => (
+				<NoDragTask
+					key={id}
+					text={tasks[id].content}
+					favorite={tasks[id].favorite}
+					deadline={tasks[id].deadline}
+					attachments={tasks[id].attachments}
+				/>
+			))}
 		</List>
 	));
-	
+
 	return taskList;
 };
 

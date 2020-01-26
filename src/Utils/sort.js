@@ -7,14 +7,14 @@ export default {
 	},
 	byDate: (taskArr, tasks) => {
 		let newArr = [];
-		Object.values(tasks).forEach(t => taskArr.includes(t.id) ? newArr.push({ id: t.id, timestamp: t.timestamp }) : null);
-		newArr.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1);
+		Object.values(tasks).forEach(t => taskArr.includes(t.id) ? newArr.push({ id: t.id, createdAt: t.createdAt }) : null);
+		newArr.sort((a, b) => (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()) ? 1 : -1);
 		return newArr.map(t => t.id);
 	},
 	byDeadline: (taskArr, tasks) => {
 		let newArr = [];
 		Object.values(tasks).forEach(t => taskArr.includes(t.id) ? newArr.push({ id: t.id, deadline: t.deadline }) : null);
-		newArr.sort((a, b) => (a.deadline < b.deadline) ? 1 : -1);
+		newArr.sort((a, b) => (new Date(a.deadline).getTime() < new Date(b.deadline).getTime()) ? 1 : -1);
 		return newArr.map(t => t.id);
 	},
 	byPriority: (taskArr, tasks) => {

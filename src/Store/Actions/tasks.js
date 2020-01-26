@@ -14,14 +14,16 @@ const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortTy
 
 export const sortTasks = (listId, sortType) => (dispatch, getState) => {
 	dispatch(sortAction(listId, sortType));
-	
+
 	// Uncomment when api endpoint is ready
 
-	// const sortedList = getState().tasks.lists[listId];
-	// dispatch(initRequest());
-	// post('http://localhost:5000/tasks', sortedList)
-	// 	.then(() => dispatch(requestSuccess()))
-	// 	.catch(err => dispatch(requestFailed(err.message, {name: 'sortTasks', args: [listId,sortType]})));
+	// 	const sortedList = getState().tasks.lists[listId];
+	// 	// don't want a loader here, but still eventual error must be nullified.
+	// 	dispatch(requestSuccess());
+
+	// 	post('http://localhost:5000/tasks', sortedList)
+	// 		.then(() => dispatch(requestSuccess()))
+	// 		.catch(err => dispatch(requestFailed(err.message, {name: 'sortTasks', args: [listId,sortType]})));
 };
 
 

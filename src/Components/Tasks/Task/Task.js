@@ -5,9 +5,11 @@ import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
 import ListItemText from '@material-ui/core/ListItemText';
 import DragIcon from '@material-ui/icons/DragIndicator';
+import GradeIcon from '@material-ui/icons/Grade';
+import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Add from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
@@ -26,7 +28,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	drag: {
 		position: 'relative',
 		right: 0,
-		width: 40,
+		width: 35,
 		borderTopRightRadius: 4,
 		borderBottomRightRadius: 4,
 		background: palette.text.white,
@@ -44,17 +46,25 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	shrink: {
 		width: 100,
 	},
-	icon: {
+	dragIcon: {
 		width: 24,
 		height: 24,
 		color: palette.secondary.dark
+	},
+	actions: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	favorite: {
+		padding: spacing(1)
 	},
 	dragged: {
 		opacity: .7
 	}
 }));
 
-const Task = ({ text, id, index }) => {
+const Task = ({ text, id, index, favorite }) => {
 	const classes = useStyles();
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -70,7 +80,7 @@ const Task = ({ text, id, index }) => {
 							className={classes.drag}
 							{...dragHandleProps}
 						>
-							<DragIcon className={classes.icon} />
+							<DragIcon className={classes.dragIcon} />
 						</div>
 						<div className={classes.expand}>
 							<ListItemText
@@ -82,9 +92,12 @@ const Task = ({ text, id, index }) => {
 								}}
 							/>
 						</div>
-						<IconButton>
-							<Add />
-						</IconButton>
+						<div className={classes.actions}>
+							<AttachFileIcon fontSize='small' color='disabled' />
+							<IconButton className={classes.favorite}>
+								{favorite ? <GradeIcon color='secondary' /> : <GradeOutlinedIcon color='secondary' />}
+							</IconButton>
+						</div>
 					</Paper>
 				</ListItem>
 			)}
