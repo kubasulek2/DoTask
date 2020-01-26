@@ -2,6 +2,7 @@ export const ADD_TASK_TO_LIST = 'ADD_TASK_TO_LIST';
 export const REMOVE_TASK_FROM_LIST = 'REMOVE_TASK_FROM_LIST';
 export const CHANGE_LISTS_ORDER = 'CHANGE_LISTS_ORDER';
 export const SET_TASKS = 'SET_TASKS';
+export const SORT_TASKS = 'SORT_TASKS';
 
 export const HANDLE_AUTH = 'HANDLE_AUTH';
 export const INIT_REQUEST = 'INIT_REQUEST';

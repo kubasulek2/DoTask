@@ -9,17 +9,18 @@ export const removeTask = (listId, idx) => ({ type: actionTypes.REMOVE_TASK_FROM
 
 export const changeListsOrder = (sourceIdx, destIdx, listId) => ({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, listId });
 
+export const sortTasks = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
 
 const setTasks = data => {
-	return{ type: actionTypes.SET_TASKS, data };
+	return { type: actionTypes.SET_TASKS, data };
 };
 
 export const fetchTasks = () => dispatch => {
-	
+
 
 	dispatch(initRequest());
 	return get('http://localhost:5000/tasks')
-		.then(({data}) => {
+		.then(({ data }) => {
 			dispatch(setTasks(data));
 			dispatch(requestSuccess());
 		})

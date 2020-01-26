@@ -1,2 +1,2 @@
-export { addTask, removeTask, changeListsOrder, fetchTasks } from './tasks';
+export { addTask, removeTask, changeListsOrder, fetchTasks, sortTasks } from './tasks';
 export { handleAuth, initRequest, requestFailed, requestSuccess, allowSort } from './app';

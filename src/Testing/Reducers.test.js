@@ -12,7 +12,8 @@ describe('App reducer', () => {
 			isAuth: false,
 			loading: false,
 			error: false,
-			allowSort: false
+			allowSort: false,
+			activeList: null
 		});
 	});
 
@@ -21,7 +22,8 @@ describe('App reducer', () => {
 			loading: true,
 			error: false,
 			isAuth: false,
-			allowSort: false
+			allowSort: false,
+			activeList: null
 		});
 	});
 
@@ -30,7 +32,8 @@ describe('App reducer', () => {
 			loading: false,
 			error: false,
 			isAuth: true,
-			allowSort: false
+			allowSort: false,
+			activeList: null
 		});
 	});
 
@@ -39,7 +42,8 @@ describe('App reducer', () => {
 			loading: false,
 			error: 'error',
 			isAuth: false,
-			allowSort: false
+			allowSort: false,
+			activeList: null
 		});
 	});
 
@@ -48,7 +52,8 @@ describe('App reducer', () => {
 			loading: false,
 			error: false,
 			isAuth: false,
-			allowSort: false
+			allowSort: false,
+			activeList: null
 		});
 	});
 

@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
 	}
 }));
 
-const DropDown = ({ disabled }) => {
+const DropDown = ({ disabled, sortTasks, activeList }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -72,10 +72,10 @@ const DropDown = ({ disabled }) => {
 					list: classes.list,
 				}}
 			>
-				<MenuItem onClick={handleClose} className={classes.listItem}>By name</MenuItem>
-				<MenuItem onClick={handleClose} className={classes.listItem}>By date</MenuItem>
-				<MenuItem onClick={handleClose} className={classes.listItem}>By deadline</MenuItem>
-				<MenuItem onClick={handleClose} className={classes.listItem}>By priority</MenuItem>
+				<MenuItem onClick={() => sortTasks(activeList, 'byName')} className={classes.listItem}>By name</MenuItem>
+				<MenuItem onClick={() => sortTasks(activeList, 'byDate')} className={classes.listItem}>By date</MenuItem>
+				<MenuItem onClick={() => sortTasks(activeList, 'byDeadline')} className={classes.listItem}>By deadline</MenuItem>
+				<MenuItem onClick={() => sortTasks(activeList, 'byPriority')} className={classes.listItem}>By priority</MenuItem>
 			</Menu>
 		</Fragment>
 	);

@@ -69,17 +69,17 @@ const useStyles = makeStyles(({ palette, shadows, breakpoints, zIndex, spacing }
 	}
 }));
 
-const Header = ({ handleSidebar, handleAuth, history, allowSort, sortAllowed, lists }) => {
+const Header = ({ handleSidebar, handleAuth, history, allowSort, sortAllowed, lists, activeList, sortTask }) => {
 	const classes = useStyles();
-	
-	useEffect(()=> {
+
+	useEffect(() => {
 		let regex = /(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/;
 		let match = window.location.pathname.match(regex);
 		let listIds = Object.values(lists).map(t => t.id);
 		match = match ? match[0] : match;
-		(!sortAllowed && listIds.includes(match) && allowSort(true));
+		(match !== activeList && listIds.includes(match) && allowSort(true, match));
 		(sortAllowed && !listIds.includes(match) && allowSort(false));
-		
+
 	});
 
 	const logOut = () => {
@@ -113,7 +113,7 @@ const Header = ({ handleSidebar, handleAuth, history, allowSort, sortAllowed, li
 						</Hidden>
 					</div>
 				</div>
-				<Dropdown disabled={!sortAllowed}/>
+				<Dropdown disabled={!sortAllowed} activeList={activeList} sortTasks={sortTask} />
 				<Button className={classes.logoutButton} onClick={logOut} >Logout</Button>
 			</Toolbar>
 		</AppBar>
@@ -121,11 +121,13 @@ const Header = ({ handleSidebar, handleAuth, history, allowSort, sortAllowed, li
 };
 const mapDispatchToProps = dispatch => ({
 	handleAuth: bool => dispatch(actions.handleAuth(bool)),
-	allowSort: bool => dispatch(actions.allowSort(bool))
+	allowSort: (bool, listId = null) => dispatch(actions.allowSort(bool, listId)),
+	sortTask: (activeList, type) => dispatch(actions.sortTasks(activeList, type))
 });
 
-const mapStateToProps = ({app, tasks}) => ({
+const mapStateToProps = ({ app, tasks }) => ({
 	sortAllowed: app.sortAllowed,
+	activeList: app.activeList,
 	lists: tasks.lists
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

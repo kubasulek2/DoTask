@@ -1,6 +1,8 @@
 import * as actionTypes from '../Actions/actionTypes';
 import produce from 'immer';
 
+import sort from '../../Utils/sort';
+
 
 const initialState = {
 	tasks: {},
@@ -30,6 +32,13 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.SET_TASKS:
 			return action.data;
+
+		case actionTypes.SORT_TASKS:
+			const taskArr = [...state.lists[action.listId].taskIds];
+			const newTaskArr = sort[action.sortType](taskArr, state.tasks);
+			return produce(state, draft => {
+				draft.lists[action.listId].taskIds = newTaskArr;
+			});
 
 		default:
 			return state;

@@ -5,7 +5,8 @@ const initialState = {
 	isAuth: false,
 	loading: false,
 	error: false,
-	sortAllowed: false
+	sortAllowed: false,
+	activeList: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,7 +25,7 @@ const reducer = (state = initialState, action) => {
 			return produce(state, draft => { draft.loading = false; draft.error = false; });
 
 		case actionTypes.ALLOW_SORT:
-			return produce(state, draft => { draft.sortAllowed = action.sort; });
+			return produce(state, draft => { draft.sortAllowed = action.sort; draft.activeList = action.listId; });
 
 		default:
 			return state;
