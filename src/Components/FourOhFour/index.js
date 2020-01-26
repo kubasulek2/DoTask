@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -10,9 +11,9 @@ const useStyles = makeStyles(({ palette }) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	content: { 
+	content: {
 		alignItems: 'flex-end',
-		display: 'flex' 
+		display: 'flex'
 	},
 	secondary: {
 		marginBottom: 12,
@@ -23,8 +24,9 @@ const FourOhFour = () => {
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
+			<Helmet><title>DoTask | 404</title></Helmet>
 			<div className={classes.content}>
-				<Typography variant='h1' style={{fontWeight: 'bold'}} color='textPrimary'>404</Typography>
+				<Typography variant='h1' style={{ fontWeight: 'bold' }} color='textPrimary'>404</Typography>
 				<Typography variant='h6' color='textSecondary' className={classes.secondary} >Page not found.</Typography>
 			</div>
 		</div>

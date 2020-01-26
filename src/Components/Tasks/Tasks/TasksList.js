@@ -15,7 +15,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Tasks = ({ lists, tasks, match: { params } }) => {
 	const classes = useStyles();
-	
+
 	if (!lists[params.category]) return <FourOhFour />;
 	
 	const taskList = lists[params.category].taskIds.map((id, i) => <Task index={i} key={id} id={id} text={tasks[id].content} />);
