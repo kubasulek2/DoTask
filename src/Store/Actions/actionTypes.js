@@ -7,3 +7,4 @@ export const HANDLE_AUTH = 'HANDLE_AUTH';
 export const INIT_REQUEST = 'INIT_REQUEST';
 export const REQUEST_FAILED = 'REQUEST_FAILED';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
+export const ALLOW_SORT = 'ALLOW_SORT';

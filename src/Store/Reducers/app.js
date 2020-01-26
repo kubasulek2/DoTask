@@ -4,7 +4,8 @@ import { produce } from 'immer';
 const initialState = {
 	isAuth: false,
 	loading: false,
-	error: false
+	error: false,
+	sortAllowed: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,9 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.REQUEST_SUCCESS:
 			return produce(state, draft => { draft.loading = false; draft.error = false; });
+
+		case actionTypes.ALLOW_SORT:
+			return produce(state, draft => { draft.sortAllowed = action.sort; });
 
 		default:
 			return state;

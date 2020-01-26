@@ -11,7 +11,8 @@ describe('App reducer', () => {
 		expect(appReducer(undefined, { type: undefined })).toEqual({
 			isAuth: false,
 			loading: false,
-			error: false
+			error: false,
+			allowSort: false
 		});
 	});
 
@@ -19,7 +20,8 @@ describe('App reducer', () => {
 		expect(appReducer(undefined, { type: actionTypes.INIT_REQUEST })).toEqual({
 			loading: true,
 			error: false,
-			isAuth: false
+			isAuth: false,
+			allowSort: false
 		});
 	});
 
@@ -27,7 +29,8 @@ describe('App reducer', () => {
 		expect(appReducer(undefined, { type: actionTypes.HANDLE_AUTH, auth: true })).toEqual({
 			loading: false,
 			error: false,
-			isAuth: true
+			isAuth: true,
+			allowSort: false
 		});
 	});
 
@@ -35,7 +38,8 @@ describe('App reducer', () => {
 		expect(appReducer(undefined, { type: actionTypes.REQUEST_FAILED, error: 'error' })).toEqual({
 			loading: false,
 			error: 'error',
-			isAuth: false
+			isAuth: false,
+			allowSort: false
 		});
 	});
 
@@ -43,7 +47,8 @@ describe('App reducer', () => {
 		expect(appReducer(undefined, { type: actionTypes.REQUEST_SUCCESS })).toEqual({
 			loading: false,
 			error: false,
-			isAuth: false
+			isAuth: false,
+			allowSort: false
 		});
 	});
 

@@ -1,12 +1,12 @@
-import React, {Fragment, useState} from 'react';
+import React, { Fragment, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SortIcon from '@material-ui/icons/Sort';
 import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles(({ palette, breakpoints,spacing}) => ({
-	sortButton:{
+const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
+	sortButton: {
 		color: palette.text.white,
 		textTransform: 'initial',
 		fontWeight: 'bold',
@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ palette, breakpoints,spacing}) => ({
 	}
 }));
 
-const DropDown = () => {
+const DropDown = ({ disabled }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -48,6 +48,7 @@ const DropDown = () => {
 				onClick={handleClick}
 				endIcon={<SortIcon />}
 				className={classes.sortButton}
+				disabled={disabled}
 			>
 				Sort
 			</Button>
@@ -73,6 +74,7 @@ const DropDown = () => {
 			>
 				<MenuItem onClick={handleClose} className={classes.listItem}>By name</MenuItem>
 				<MenuItem onClick={handleClose} className={classes.listItem}>By date</MenuItem>
+				<MenuItem onClick={handleClose} className={classes.listItem}>By deadline</MenuItem>
 				<MenuItem onClick={handleClose} className={classes.listItem}>By priority</MenuItem>
 			</Menu>
 		</Fragment>
