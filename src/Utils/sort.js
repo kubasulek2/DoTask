@@ -14,7 +14,7 @@ export default {
 	byDeadline: (taskArr, tasks) => {
 		let newArr = [];
 		Object.values(tasks).forEach(t => taskArr.includes(t.id) ? newArr.push({ id: t.id, deadline: t.deadline }) : null);
-		newArr.sort((a, b) => (new Date(a.deadline).getTime() < new Date(b.deadline).getTime()) ? 1 : -1);
+		newArr.sort((a, b) => (new Date(a.deadline).getTime() > new Date(b.deadline).getTime()) ? 1 : -1);
 		return newArr.map(t => t.id);
 	},
 	byPriority: (taskArr, tasks) => {

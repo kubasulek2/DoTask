@@ -1,19 +1,28 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
+
+import { makeStyles } from '@material-ui/core';
+
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Main from './Main';
 import Tasks from '../Tasks';
 import FourOhFour from '../FourOhFour';
 
-
+const useStyles = makeStyles(()=>({
+	root: {
+		width: '100vw',
+		overflowX: 'hidden',
+	}
+}));
 export const Layout = () => {
+	const classes = useStyles();
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 	const handleSidebar = () => setSidebarOpen(prev => !prev);
 
 
 	return (
-		<Fragment>
+		<div className={classes.root}>
 			<Header handleSidebar={handleSidebar} />
 			<Sidebar 
 				open={sideBarOpen} 
@@ -26,7 +35,7 @@ export const Layout = () => {
 					<Route path='/' component={FourOhFour} />
 				</Switch>
 			</Main>
-		</Fragment>
+		</div>
 	);
 };
 

@@ -7,22 +7,24 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import DragIcon from '@material-ui/icons/DragIndicator';
-import GradeIcon from '@material-ui/icons/Grade';
-import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
+import StarOutlinedIcon from '@material-ui/icons/StarOutlined';
+import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import IconButton from '@material-ui/core/IconButton';
 
 import { formatDate, hasDatePassed } from '../../../Utils/date';
 
-const useStyles = makeStyles(({ spacing, palette }) => ({
+const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	root: {
 		padding: 0,
 		width: '100%',
+		minWidth: 230,
 		marginBottom: spacing(.5),
 	},
 	paper: {
 		display: 'flex',
 		width: '100%',
+		overflowX: 'hidden',
 		transition: 'all .2s ease',
 		'&.moved': {
 			width: 270
@@ -31,7 +33,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	drag: {
 		position: 'relative',
 		right: 0,
-		width: 35,
+		width: 30,
 		borderTopRightRadius: 4,
 		borderBottomRightRadius: 4,
 		background: palette.text.white,
@@ -47,7 +49,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		width: 100,
 	},
 	checkbox: {
-		padding: 2,
+		padding: 5,
 		color: palette.secondary.dark,
 		'&:hover': {
 			backgroundColor: 'transparent',
@@ -56,10 +58,12 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	expand: {
 		padding: spacing(1),
 		paddingLeft: spacing(1),
-		flexGrow: 1,
+		flexGrow: 0,
 		cursor: 'pointer',
+		overflowX: 'hidden'
 	},
 	title: {
+		fontSize: 14
 	},
 	dragIcon: {
 		width: 24,
@@ -67,27 +71,56 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		color: palette.secondary.dark
 	},
 	actions: {
+		flexGrow: 1,
 		display: 'flex',
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
 		alignItems: 'center',
 	},
 	favorite: {
 		padding: spacing(.6),
 		marginLeft: 3,
 		'& svg': {
-			fontSize: 28
+			fontSize: 24
 		}
 	},
 	attachment: {
-		fontSize: 18,
+		fontSize: 15,
 		color: palette.grey[600]
 	},
 	date: {
-		fontSize: 12,
+		fontSize: 11,
 		color: palette.primary.light
 	},
 	datePassed: {
 		color: palette.error.light
+	},
+	[breakpoints.up('sm')]: {
+		title: {
+			fontSize: 18
+		},
+		date: {
+			fontSize: 12,
+			color: palette.primary.light
+		},
+		drag: {
+			width: 40,
+		},
+		attachment: {
+			fontSize: 18,
+		},
+		favorite: {
+			'& svg': {
+				fontSize: 28
+			}
+		},
+		actions: {
+			paddingRight: spacing(1)
+		}
+	},
+	[breakpoints.up('md')]: {
+		root: {
+			marginBottom: spacing(1.5)
+		}
 	}
 }));
 
@@ -133,7 +166,7 @@ const Task = ({ text, id, index, favorite, attachments, deadline }) => {
 							{attachments ? <AttachFileIcon className={classes.attachment} /> : null}
 							<p className={[classes.date, datePassed ? classes.datePassed : null].join(' ')}>{date}</p>
 							<IconButton className={classes.favorite}>
-								{favorite ? <GradeIcon color='secondary' /> : <GradeOutlinedIcon color='secondary' />}
+								{favorite ? <StarOutlinedIcon color='secondary' /> : <StarBorderOutlinedIcon color='secondary' />}
 							</IconButton>
 						</div>
 					</Paper>
