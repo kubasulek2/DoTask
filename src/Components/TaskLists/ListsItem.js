@@ -1,5 +1,7 @@
 import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { withRouter } from 'react-router-dom';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -102,4 +104,4 @@ const TasksListsItem = ({ handleClick, active, list, index }) => {
 	);
 };
 
-export default TasksListsItem;
+export default withRouter(TasksListsItem);

@@ -27,7 +27,6 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	paper: {
 		display: 'flex',
 		width: '100%',
-		overflowX: 'hidden',
 		transition: 'all .2s ease',
 		'&.moved': {
 			width: 270

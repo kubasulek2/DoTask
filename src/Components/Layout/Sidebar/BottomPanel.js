@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -35,20 +36,21 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 }));
 
-const BottomPanel = ({open}) => {
+const BottomPanel = ({open, location,history,}) => {
 	const classes = useStyles();
-
-
+	
+	const handleClick = () => history.push(location.pathname + '/newList');
+	
 	const icon = (
 		open
-			? <ListItemIcon className={classes.add} color='default'>
+			? <ListItemIcon className={classes.add} color='default' onClick={handleClick}>
 				<AddIcon />
 			</ListItemIcon>
 			: <Tooltip
 				title='add task'
 				placement='top'
 				arrow classes={{ popper: classes.tooltip }}>
-				<ListItemIcon className={classes.add} color='default'>
+				<ListItemIcon className={classes.add} color='default' onClick={handleClick}>
 					<AddIcon />
 				</ListItemIcon>
 			</Tooltip>
@@ -66,6 +68,6 @@ const BottomPanel = ({open}) => {
 			</List>
 		</div>
 	);
-}
+};
 
-export default BottomPanel;
+export default withRouter(BottomPanel);

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(({ spacing, mixins, breakpoints }) => ({
 	root: {
 		height: '100vh',
+		overflowY: 'auto',
 		marginLeft: props => props.open ? 270 : 59,
 		transition: 'margin-left .15s ease-out',
 		padding: spacing(.4),

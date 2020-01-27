@@ -26,7 +26,6 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		flexGrow: 1,
 		paddingBottom: spacing(3),
 		overflowY: 'auto',
-		overflowX: 'hidden',
 		scrollbarColor: palette.grey[300] + ' ' + palette.background.paper
 	},
 	listItem: {

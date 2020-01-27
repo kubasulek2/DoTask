@@ -25,7 +25,6 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	paper: {
 		display: 'flex',
 		width: '100%',
-		overflowX: 'hidden',
 		transition: 'all .2s ease',
 		'&.moved': {
 			width: 270
@@ -44,7 +43,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 		paddingLeft: spacing(1),
 		flexGrow: 1,
 		cursor: 'pointer',
-		overflowX: 'hidden'
+		overflowX: 'hidden',
 	},
 	title: {
 		fontSize: 14

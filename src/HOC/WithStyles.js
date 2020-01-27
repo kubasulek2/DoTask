@@ -11,7 +11,9 @@ const useStyles = makeStyles(({ palette }) => ({
 			height: '100%',
 		},
 		'#root': {
-			height: '100%'
+			height: '100%',
+			width: '100vw',
+			overflow: 'hidden',
 		},
 		'*::-webkit-scrollbar': {
 			width: '0.5em'
