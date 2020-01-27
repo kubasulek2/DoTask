@@ -1,5 +1,5 @@
 import { get, post } from 'axios';
-import { initRequest, requestFailed, requestSuccess } from './';
+import { initRequest, requestFailed, requestSuccess, initBgRequest } from './';
 import * as actionTypes from './actionTypes';
 
 
@@ -18,8 +18,7 @@ export const sortTasks = (listId, sortType) => (dispatch, getState) => {
 	// Uncomment when api endpoint is ready
 
 	// 	const sortedList = getState().tasks.lists[listId];
-	// 	// don't want a loader here, but still eventual error must be nullified.
-	// 	dispatch(requestSuccess());
+	// 	dispatch(initBgRequest());
 
 	// 	post('http://localhost:5000/tasks', sortedList)
 	// 		.then(() => dispatch(requestSuccess()))

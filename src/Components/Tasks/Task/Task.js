@@ -64,7 +64,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const Task = ({ text, id, index, favorite }) => {
+const Task = ({ text, id, index, favorite, attachments, deadline }) => {
 	const classes = useStyles();
 	return (
 		<Draggable draggableId={id} index={index}>

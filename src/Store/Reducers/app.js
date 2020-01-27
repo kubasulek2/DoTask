@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-	
+
 	switch (action.type) {
 		case actionTypes.HANDLE_AUTH:
 			return produce(state, draft => { draft.isAuth = action.auth; });
@@ -19,9 +19,12 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.INIT_REQUEST:
 			return produce(state, draft => { draft.loading = true; draft.error = false; draft.cb = null; });
 
+		case actionTypes.INIT_BACKGROUND_REQUEST:
+			return produce(state, draft => { draft.error = false; draft.cb = null; });
+
 		case actionTypes.REQUEST_FAILED:
 			console.log(action.cb);
-			return produce(state, draft => { draft.loading = false; draft.error = action.error; draft.cb = action.cb;});
+			return produce(state, draft => { draft.loading = false; draft.error = action.error; draft.cb = action.cb; });
 
 		case actionTypes.REQUEST_SUCCESS:
 			return produce(state, draft => { draft.loading = false; draft.error = false; draft.cb = null; });

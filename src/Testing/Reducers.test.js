@@ -12,8 +12,9 @@ describe('App reducer', () => {
 			isAuth: false,
 			loading: false,
 			error: false,
-			allowSort: false,
-			activeList: null
+			sortAllowed: false,
+			activeList: null,
+			cb: null
 		});
 	});
 
@@ -22,8 +23,9 @@ describe('App reducer', () => {
 			loading: true,
 			error: false,
 			isAuth: false,
-			allowSort: false,
-			activeList: null
+			sortAllowed: false,
+			activeList: null,
+			cb: null
 		});
 	});
 
@@ -32,18 +34,20 @@ describe('App reducer', () => {
 			loading: false,
 			error: false,
 			isAuth: true,
-			allowSort: false,
-			activeList: null
+			sortAllowed: false,
+			activeList: null,
+			cb: null
 		});
 	});
 
 	it('should handle request failed.', () => {
-		expect(appReducer(undefined, { type: actionTypes.REQUEST_FAILED, error: 'error' })).toEqual({
+		expect(appReducer(undefined, { type: actionTypes.REQUEST_FAILED, error: 'error', cb: 'callback' })).toEqual({
 			loading: false,
 			error: 'error',
 			isAuth: false,
-			allowSort: false,
-			activeList: null
+			sortAllowed: false,
+			activeList: null,
+			cb: 'callback'
 		});
 	});
 
@@ -52,8 +56,9 @@ describe('App reducer', () => {
 			loading: false,
 			error: false,
 			isAuth: false,
-			allowSort: false,
-			activeList: null
+			sortAllowed: false,
+			activeList: null,
+			cb: null
 		});
 	});
 
