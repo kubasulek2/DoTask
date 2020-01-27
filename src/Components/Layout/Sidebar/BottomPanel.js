@@ -43,14 +43,14 @@ const BottomPanel = ({open, location,history,}) => {
 	
 	const icon = (
 		open
-			? <ListItemIcon className={classes.add} color='default' onClick={handleClick}>
+			? <ListItemIcon className={classes.add} color='default'>
 				<AddIcon />
 			</ListItemIcon>
 			: <Tooltip
 				title='add task'
 				placement='top'
 				arrow classes={{ popper: classes.tooltip }}>
-				<ListItemIcon className={classes.add} color='default' onClick={handleClick}>
+				<ListItemIcon className={classes.add} color='default' >
 					<AddIcon />
 				</ListItemIcon>
 			</Tooltip>
@@ -58,7 +58,7 @@ const BottomPanel = ({open, location,history,}) => {
 
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.root} onClick={handleClick}>
 			<Divider />
 			<List className={classes.list}>
 				<ListItem className={classes.listItem} button>

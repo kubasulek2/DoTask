@@ -57,8 +57,13 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	}
 }));
 
-const TasksListsItem = ({ handleClick, active, list, index }) => {
+const TasksListsItem = ({ handleClick, active, list, index, location, history }) => {
 	const classes = useStyles();
+
+	const handleEdit = event => {
+		event.stopPropagation();
+		history.push(location.pathname + '/editList');
+	};
 
 	return (
 		<Draggable draggableId={list.id} index={index}>
@@ -93,7 +98,11 @@ const TasksListsItem = ({ handleClick, active, list, index }) => {
 									}}
 								/>
 								{placeholder}
-								{list.id === active ? <IconButton size='small' className={classes.editIcon}><EditIcon /></IconButton> : null}
+								{list.id === active
+									? <IconButton size='small' className={classes.editIcon} onClick={handleEdit}>
+										<EditIcon />
+									</IconButton>
+									: null}
 								<span className={classes.badge}>{list.taskIds.length}</span>
 							</ul>
 						)}

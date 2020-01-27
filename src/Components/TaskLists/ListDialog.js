@@ -12,16 +12,21 @@ const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const EditList = ({ edit, ...props }) => {
+const EditList = ({ edit, location, history, match: { params: { params } } }) => {
 	let listId;
 	
 	const [open, setOpen] = useState(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		let loc = location.pathname;
+		loc = loc.replace(/\/(?:newList|editList)/g, '');
+		history.push(loc);
+		setOpen(false);
+		
+	};
 	
 	if (edit) {
 		const regex = /tasks\/(.+?)(?:\/|$)/;
-		const { match: { params: { params } } } = props;
-		let match =params.match(regex);
+		let match = params.match(regex);
 		match = match ? match[1] : match;
 		listId = match;
 		console.log(listId);
@@ -34,20 +39,22 @@ const EditList = ({ edit, ...props }) => {
 			onClose={handleClose}
 		>
 			<DialogTitle>{edit ? 'Edit' :'Create New'}  List</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					Let Google help apps determine location. This means sending anonymous location data to
-					Google, even when no apps are running.
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose} color="primary">
-					Disagree
-				</Button>
-				<Button onClick={handleClose} color="primary">
-					Agree
-				</Button>
-			</DialogActions>
+			<form action="">
+				<DialogContent>
+					<DialogContentText>
+						Let Google help apps determine location. This means sending anonymous location data to
+						Google, even when no apps are running.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} color="primary">
+						Disagree
+					</Button>
+					<Button onClick={handleClose} color="primary">
+						Agree
+					</Button>
+				</DialogActions>
+			</form>
 		</Dialog>
 	);
 };

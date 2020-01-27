@@ -29,7 +29,7 @@ export const Layout = () => {
 				handleSidebar={handleSidebar}
 			/>
 			<Main open={sideBarOpen}>
-				<Route path='/:params*/newList' render={() => <ListDialog />} />
+				<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
 				<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
 				<Switch>
 					<Route path='/tasks' render={(props) => <Tasks {...props} />} />
