@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,6 +13,7 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { formatDate, hasDatePassed } from '../../../Utils/date';
+import * as actions from '../../../Store/Actions/';
 
 const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	root: {
@@ -46,7 +48,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	},
 	title: {
 		fontSize: 14
-	},	
+	},
 	actions: {
 		flexGrow: 0,
 		display: 'flex',
@@ -102,10 +104,20 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	}
 }));
 
-const Task = ({ text, favorite, attachments, deadline }) => {
+const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFavorite }) => {
 	const classes = useStyles();
 	const date = formatDate(deadline);
 	const datePassed = hasDatePassed(deadline);
+	const [checked, setChecked] = useState(false);
+
+	const handleChange = () => {
+		setChecked(checked => !checked);
+		deleteTask(id);
+	};
+	const handleFavorite = () => {
+		setTaskFavorite(id);
+	};
+
 
 	return (
 		<ListItem
@@ -116,8 +128,8 @@ const Task = ({ text, favorite, attachments, deadline }) => {
 					<Checkbox
 						className={classes.checkbox}
 						disableRipple
-						checked={false}
-						onChange={() => { }}
+						checked={checked}
+						onChange={handleChange}
 						value="primary"
 					/>
 				</Tooltip>
@@ -140,7 +152,7 @@ const Task = ({ text, favorite, attachments, deadline }) => {
 					}
 					<p className={[classes.date, datePassed ? classes.datePassed : null].join(' ')}>{date}</p>
 					<Tooltip enterDelay={800} title='favorite' arrow>
-						<IconButton className={classes.favorite}>
+						<IconButton className={classes.favorite} onClick={handleFavorite}>
 							{favorite ? <StarOutlinedIcon color='secondary' /> : <StarBorderOutlinedIcon color='secondary' />}
 						</IconButton>
 					</Tooltip>
@@ -150,4 +162,9 @@ const Task = ({ text, favorite, attachments, deadline }) => {
 	);
 };
 
-export default Task;
+const mapDispatchToProps = dispatch => ({
+	deleteTask: taskId => dispatch(actions.deleteTask(taskId)),
+	setTaskFavorite: taskId => dispatch(actions.setTaskFavorite(taskId)),
+});
+
+export default connect(null, mapDispatchToProps)(Task);

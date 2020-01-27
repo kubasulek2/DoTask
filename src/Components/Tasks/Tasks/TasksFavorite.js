@@ -17,6 +17,7 @@ const Tasks = ({ tasks }) => {
 	const taskList = Object.values(tasks).filter(task => task.favorite).map(task => (
 		<NoDragTask
 			key={task.id}
+			id={task.id}
 			text={task.content}
 			favorite={task.favorite}
 			deadline={task.deadline}

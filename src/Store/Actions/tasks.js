@@ -17,11 +17,13 @@ export const changeListsOrder = (sourceIdx, destIdx, listId) => ({ type: actionT
 
 export const setTaskFavorite = taskId => ({type: actionTypes.SET_TASK_FAVORITE, taskId});
 
-export const deleteTask = taskId => {
+export const deleteTask = taskId => dispatch => {
 	bellSound.pause();
 	bellSound.currentTime = 0;
 	bellSound.play();
-	return { type: actionTypes.DELETE_TASK, taskId };
+	setTimeout(()=> {
+		dispatch({ type: actionTypes.DELETE_TASK, taskId });
+	},400);
 };
 
 export const sortTasks = (listId, sortType) => (dispatch, getState) => {

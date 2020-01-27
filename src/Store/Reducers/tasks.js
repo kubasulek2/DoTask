@@ -41,12 +41,14 @@ const reducer = (state = initialState, action) => {
 			});
 
 		case actionTypes.DELETE_TASK:
+			const list = Object.values(state.lists).find(l => l.taskIds.includes(action.taskId));
+			const taskIdx = list.taskIds.indexOf(action.taskId);
 			return produce(state, draft => {
+				draft.lists[list.id].taskIds.splice(taskIdx,1);
 				delete draft.tasks[action.taskId];
 			});
 
 		case actionTypes.SET_TASK_FAVORITE:
-			console.log(action.taskId);
 			return produce(state, draft => {
 				draft.tasks[action.taskId].favorite = !draft.tasks[action.taskId].favorite;
 			});			
