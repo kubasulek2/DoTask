@@ -40,7 +40,7 @@ export class App extends Component {
 			return changeListsOrder(source.index, destination.index, draggableId);
 		}
 
-		const activeId = this.props.location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/)[0];
+		const activeId = this.props.location.pathname.match(/(?:tasks\/)(.+(?=[/?])|.+(?=$))/)[1];
 		const start = lists[activeId];
 		const finish = destination.droppableId === 'inner' ? lists[activeId] : lists[destination.droppableId];
 		if (start === finish) {

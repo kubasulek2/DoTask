@@ -11,6 +11,8 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 
+import { formatDate, hasDatePassed } from '../../../Utils/date';
+
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {
 		padding: 0,
@@ -57,15 +59,33 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		alignItems: 'center',
 	},
 	favorite: {
-		padding: spacing(1)
+		padding: spacing(.6),
+		marginLeft: 2,
+		'& svg': {
+			fontSize: 26
+		}
 	},
 	dragged: {
 		opacity: .7
+	},
+	attachment: {
+		fontSize: 18,
+		color: palette.grey[600]
+	},
+	date: {
+		fontSize: 12,
+		color: palette.primary.light
+	},
+	datePassed: {
+		color: palette.error.light
 	}
 }));
 
 const Task = ({ text, id, index, favorite, attachments, deadline }) => {
 	const classes = useStyles();
+	const date = formatDate(deadline);
+	const datePassed = hasDatePassed(deadline);
+
 	return (
 		<Draggable draggableId={id} index={index}>
 			{({ draggableProps, dragHandleProps, innerRef }, snapshot) => (
@@ -93,7 +113,8 @@ const Task = ({ text, id, index, favorite, attachments, deadline }) => {
 							/>
 						</div>
 						<div className={classes.actions}>
-							<AttachFileIcon fontSize='small' color='disabled' />
+							{attachments ? <AttachFileIcon className={classes.attachment} /> : null}
+							<p className={[classes.date, datePassed ? classes.datePassed : null].join(' ')}>{date}</p>
 							<IconButton className={classes.favorite}>
 								{favorite ? <GradeIcon color='secondary' /> : <GradeOutlinedIcon color='secondary' />}
 							</IconButton>

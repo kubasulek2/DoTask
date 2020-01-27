@@ -73,10 +73,10 @@ const Header = ({ handleSidebar, handleAuth, history, allowSort, sortAllowed, li
 	const classes = useStyles();
 
 	useEffect(() => {
-		let regex = /(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))/;
+		let regex = /(?:tasks\/)(.+(?=[/?])|.+(?=$))/;
 		let match = window.location.pathname.match(regex);
 		let listIds = Object.values(lists).map(t => t.id);
-		match = match ? match[0] : match;
+		match = match ? match[1] : match;
 		(match !== activeList && listIds.includes(match) && allowSort(true, match));
 		(sortAllowed && !listIds.includes(match) && allowSort(false));
 

@@ -38,8 +38,8 @@ const Sidebar = props => {
 	const classes = useStyles(props);
 	const [searchFocus, setSearchFocus] = useState(false);
 	const { handleSidebar, location, open } = props;
-	const match = location.pathname.match(/(?<=tasks\/)(?:.+(?=[/?])|.+(?=$))|user/);
-	const active = match ? match[0] : null;
+	const match = location.pathname.match(/(?:tasks\/)(.+(?=[/?])|.+(?=$))|user/);
+	const active = match ? match[1] : null;
 
 	return (
 		<Drawer
