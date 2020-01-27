@@ -1,12 +1,15 @@
 import React from 'react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
+
+import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	listItem: {
 		padding: 0,
@@ -54,7 +57,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 const TasksListsItem = ({ handleClick, active, list, index }) => {
 	const classes = useStyles();
-	
+
 	return (
 		<Draggable draggableId={list.id} index={index}>
 			{(draggable) => (
@@ -74,9 +77,11 @@ const TasksListsItem = ({ handleClick, active, list, index }) => {
 								ref={innerRef}
 								{...droppableProps}
 							>
-								<ListItemIcon className={classes.icon} {...draggable.dragHandleProps}>
-									<ListIcon />
-								</ListItemIcon>
+								<Tooltip enterDelay={400} title='move list' arrow classes={{ popper: classes.tooltip }}>
+									<ListItemIcon className={classes.icon} {...draggable.dragHandleProps}>
+										<ListIcon />
+									</ListItemIcon>
+								</Tooltip>
 								<ListItemText
 									secondary={list.title}
 									classes={{ secondary: active ? classes.secondary_edit : classes.secondary }}
