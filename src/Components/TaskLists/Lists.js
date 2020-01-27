@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 
 
-import TasksListsItem from './TasksListsItem';
+import TasksListsItem from './ListsItem';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	root: {

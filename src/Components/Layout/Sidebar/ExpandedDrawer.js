@@ -16,7 +16,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import img from '../../../Assets/face-facial-hair-fine-looking-guy-614810.jpg';
-import TasksLists from './TasksLists/TasksLists';
+import TasksLists from '../../TaskLists/Lists';
 import SearchForm from '../../../Containers/Forms/Search';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
