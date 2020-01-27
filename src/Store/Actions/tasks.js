@@ -1,6 +1,12 @@
 import { get, post } from 'axios';
 import { initRequest, requestFailed, requestSuccess, initBgRequest } from './';
 import * as actionTypes from './actionTypes';
+import bell from '../../Assets/bell.mp3';
+
+const bellSound = new Audio(bell);
+
+const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
+const setTasks = data => ({ type: actionTypes.SET_TASKS, data });
 
 
 export const addTask = (listId, taskId, idx) => ({ type: actionTypes.ADD_TASK_TO_LIST, listId, taskId, idx });
@@ -9,8 +15,14 @@ export const removeTask = (listId, idx) => ({ type: actionTypes.REMOVE_TASK_FROM
 
 export const changeListsOrder = (sourceIdx, destIdx, listId) => ({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, listId });
 
+export const setTaskFavorite = taskId => ({type: actionTypes.SET_TASK_FAVORITE, taskId});
 
-const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
+export const deleteTask = taskId => {
+	bellSound.pause();
+	bellSound.currentTime = 0;
+	bellSound.play();
+	return { type: actionTypes.DELETE_TASK, taskId };
+};
 
 export const sortTasks = (listId, sortType) => (dispatch, getState) => {
 	dispatch(sortAction(listId, sortType));
@@ -25,15 +37,7 @@ export const sortTasks = (listId, sortType) => (dispatch, getState) => {
 	// 		.catch(err => dispatch(requestFailed(err.message, {name: 'sortTasks', args: [listId,sortType]})));
 };
 
-
-
-const setTasks = data => {
-	return { type: actionTypes.SET_TASKS, data };
-};
-
 export const fetchTasks = () => dispatch => {
-
-
 	dispatch(initRequest());
 	return get('http://localhost:5000/tasks')
 		.then(({ data }) => {

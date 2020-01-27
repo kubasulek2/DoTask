@@ -40,6 +40,17 @@ const reducer = (state = initialState, action) => {
 				draft.lists[action.listId].taskIds = newTaskArr;
 			});
 
+		case actionTypes.DELETE_TASK:
+			return produce(state, draft => {
+				delete draft.tasks[action.taskId];
+			});
+
+		case actionTypes.SET_TASK_FAVORITE:
+			console.log(action.taskId);
+			return produce(state, draft => {
+				draft.tasks[action.taskId].favorite = !draft.tasks[action.taskId].favorite;
+			});			
+
 		default:
 			return state;
 	}

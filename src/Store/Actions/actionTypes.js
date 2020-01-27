@@ -3,6 +3,8 @@ export const REMOVE_TASK_FROM_LIST = 'REMOVE_TASK_FROM_LIST';
 export const CHANGE_LISTS_ORDER = 'CHANGE_LISTS_ORDER';
 export const SET_TASKS = 'SET_TASKS';
 export const SORT_TASKS = 'SORT_TASKS';
+export const SET_TASK_FAVORITE = 'SET_TASK_FAVORITE';
+export const DELETE_TASK = 'DELETE_TASK';
 
 export const HANDLE_AUTH = 'HANDLE_AUTH';
 export const INIT_REQUEST = 'INIT_REQUEST';
