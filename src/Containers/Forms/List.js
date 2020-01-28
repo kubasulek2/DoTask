@@ -67,9 +67,10 @@ export class List extends Component {
 
 	handleChange = event => this.setState({ value: event.target.value })
 	handleDelete = () => {
-		const { listId, deleteList, history } = this.props;
-		deleteList(listId);
-		history.push('/tasks/all');
+		const { listId, askToConfirm, handleClose } = this.props;
+		askToConfirm({name: 'deleteList', args: [listId]});
+		handleClose();
+		
 	};
 
 	handleSubmit = event => {
@@ -129,7 +130,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	editList: (title, listId) => dispatch(actions.editList(title, listId)),
 	createList: title => dispatch(actions.createList(title)),
-	deleteList: listId => dispatch(actions.deleteList(listId)),
+	askToConfirm: cb => dispatch(actions.askToConfirm(cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(List));

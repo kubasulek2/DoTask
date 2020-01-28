@@ -16,5 +16,6 @@ export {
 	requestFailed, 
 	requestSuccess, 
 	allowSort, 
-	initBgRequest 
+	initBgRequest,
+	askToConfirm 
 } from './app';

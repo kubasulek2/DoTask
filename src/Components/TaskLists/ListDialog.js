@@ -63,7 +63,7 @@ const EditList = ({ edit, location, history, match: { params: { params } } }) =>
 			onClose={handleClose}
 		>
 			<DialogTitle className={classes.title}>{edit ? 'Edit' : 'Create New'}  List</DialogTitle>
-			{open ?<ListForm handleClose={handleClose} edit={edit} listId={listId} history={history} /> : null}
+			{open ?<ListForm handleClose={handleClose} edit={edit} listId={listId} /> : null}
 		</Dialog>
 	);
 };

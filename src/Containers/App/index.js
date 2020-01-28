@@ -9,6 +9,7 @@ import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
 import Loader from '../../Components/UI/Loader/';
 import Error from '../../Components/UI/ErrorModal';
+import ConfirmDialog from '../../Components/UI/ConfirmDialog';
 import * as actions from '../../Store/Actions';
 
 
@@ -53,7 +54,7 @@ export class App extends Component {
 		addTask(finish.id, finish.taskIds.length, draggableId);
 	}
 
-	reconnect = () => {
+	callCb = () => {
 		const {  cb } = this.props;
 		if(cb){
 			this.props[cb.name](...cb.args);
@@ -61,7 +62,7 @@ export class App extends Component {
 	}
 
 	render() {
-		const { error, loading, cancelError, isAuth } = this.props;
+		const { error, loading, requestSuccess, isAuth, confirm } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
 				<Layout />
@@ -69,8 +70,9 @@ export class App extends Component {
 		);
 		return (
 			<Fragment>
+				{confirm ? <ConfirmDialog confirm={this.callCb} cancel={requestSuccess} /> : null}
 				{loading ? <Loader color='#4fa84a' /> : null}
-				{error ? <Error error={error} cancelError={cancelError} reconnect={this.reconnect} /> : null}
+				{error ? <Error error={error} cancelError={requestSuccess} reconnect={this.callCb} /> : null}
 				<Switch>
 					<Route path='/login' component={Login} />
 					{isAuth ? <Route path='/' render={() => app} /> : null}
@@ -86,7 +88,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 	loading: app.loading,
 	error: app.error,
 	isAuth: app.isAuth,
-	cb: app.cb
+	cb: app.cb,
+	confirm: app.confirm
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -94,9 +97,10 @@ const mapDispatchToProps = dispatch => ({
 	removeTask: (listId, idx) => dispatch(actions.removeTask(listId, idx)),
 	changeListsOrder: (sourceIdx, destIdx, taskId) => dispatch(actions.changeListsOrder(sourceIdx, destIdx, taskId)),
 	fetchTasks: () => dispatch(actions.fetchTasks()),
-	cancelError: () => dispatch(actions.requestSuccess()),
+	requestSuccess: () => dispatch(actions.requestSuccess()),
 	handleAuth: bool => dispatch(actions.handleAuth(bool)),
-	sortTasks: (listId, sortType) => dispatch(actions.sortTasks(listId,sortType))
+	sortTasks: (listId, sortType) => dispatch(actions.sortTasks(listId,sortType)),
+	deleteList: listId => dispatch(actions.deleteList(listId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WithStyles(App)));
