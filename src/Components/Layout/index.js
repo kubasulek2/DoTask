@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
 
 import { makeStyles } from '@material-ui/core';
@@ -18,7 +18,16 @@ const useStyles = makeStyles(() => ({
 export const Layout = () => {
 	const classes = useStyles();
 	const [sideBarOpen, setSidebarOpen] = useState(false);
-	const handleSidebar = () => setSidebarOpen(prev => !prev);
+
+	useEffect(() => {
+		const open = sessionStorage.getItem('sidebarOpen');
+		if (open) setSidebarOpen(true);
+	}, []);
+
+	const handleSidebar = () => {
+		!sideBarOpen ? sessionStorage.setItem('sidebarOpen', true) : sessionStorage.removeItem('sidebarOpen');
+		setSidebarOpen(prev => !prev);
+	};
 
 
 	return (
