@@ -11,6 +11,8 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+	// temporary hack: pseudo id	
+	let c = 3;
 
 	switch (action.type) {
 
@@ -30,6 +32,29 @@ const reducer = (state = initialState, action) => {
 				draft.listsOrder.splice(action.destIdx, 0, action.listId);
 			});
 
+		case actionTypes.EDIT_LIST:
+			return produce(state, draft => {
+				draft.lists[action.listId].title = action.title;
+			});
+
+		case actionTypes.CREATE_LIST:
+			let id = 'list-' + ++c;
+			return produce(state, draft => {
+				draft.lists[id] = { id, title: action.title, taskIds: [] };
+				draft.listsOrder.push(id);
+			});
+		case actionTypes.DELETE_LIST:
+			console.log('here');
+			return produce(state, draft => {
+				for (const task in draft.tasks) {
+					if (draft.lists[action.listId].taskIds.includes(task.id)){ 
+						delete draft.tasks[task.id];
+					}
+				}
+				delete draft.lists[action.listId];
+				draft.listsOrder.splice(draft.listsOrder.indexOf(action.listId),1);
+			});	
+
 		case actionTypes.SET_TASKS:
 			return action.data;
 
@@ -44,14 +69,14 @@ const reducer = (state = initialState, action) => {
 			const list = Object.values(state.lists).find(l => l.taskIds.includes(action.taskId));
 			const taskIdx = list.taskIds.indexOf(action.taskId);
 			return produce(state, draft => {
-				draft.lists[list.id].taskIds.splice(taskIdx,1);
+				draft.lists[list.id].taskIds.splice(taskIdx, 1);
 				delete draft.tasks[action.taskId];
 			});
 
 		case actionTypes.SET_TASK_FAVORITE:
 			return produce(state, draft => {
 				draft.tasks[action.taskId].favorite = !draft.tasks[action.taskId].favorite;
-			});			
+			});
 
 		default:
 			return state;

@@ -15,15 +15,41 @@ export const removeTask = (listId, idx) => ({ type: actionTypes.REMOVE_TASK_FROM
 
 export const changeListsOrder = (sourceIdx, destIdx, listId) => ({ type: actionTypes.CHANGE_LISTS_ORDER, sourceIdx, destIdx, listId });
 
-export const setTaskFavorite = taskId => ({type: actionTypes.SET_TASK_FAVORITE, taskId});
+export const setTaskFavorite = taskId => ({ type: actionTypes.SET_TASK_FAVORITE, taskId });
+
+export const editList = (title, listId) => ({ type: actionTypes.EDIT_LIST, title, listId });
+
+export const createList = title => dispatch => {
+	dispatch(initRequest());
+	return get('http://localhost:5000/tasks')
+		.then(() => {
+			dispatch({ type: actionTypes.CREATE_LIST, title });
+			dispatch(requestSuccess());
+		})
+		.catch(err => {
+			dispatch(requestFailed(err.message, { name: 'fetchTasks', args: [] }));
+		});
+};
+
+export const deleteList = listId => dispatch => {
+	dispatch(initRequest());
+	return get('http://localhost:5000/tasks')
+		.then(() => {
+			dispatch({ type: actionTypes.DELETE_LIST, listId });
+			dispatch(requestSuccess());
+		})
+		.catch(err => {
+			dispatch(requestFailed(err.message, { name: 'fetchTasks', args: [] }));
+		});
+};
 
 export const deleteTask = taskId => dispatch => {
 	bellSound.pause();
 	bellSound.currentTime = 0;
 	bellSound.play();
-	setTimeout(()=> {
+	setTimeout(() => {
 		dispatch({ type: actionTypes.DELETE_TASK, taskId });
-	},400);
+	}, 400);
 };
 
 export const sortTasks = (listId, sortType) => (dispatch, getState) => {

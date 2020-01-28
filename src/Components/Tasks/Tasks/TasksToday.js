@@ -3,7 +3,6 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-import CategoryBadge from '../../UI/CategoryBadge';
 import NotFound from '../../UI/NotFound';
 import NoDragTask from '../Task/NoDragTask';
 import { isDateToday } from '../../../Utils/date';

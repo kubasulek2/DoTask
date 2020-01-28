@@ -1,2 +1,20 @@
-export { addTask, removeTask, changeListsOrder, fetchTasks, sortTasks, deleteTask, setTaskFavorite } from './tasks';
-export { handleAuth, initRequest, requestFailed, requestSuccess, allowSort, initBgRequest } from './app';
+export {
+	addTask,
+	removeTask,
+	changeListsOrder, 
+	fetchTasks, 
+	sortTasks, 
+	deleteTask, 
+	setTaskFavorite, 
+	editList,
+	createList,
+	deleteList,
+} from './tasks';
+export { 
+	handleAuth, 
+	initRequest, 
+	requestFailed, 
+	requestSuccess, 
+	allowSort, 
+	initBgRequest 
+} from './app';

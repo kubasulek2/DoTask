@@ -5,6 +5,9 @@ export const SET_TASKS = 'SET_TASKS';
 export const SORT_TASKS = 'SORT_TASKS';
 export const SET_TASK_FAVORITE = 'SET_TASK_FAVORITE';
 export const DELETE_TASK = 'DELETE_TASK';
+export const EDIT_LIST = 'EDIT_LIST';
+export const CREATE_LIST = 'CREATE_LIST';
+export const DELETE_LIST = 'DELETE_LIST';
 
 export const HANDLE_AUTH = 'HANDLE_AUTH';
 export const INIT_REQUEST = 'INIT_REQUEST';
