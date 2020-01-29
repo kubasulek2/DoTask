@@ -33,7 +33,7 @@ const useStyles = makeStyles(({ palette }) => ({
 		},
 		'.MuiBackdrop-root': {
 			backgroundColor: 'rgba(100,100,100,.5)!important',
-		}
+		},
 
 	}
 }));

@@ -2,8 +2,8 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-import NoDragTask from '../Task/NoDragTask';
-import CategoryBadge from '../../UI/CategoryBadge';
+import NoDragTask from '../../Task/NoDragTask';
+import CategoryBadge from '../../../UI/CategoryBadge';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {

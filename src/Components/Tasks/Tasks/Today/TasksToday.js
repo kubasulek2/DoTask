@@ -3,9 +3,9 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-import NotFound from '../../UI/NotFound';
-import NoDragTask from '../Task/NoDragTask';
-import { isDateToday } from '../../../Utils/date';
+import NotFound from '../../../UI/NotFound';
+import NoDragTask from '../../Task/NoDragTask';
+import { isDateToday } from '../../../../Utils/date';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {

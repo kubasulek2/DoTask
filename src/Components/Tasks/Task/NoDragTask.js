@@ -82,7 +82,6 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 		},
 		date: {
 			fontSize: 12,
-			color: palette.primary.light
 		},
 		attachment: {
 			fontSize: 18,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
 
 import { makeStyles } from '@material-ui/core';
@@ -9,13 +9,14 @@ import Main from './Main';
 import Tasks from '../Tasks';
 import FourOhFour from '../FourOhFour';
 import ListDialog from '../TaskLists/ListDialog';
+import Loader from '../UI/Loader';
 
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100vw',
 	}
 }));
-export const Layout = () => {
+export const Layout = ({ loading }) => {
 	const classes = useStyles();
 	const [sideBarOpen, setSidebarOpen] = useState(false);
 
@@ -29,6 +30,18 @@ export const Layout = () => {
 		setSidebarOpen(prev => !prev);
 	};
 
+	const loader = <Loader color='#4fa84a' />
+	const main = (
+		<Fragment>
+			<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
+			<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
+			<Switch>
+				<Route path='/tasks' render={(props) => <Tasks {...props} />} />
+				<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
+				<Route path='/' component={FourOhFour} />
+			</Switch>
+		</Fragment>
+	);
 
 	return (
 		<div className={classes.root}>
@@ -38,13 +51,7 @@ export const Layout = () => {
 				handleSidebar={handleSidebar}
 			/>
 			<Main open={sideBarOpen}>
-				<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
-				<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
-				<Switch>
-					<Route path='/tasks' render={(props) => <Tasks {...props} />} />
-					<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
-					<Route path='/' component={FourOhFour} />
-				</Switch>
+				{loading ? loader : main}
 			</Main>
 		</div>
 	);

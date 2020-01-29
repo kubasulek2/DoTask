@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -26,8 +26,9 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	},
 	paper: {
 		display: 'flex',
+		flexWrap: 'wrap',
 		width: '100%',
-		transition: 'all .2s ease',
+		transition: 'width .2s ease',
 		'&.moved': {
 			width: 270
 		}
@@ -73,6 +74,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 		color: palette.secondary.dark
 	},
 	actions: {
+		cursor: 'pointer',
 		flexGrow: 0,
 		display: 'flex',
 		justifyContent: 'flex-end',
@@ -97,13 +99,15 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	datePassed: {
 		color: palette.error.light
 	},
+	hide: {
+		display: 'none',
+	},
 	[breakpoints.up('sm')]: {
 		title: {
 			fontSize: 18
 		},
 		date: {
 			fontSize: 12,
-			color: palette.primary.light
 		},
 		drag: {
 			width: 40,
@@ -128,18 +132,26 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 }));
 
 
-const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, setTaskFavorite }) => {
+const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, setTaskFavorite, history }) => {
 	const classes = useStyles();
 	const date = formatDate(deadline);
 	const datePassed = hasDatePassed(deadline);
 	const [checked, setChecked] = useState(false);
 
-	const handleChange = () => {
+	const handleChange = event => {
+		event.stopPropagation();
 		setChecked(checked => !checked);
 		deleteTask(id);
 	};
-	const handleFavorite = () => {
+	const handleFavorite = event => {
+		event.stopPropagation();
 		setTaskFavorite(id);
+	};
+
+	const stopPropagation = event => event.stopPropagation();
+
+	const handleExpand = () => {
+		history.push(history.location.pathname + '/' + id);
 	};
 
 
@@ -147,67 +159,73 @@ const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, se
 	return (
 		<Draggable draggableId={id} index={index}>
 			{({ draggableProps, dragHandleProps, innerRef }, snapshot) => (
-				<ListItem
-					className={[classes.root, snapshot.isDragging ? classes.dragged : null].join(' ')}
-					ref={innerRef}
-					{...draggableProps}
 
-				>
-					<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
-						<Tooltip enterDelay={800} title='move task' arrow>
-							<div
-								className={classes.drag}
-								{...dragHandleProps}
-							>
-								<DragIcon className={classes.dragIcon} />
-							</div>
-						</Tooltip>
-						<Tooltip enterDelay={800} title='finish task' arrow>
-							<Checkbox
-								className={classes.checkbox}
-								disableRipple
-								checked={checked}
-								onChange={handleChange}
-								value="primary"
-							/>
-						</Tooltip>
-						<div className={classes.expand}>
-							<ListItemText
-								primary={text}
-								primaryTypographyProps={{
-									noWrap: true,
-									classes: { root: [classes.title, snapshot.isDragging ? classes.shrink : null].join(' ') },
-									component: 'div'
-								}}
-							/>
-						</div>
-						<div className={classes.actions}>
-							{attachments
-								? <Tooltip enterDelay={800} title='task has attachments' arrow>
-									<AttachFileIcon className={classes.attachment} />
-								</Tooltip>
-								: null
-							}
-							<p className={[classes.date, datePassed ? classes.datePassed : null].join(' ')}>{date}</p>
-							<Tooltip enterDelay={800} title='favorite' arrow>
-								<IconButton className={classes.favorite} onClick={handleFavorite}>
-									{favorite
-										? <StarOutlinedIcon color='secondary' />
-										: <StarBorderOutlinedIcon color='secondary' />
-									}
-								</IconButton>
+				<Fragment>
+					<ListItem
+						className={[classes.root, snapshot.isDragging ? classes.dragged : null].join(' ')}
+						ref={innerRef}
+						{...draggableProps}
+
+					>
+
+						<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
+							<Tooltip enterDelay={800} title='move task' arrow>
+								<div
+									className={classes.drag}
+									{...dragHandleProps}
+								>
+									<DragIcon className={classes.dragIcon} />
+								</div>
 							</Tooltip>
-						</div>
-					</Paper>
-				</ListItem>
+							<Tooltip enterDelay={800} title='finish task' arrow>
+								<Checkbox
+									className={classes.checkbox}
+									disableRipple
+									checked={checked}
+									onChange={handleChange}
+									value="primary"
+								/>
+							</Tooltip>
+							<div className={classes.expand} onClick={handleExpand}>
+								<ListItemText
+									primary={text}
+									primaryTypographyProps={{
+										noWrap: true,
+										classes: { root: [classes.title, snapshot.isDragging ? classes.shrink : null].join(' ') },
+										component: 'div'
+									}}
+								/>
+							</div>
+							<div
+								onClick={handleExpand}
+								className={[classes.actions, snapshot.isDragging ? classes.hide : null].join(' ')}>
+								{attachments
+									? <Tooltip enterDelay={800} title='task has attachments' arrow>
+										<AttachFileIcon className={classes.attachment} />
+									</Tooltip>
+									: null
+								}
+								<p className={[classes.date, datePassed ? classes.datePassed : null].join(' ')}>{date}</p>
+								<Tooltip enterDelay={800} title='favorite' arrow>
+									<IconButton className={classes.favorite} onClick={handleFavorite}>
+										{favorite
+											? <StarOutlinedIcon color='secondary' />
+											: <StarBorderOutlinedIcon color='secondary' />
+										}
+									</IconButton>
+								</Tooltip>
+							</div>
+						</Paper>
+					</ListItem>
+				</Fragment>
 			)}
 		</Draggable>
 	);
 };
 
 const mapDispatchToProps = dispatch => ({
-	deleteTask: taskId => dispatch(actions.deleteTask(taskId)), 
-	setTaskFavorite: taskId => dispatch(actions.setTaskFavorite(taskId)), 
+	deleteTask: taskId => dispatch(actions.deleteTask(taskId)),
+	setTaskFavorite: taskId => dispatch(actions.setTaskFavorite(taskId)),
 });
 
 export default connect(null, mapDispatchToProps)(Task);

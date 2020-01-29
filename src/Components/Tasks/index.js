@@ -3,11 +3,11 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
-import TasksAll from './Tasks/TasksAll';
-import TasksSearch from './Tasks/TasksSearch';
-import TasksFavorite from './Tasks/TasksFavorite';
-import TasksToday from './Tasks/TasksToday';
-import TasksList from './Tasks/TasksList';
+import TasksAll from './Tasks/All/TasksAll';
+import TasksSearch from './Tasks/Search/TasksSearch';
+import TasksFavorite from './Tasks/Favorite/TasksFavorite';
+import TasksToday from './Tasks/Today/TasksToday';
+import TasksList from './Tasks/List';
 
 const Tasks = ({ tasks, lists }) => {
 	return (

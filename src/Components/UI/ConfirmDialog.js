@@ -49,9 +49,9 @@ const IgnoreDialog = ({ confirm, cancel, history }) => {
 			keepMounted
 			onClose={handleClose}
 		>
-			<DialogTitle><span className={classes.bold}>Are you sure you want to block user</span></DialogTitle>
+			<DialogTitle><span className={classes.bold}>Are you sure?</span></DialogTitle>
 			<DialogContent>
-				<DialogContentText id="alert-dialog-slide-description">
+				<DialogContentText className={classes.bold}>
 					This action is irreversible.
 				</DialogContentText>
 			</DialogContent>

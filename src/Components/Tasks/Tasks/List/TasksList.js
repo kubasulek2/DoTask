@@ -4,8 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Task from '../Task/Task';
-import FourOhFour from '../../FourOhFour';
+import Task from '../../Task/Task';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {
@@ -13,9 +12,9 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ lists, tasks, match: { params } }) => {
+const Tasks = ({ lists, tasks, match: { params }, history }) => {
 	const classes = useStyles();
-	if (!lists[params.category] && Object.keys(tasks).length) return <FourOhFour />;
+
 
 	const taskList = Object.keys(tasks).length
 		? lists[params.category].taskIds.map((id, i) => (
@@ -27,6 +26,7 @@ const Tasks = ({ lists, tasks, match: { params } }) => {
 				favorite={tasks[id].favorite}
 				deadline={tasks[id].deadline}
 				attachments={tasks[id].attachments}
+				history={history}
 			/>
 		))
 		: null;

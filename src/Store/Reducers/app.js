@@ -8,7 +8,8 @@ const initialState = {
 	sortAllowed: false,
 	confirm: false,
 	activeList: null,
-	cb: null
+	cb: null,
+	taskExpanded: false
 };
 
 const reducer = (state = initialState, action) => {

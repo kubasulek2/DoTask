@@ -33,7 +33,7 @@ export const createList = title => dispatch => {
 
 export const deleteList = listId => (dispatch, getState) => {
 	dispatch(initRequest());
-	return get('http://localhost:5001/tasks')
+	return get('http://localhost:5000/tasks')
 		.then(() => {
 			dispatch({ type: actionTypes.DELETE_LIST, listId });
 			dispatch(requestSuccess());

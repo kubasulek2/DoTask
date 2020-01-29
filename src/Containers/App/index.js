@@ -65,13 +65,12 @@ export class App extends Component {
 		const { error, loading, requestSuccess, isAuth, confirm } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
-				<Layout />
+				<Layout loading={loading}/>
 			</DragDropContext>
 		);
 		return (
 			<Fragment>
 				{confirm ? <ConfirmDialog confirm={this.callCb} cancel={requestSuccess} /> : null}
-				{loading ? <Loader color='#4fa84a' /> : null}
 				{error ? <Error error={error} cancelError={requestSuccess} reconnect={this.callCb} /> : null}
 				<Switch>
 					<Route path='/login' component={Login} />
