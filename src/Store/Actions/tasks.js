@@ -82,6 +82,7 @@ export const fetchTasks = () => dispatch => {
 
 export const fetchTask = taskId => dispatch => {
 	dispatch(initRequest());
+	console.log('aaaaa');
 	return get('http://localhost:5000/task/'+ taskId)
 		.then(({ data }) => {
 			dispatch(setTask(data));

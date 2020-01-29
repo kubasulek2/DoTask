@@ -8,17 +8,20 @@ import Edit from '../Forms/EditTask';
 import * as actions from '../../Store/Actions';
 
 
-const styles = (theme => ({
+const styles = {
 	root: {
 		width: '100%',
 	},
-}));
+};
 
 
 class TaskExpand extends Component {
 	componentDidMount() {
-		const { fetchTask, match: { params } } = this.props;
-		fetchTask(params.taskId);
+		const { fetchTask, match: { params }, task } = this.props;
+		// Important, prevents request loop.
+		if(!task){	
+			fetchTask(params.taskId);
+		}
 	}
 
 
