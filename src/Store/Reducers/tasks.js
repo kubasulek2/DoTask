@@ -8,6 +8,7 @@ const initialState = {
 	tasks: {},
 	lists: {},
 	listsOrder: [],
+	task: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,7 +45,6 @@ const reducer = (state = initialState, action) => {
 				draft.listsOrder.push(id);
 			});
 		case actionTypes.DELETE_LIST:
-			console.log('here');
 			return produce(state, draft => {
 				for (const task in draft.tasks) {
 					if (draft.lists[action.listId].taskIds.includes(task.id)){ 
@@ -56,8 +56,17 @@ const reducer = (state = initialState, action) => {
 			});	
 
 		case actionTypes.SET_TASKS:
-			return action.data;
-
+			return {
+				...action.data,
+				task: state.task
+			};
+		
+		case actionTypes.SET_TASK:
+			return {
+				...state,
+				task: action.data
+			};
+			
 		case actionTypes.SORT_TASKS:
 			const taskArr = [...state.lists[action.listId].taskIds];
 			const newTaskArr = sort[action.sortType](taskArr, state.tasks);

@@ -1,42 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 
 import FourOhFour from '../../Components/FourOhFour';
 import Edit from '../Forms/EditTask';
+import * as actions from '../../Store/Actions';
 
 
 const styles = (theme => ({
 	root: {
 		width: '100%',
 	},
-	heading: {
-		fontSize: theme.typography.pxToRem(15),
-		fontWeight: theme.typography.fontWeightRegular,
-	},
-	container: {
-		width: '80%',
-		margin: 'auto',
-	},
 }));
 
 
 class TaskExpand extends Component {
+	componentDidMount() {
+		const { fetchTask, match: { params } } = this.props;
+		fetchTask(params.taskId);
+	}
+
+
 	render() {
-		const { tasks, match: { params }, classes } = this.props;
+		const { tasks, task, match: { params }, classes } = this.props;
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
-		
+
 		return (
 			<div className={classes.root}>
-				<Edit />
+				<Edit task={task}/>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = ({ tasks, app }) => ({
+	task: tasks.task,
 	tasks: tasks.tasks,
 	loading: app.loading,
 	error: app.error,
@@ -45,7 +44,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	editTask: dispatch({ type: 'ABC' })
+	editTask: () => dispatch({ type: 'ABC' }),
+	fetchTask: taskId => dispatch(actions.fetchTask(taskId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskExpand));

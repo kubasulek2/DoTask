@@ -148,8 +148,6 @@ const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, se
 		setTaskFavorite(id);
 	};
 
-	const stopPropagation = event => event.stopPropagation();
-
 	const handleExpand = () => {
 		history.push(history.location.pathname + '/' + id);
 	};

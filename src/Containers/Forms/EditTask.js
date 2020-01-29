@@ -1,7 +1,7 @@
 import React from 'react';
 
-const EditTask = () => {
-	console.log('aaa');
+const EditTask = ({task}) => {
+	console.log(task);
 	return (
 		<div>
 			aaaaaaaaaaa

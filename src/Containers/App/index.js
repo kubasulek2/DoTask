@@ -7,7 +7,6 @@ import isLoggedIn from '../../Utils/is_logged_in';
 import WithStyles from '../../HOC/WithStyles';
 import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
-import Loader from '../../Components/UI/Loader/';
 import Error from '../../Components/UI/ErrorModal';
 import ConfirmDialog from '../../Components/UI/ConfirmDialog';
 import * as actions from '../../Store/Actions';

@@ -3,6 +3,7 @@ export {
 	removeTask,
 	changeListsOrder, 
 	fetchTasks, 
+	fetchTask, 
 	sortTasks, 
 	deleteTask, 
 	setTaskFavorite, 
