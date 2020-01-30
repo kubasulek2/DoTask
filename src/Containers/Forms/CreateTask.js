@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import moment from 'moment';
 
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,7 +7,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import StarIcon from '@material-ui/icons/StarOutlined';
 import StarBorderIcon from '@material-ui/icons/StarBorderOutlined';
 import DateIcon from '@material-ui/icons/Event';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
+import DatePicker from '../../Components/UI/DatePicker';
+import NotificationDialog from '../../Components/UI/NotificationDialog';
 
 const styles = ({ palette, breakpoints, spacing }) => ({
 	root: {
@@ -68,66 +71,121 @@ const styles = ({ palette, breakpoints, spacing }) => ({
 
 	},
 	iconButton: {
-		padding: 5,
-		height: 36,
+		padding: spacing(.6),
+		marginLeft: 2,
+		'& svg': {
+			fontSize: 22
+		},
 		[breakpoints.up('sm')]: {
-			padding: 6,
-			height: 42,
+			'& svg': {
+				fontSize: 24
+			}
 		}
 	},
 	favorite: {
-
-	}
+		color: palette.secondary.dark
+	},
+	active: { color: palette.primary.dark }
 });
 
 class CreateTask extends Component {
 	state = {
 		value: '',
 		deadline: '',
-		notification: '',
+		notification: null,
 		focused: false,
-		favorite: false
+		favorite: false,
+		pickerOpen: false,
+		dialogOpen: false
+	}
+
+	wrapperRef = React.createRef();
+	inputRef = React.createRef();
+
+	componentDidMount() {
+		document.addEventListener('mousedown', this.handleClickOutside);
+	}
+
+	componentDidUpdate(prevState) {
+		if (prevState.deadline !== this.state.deadline) this.inputRef.current.focus();
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('mousedown', this.handleClickOutside);
+	}
+
+	handleClickOutside = event => {
+		if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
+			this.setState({ focused: false });
+		}
 	}
 
 	handleSubmit = event => {
 		event.preventDefault();
+		if (!this.state.value) return;
+		let createdAt = moment(Date.now()).toISOString();
+		let deadline = this.state.deadline || moment(Date.now()).toISOString();
 	}
 
-	handleChange = event => this.setState({ value: event.target.value })
+	handleTitle = event => this.setState({ value: event.target.value })
 	handleFavorite = () => this.setState(prev => ({ favorite: !prev.favorite }))
+	handleDate = date => this.setState({ deadline: moment(date).toISOString() });
+	openPicker = () => this.setState({ pickerOpen: true });
+	closePicker = () => {
+		this.setState(() => ({ focused: true, pickerOpen: false }));
+	};
+	openDialog = () => this.setState({ dialogOpen: true });
+	closeDialog = () => {
+		this.setState(() => ({ focused: true, dialogOpen: false, notification: null }));
+	};
+	handleNotification = ({ number, unit }) => this.setState({ focused: true, dialogOpen: false, notification: { number, unit } })
+
 
 	render() {
 		const { classes } = this.props;
-		const { value, focused, favorite } = this.state;
+		const { value, focused, favorite, deadline, notification, pickerOpen, dialogOpen } = this.state;
 
 		return (
-			<ClickAwayListener onClickAway={() => this.setState({ focused: false })}>
-				<div className={classes.root}>
-					<form onSubmit={this.handleSubmit} className={classes.form}>
-						<div className={classes.main}>
-							<input
-								type='text'
-								placeholder='Add a task'
-								className={classes.input}
-								value={value}
-								onChange={this.handleChange}
-								onClick={() => this.setState({ focused: true })}
-							/>
-						</div>
-						<div className={[classes.actions, focused ? 'focused' : null].join(' ')}>
-							<IconButton className={classes.iconButton}>
-								<DateIcon />
-							</IconButton>
-							<IconButton className={classes.iconButton}>
-								<NotificationsIcon />
-							</IconButton>
-							<IconButton onClick={this.handleFavorite} className={classes.iconButton}>
-								{favorite ? <StarIcon className={classes.favorite}/> : <StarBorderIcon className={classes.favorite}/>}
-							</IconButton>
-						</div>
-					</form>
-				</div>
-			</ClickAwayListener>
+			<div
+				className={classes.root}
+				ref={this.wrapperRef}
+			>
+				<form
+					onSubmit={this.handleSubmit}
+					className={classes.form}
+				>
+					<div className={classes.main}>
+						<input
+							ref={this.inputRef}
+							type='text'
+							placeholder='Add a task'
+							className={classes.input}
+							value={value}
+							onChange={this.handleTitle}
+							onClick={() => this.setState({ focused: true })}
+						/>
+					</div>
+					<div className={[classes.actions, focused ? 'focused' : null].join(' ')}>
+						<IconButton className={classes.iconButton} onClick={this.openPicker}>
+							<DateIcon color='disabled' className={deadline ? classes.active : null} />
+						</IconButton>
+						<IconButton className={classes.iconButton} onClick={this.openDialog}>
+							<NotificationsIcon color='disabled' className={notification ? classes.active : null} />
+						</IconButton>
+						<IconButton onClick={this.handleFavorite} className={classes.iconButton}>
+							{favorite ? <StarIcon className={classes.favorite} /> : <StarBorderIcon className={classes.favorite} />}
+						</IconButton>
+						<DatePicker
+							date={deadline}
+							handleDate={this.handleDate}
+							isOpen={pickerOpen}
+							handleClose={this.closePicker}
+							pickerRef={this.pickerRef}
+						/>
+						<NotificationDialog open={dialogOpen} handleClose={this.closeDialog} value={notification} handleNotification={this.handleNotification} />
+					</div>
+				</form>
+			</div>
 		);
 	}
 }

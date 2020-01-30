@@ -28,9 +28,6 @@ class TaskExpand extends Component {
 	render() {
 		const { tasks, task, match: { params }, classes } = this.props;
 
-		//if (params.taskId === 'newList' || params.taskId === 'editList') return null;
-		console.log(!(params.taskId === 'newList' || params.taskId === 'editList'));
-		
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 
 		return (

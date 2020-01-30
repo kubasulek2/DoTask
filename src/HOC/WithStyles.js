@@ -34,6 +34,16 @@ const useStyles = makeStyles(({ palette }) => ({
 		'.MuiBackdrop-root': {
 			backgroundColor: 'rgba(100,100,100,.5)!important',
 		},
+		//date picker overrides
+		'#root .MuiFormControl-root.MuiTextField-root': {
+			width: 0,
+			height: 0,
+			overflow: 'hidden',
+		},
+		'.MuiPickersToolbarText-toolbarTxt.MuiPickersToolbarText-toolbarBtnSelected': {
+			color: '#e8e8e8',
+		},
+		'.MuiTypography-root.MuiPickersToolbarText-toolbarTxt': { color: '#e8e8e8',}
 
 	}
 }));

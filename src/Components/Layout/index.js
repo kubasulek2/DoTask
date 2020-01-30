@@ -30,7 +30,7 @@ export const Layout = ({ loading }) => {
 		setSidebarOpen(prev => !prev);
 	};
 
-	const loader = <Loader color='#4fa84a' />
+	const loader = <Loader color='#4fa84a' />;
 	const main = (
 		<Fragment>
 			<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
