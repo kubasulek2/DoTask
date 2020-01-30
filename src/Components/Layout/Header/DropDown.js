@@ -38,6 +38,11 @@ const DropDown = ({ disabled, sortTasks, activeList }) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+	
+	const handleSort = (list, sort) => {
+		sortTasks(list, sort);
+		handleClose();
+	};
 
 	return (
 		<Fragment>
@@ -72,10 +77,10 @@ const DropDown = ({ disabled, sortTasks, activeList }) => {
 					list: classes.list,
 				}}
 			>
-				<MenuItem onClick={() => sortTasks(activeList, 'byName')} className={classes.listItem}>By name</MenuItem>
-				<MenuItem onClick={() => sortTasks(activeList, 'byDate')} className={classes.listItem}>By date</MenuItem>
-				<MenuItem onClick={() => sortTasks(activeList, 'byDeadline')} className={classes.listItem}>By deadline</MenuItem>
-				<MenuItem onClick={() => sortTasks(activeList, 'byPriority')} className={classes.listItem}>By priority</MenuItem>
+				<MenuItem onClick={() => handleSort	(activeList, 'byName')} className={classes.listItem}>By name</MenuItem>
+				<MenuItem onClick={() => handleSort	(activeList, 'byDate')} className={classes.listItem}>By date</MenuItem>
+				<MenuItem onClick={() => handleSort	(activeList, 'byDeadline')} className={classes.listItem}>By deadline</MenuItem>
+				<MenuItem onClick={() => handleSort	(activeList, 'byPriority')} className={classes.listItem}>By priority</MenuItem>
 			</Menu>
 		</Fragment>
 	);
