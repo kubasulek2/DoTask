@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Task from '../../Task/Task';
+import CreateTask from '../../../../Containers/Forms/CreateTask';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {
@@ -34,14 +35,17 @@ const Tasks = ({ lists, tasks, match: { params }, history }) => {
 	return (
 		<Droppable droppableId={'inner'}>
 			{({ droppableProps, innerRef, placeholder }) => (
-				<List
-					ref={innerRef}
-					className={classes.root}
-					{...droppableProps}
-				>
-					{taskList}
-					{placeholder}
-				</List>
+				<Fragment>
+					<CreateTask />
+					<List
+						ref={innerRef}
+						className={classes.root}
+						{...droppableProps}
+					>
+						{taskList}
+						{placeholder}
+					</List>
+				</Fragment>
 			)}
 		</Droppable>
 	);

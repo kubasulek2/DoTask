@@ -18,6 +18,8 @@ const styles = {
 class TaskExpand extends Component {
 	componentDidMount() {
 		const { fetchTask, match: { params }, task } = this.props;
+		// Does not trigger on List edition. 
+		if (params.taskId === 'newList' || params.taskId === 'editList') return;
 		// Important, prevents request loop.
 		if(!task){	
 			fetchTask(params.taskId);
@@ -27,6 +29,9 @@ class TaskExpand extends Component {
 
 	render() {
 		const { tasks, task, match: { params }, classes } = this.props;
+
+		if (params.taskId === 'newList' || params.taskId === 'editList') return null;
+
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 
 		return (

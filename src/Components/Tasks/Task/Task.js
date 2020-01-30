@@ -26,7 +26,6 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	},
 	paper: {
 		display: 'flex',
-		flexWrap: 'wrap',
 		width: '100%',
 		transition: 'width .2s ease',
 		'&.moved': {
