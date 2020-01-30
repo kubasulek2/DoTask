@@ -12,8 +12,10 @@ const TaskList = (props) => {
 
 	return (
 		<Switch>
-			<Route path={'/tasks/' + params.category + '/:taskId'} component={TaskExpand}/>
 			<Route path={'/tasks/' + params.category} exact render={()=> <List {...props}/>}/>
+			<Route path={'/tasks/' + params.category + '/editList'} exact render={()=> <List {...props}/>}/>
+			<Route path={'/tasks/' + params.category + '/newList'} exact render={()=> <List {...props}/>}/>
+			<Route path={'/tasks/' + params.category + '/:taskId'} component={TaskExpand}/>
 		</Switch>
 	);
 };
