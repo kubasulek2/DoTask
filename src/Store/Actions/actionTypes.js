@@ -1,11 +1,14 @@
 export const ADD_TASK_TO_LIST = 'ADD_TASK_TO_LIST';
 export const REMOVE_TASK_FROM_LIST = 'REMOVE_TASK_FROM_LIST';
 export const CHANGE_LISTS_ORDER = 'CHANGE_LISTS_ORDER';
+
 export const SET_TASKS = 'SET_TASKS';
 export const SET_TASK = 'SET_TASK';
+export const CREATE_TASK = 'CREATE_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
 export const SORT_TASKS = 'SORT_TASKS';
 export const SET_TASK_FAVORITE = 'SET_TASK_FAVORITE';
-export const DELETE_TASK = 'DELETE_TASK';
+
 export const EDIT_LIST = 'EDIT_LIST';
 export const CREATE_LIST = 'CREATE_LIST';
 export const DELETE_LIST = 'DELETE_LIST';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +11,7 @@ import DateIcon from '@material-ui/icons/Event';
 
 import DatePicker from '../../Components/UI/DatePicker';
 import NotificationDialog from '../../Components/UI/NotificationDialog';
+import * as actions from '../../Store/Actions';
 
 const styles = ({ palette, breakpoints, spacing }) => ({
 	root: {
@@ -85,64 +87,94 @@ const styles = ({ palette, breakpoints, spacing }) => ({
 	favorite: {
 		color: palette.secondary.dark
 	},
-	active: { color: palette.primary.dark }
+	active: { color: palette.primary.dark },
+	hidden: {
+		visibility: 'hidden',
+		position: 'absolute',
+		left: 9999,
+	}
 });
 
-class CreateTask extends Component {
-	state = {
-		value: '',
-		deadline: '',
-		notification: null,
-		focused: false,
-		favorite: false,
-		pickerOpen: false,
-		dialogOpen: false
-	}
+const initialState = {
+	value: '',
+	deadline: '',
+	notification: null,
+	focused: false,
+	favorite: false,
+	pickerOpen: false,
+	dialogOpen: false
+};
 
+class CreateTask extends Component {
+	state = initialState;
 	wrapperRef = React.createRef();
 	inputRef = React.createRef();
 
 	componentDidMount() {
 		document.addEventListener('mousedown', this.handleClickOutside);
+		document.addEventListener('keydown', this.submitOnEnter);
 	}
 
 	componentDidUpdate(prevState) {
-		if (prevState.deadline !== this.state.deadline) this.inputRef.current.focus();
+		if ((prevState.deadline !== this.state.deadline) ||
+			(prevState.state.notification !== this.state.notification)) {
+			this.inputRef.current.focus();
+		}
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener('mousedown', this.handleClickOutside);
+		document.removeEventListener('keydown', this.submitOnEnter);
 	}
 
+	submitOnEnter = event => {
+		if (document.activeElement.id === this.inputRef.current.id && event.code === 'Enter') {
+			this.handleSubmit();
+		}
+	};
 	handleClickOutside = event => {
 		if (this.wrapperRef.current && !this.wrapperRef.current.contains(event.target)) {
 			this.setState({ focused: false });
 		}
 	}
 
-	handleSubmit = event => {
-		event.preventDefault();
-		if (!this.state.value) return;
-		let createdAt = moment(Date.now()).toISOString();
-		let deadline = this.state.deadline || moment(Date.now()).toISOString();
-	}
-
 	handleTitle = event => this.setState({ value: event.target.value })
+
 	handleFavorite = () => this.setState(prev => ({ favorite: !prev.favorite }))
+
 	handleDate = date => this.setState({ deadline: moment(date).toISOString() });
+
 	openPicker = () => this.setState({ pickerOpen: true });
+
 	closePicker = () => {
 		this.setState(() => ({ focused: true, pickerOpen: false }));
 	};
+
 	openDialog = () => this.setState({ dialogOpen: true });
+
 	closeDialog = () => {
 		this.setState(() => ({ focused: true, dialogOpen: false, notification: null }));
 	};
 	handleNotification = ({ number, unit }) => this.setState({ focused: true, dialogOpen: false, notification: { number, unit } })
 
+	handleSubmit = () => {
+
+		if (!this.state.value) return;
+
+		const { createTask, listId } = this.props;
+		const createdAt = moment(Date.now()).toISOString();
+		const deadline = this.state.deadline || moment(Date.now()).toISOString();
+		const task = {
+			content: this.state.value,
+			deadline,
+			createdAt,
+			favorite: this.state.favorite
+		};
+		this.setState(() => initialState, () => createTask(task, listId));
+	}
 
 	render() {
-		const { classes } = this.props;
+		const { classes, listId } = this.props;
 		const { value, focused, favorite, deadline, notification, pickerOpen, dialogOpen } = this.state;
 
 		return (
@@ -156,7 +188,9 @@ class CreateTask extends Component {
 				>
 					<div className={classes.main}>
 						<input
+							id='task-input'
 							ref={this.inputRef}
+							autoComplete='off'
 							type='text'
 							placeholder='Add a task'
 							className={classes.input}
@@ -190,4 +224,8 @@ class CreateTask extends Component {
 	}
 }
 
-export default withStyles(styles)(CreateTask);
+const mapDispatchToProps = dispatch => ({
+	createTask: (task, listId) => dispatch(actions.createTask(task, listId))
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(CreateTask));

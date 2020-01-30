@@ -11,9 +11,9 @@ const initialState = {
 	task: null
 };
 
+let cList = 3, cTask = 4, dummyListId, dummyTaskId;
 const reducer = (state = initialState, action) => {
 	// temporary hack: pseudo id	
-	let c = 3;
 
 	switch (action.type) {
 
@@ -39,10 +39,10 @@ const reducer = (state = initialState, action) => {
 			});
 
 		case actionTypes.CREATE_LIST:
-			let id = 'list-' + ++c;
+			dummyListId = 'list-' + ++cList;
 			return produce(state, draft => {
-				draft.lists[id] = { id, title: action.title, taskIds: [] };
-				draft.listsOrder.push(id);
+				draft.lists[dummyListId] = { dummyListId, title: action.title, taskIds: [] };
+				draft.listsOrder.push(dummyListId);
 			});
 		case actionTypes.DELETE_LIST:
 			return produce(state, draft => {
@@ -73,6 +73,13 @@ const reducer = (state = initialState, action) => {
 			return produce(state, draft => {
 				draft.lists[action.listId].taskIds = newTaskArr;
 			});
+		
+		case actionTypes.CREATE_TASK:
+			dummyTaskId = 'task-' + ++cTask;
+			return produce(state, draft => {
+				draft.tasks[dummyTaskId] = action.task;
+				draft.lists[action.listId].taskIds.push(dummyTaskId);
+			});	
 
 		case actionTypes.DELETE_TASK:
 			const list = Object.values(state.lists).find(l => l.taskIds.includes(action.taskId));

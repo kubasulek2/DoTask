@@ -36,7 +36,7 @@ const Tasks = ({ lists, tasks, match: { params }, history }) => {
 		<Droppable droppableId={'inner'}>
 			{({ droppableProps, innerRef, placeholder }) => (
 				<Fragment>
-					<CreateTask />
+					<CreateTask listId={params.category}/>
 					<List
 						ref={innerRef}
 						className={classes.root}
