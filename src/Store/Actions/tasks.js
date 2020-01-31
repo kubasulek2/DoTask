@@ -9,6 +9,7 @@ const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortTy
 const setTasks = data => ({ type: actionTypes.SET_TASKS, data });
 const setTask = data => ({ type: actionTypes.SET_TASK, data });
 const createLocalTask = (task, listId) => ({ type: actionTypes.CREATE_TASK, task, listId });
+const createDefaultTask = (task, listTitle) => ({ type: actionTypes.CREATE_DEFAULT_TASK, task, listTitle });
 
 
 export const addTask = (listId, taskId, idx) => ({ type: actionTypes.ADD_TASK_TO_LIST, listId, taskId, idx });
@@ -22,6 +23,7 @@ export const setTaskFavorite = taskId => ({ type: actionTypes.SET_TASK_FAVORITE,
 export const editList = (title, listId) => ({ type: actionTypes.EDIT_LIST, title, listId });
 
 export const createList = title => dispatch => {
+	if (title === 'default') dispatch(requestFailed('Restricted name', { name: 'createList', args: [title] }));
 	dispatch(initRequest());
 	return get('http://localhost:5000/tasks')
 		.then(() => {
@@ -29,7 +31,7 @@ export const createList = title => dispatch => {
 			dispatch(requestSuccess());
 		})
 		.catch(err => {
-			dispatch(requestFailed(err.message, { name: 'fetchTasks', args: [] }));
+			dispatch(requestFailed(err.message, { name: 'createList', args: [title] }));
 		});
 };
 
@@ -48,13 +50,24 @@ export const deleteList = listId => (dispatch, getState) => {
 
 export const createTask = (task, listId) => dispatch => {
 	dispatch(initRequest());
+	if (listId === 'default') {
+		return get('http://localhost:5000/tasks')
+			.then(() => {
+				dispatch(createDefaultTask(task, listId));
+				dispatch(requestSuccess());
+			})
+			.catch(err => {
+				dispatch(requestFailed(err.message, { name: 'createTask', args: [task, listId] }));
+			});	
+	}
+
 	return get('http://localhost:5000/tasks')
 		.then(() => {
-			dispatch(createLocalTask(task,listId));
+			dispatch(createLocalTask(task, listId));
 			dispatch(requestSuccess());
 		})
 		.catch(err => {
-			dispatch(requestFailed(err.message, { name: 'createTask', args: [task,listId] }));
+			dispatch(requestFailed(err.message, { name: 'createTask', args: [task, listId] }));
 		});
 };
 

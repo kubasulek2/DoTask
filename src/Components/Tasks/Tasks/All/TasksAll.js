@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
 import NoDragTask from '../../Task/NoDragTask';
 import CategoryBadge from '../../../UI/CategoryBadge';
+import CreateTask from '../../../../Containers/Forms/CreateTask';
 
 const useStyles = makeStyles(({ spacing }) => ({
 	root: {
@@ -31,7 +32,12 @@ const Tasks = ({ tasks, lists, history }) => {
 		</List>
 	));
 
-	return taskList;
+	return (
+		<Fragment>
+			<CreateTask listId='default'/>
+			{taskList}
+		</Fragment>
+	);
 };
 
 export default Tasks;

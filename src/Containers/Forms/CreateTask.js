@@ -176,6 +176,8 @@ class CreateTask extends Component {
 	render() {
 		const { classes, listId } = this.props;
 		const { value, focused, favorite, deadline, notification, pickerOpen, dialogOpen } = this.state;
+		
+		const placeholder = listId === 'default' ? 'Add a task to default list' : 'Add a task';
 
 		return (
 			<div
@@ -192,7 +194,7 @@ class CreateTask extends Component {
 							ref={this.inputRef}
 							autoComplete='off'
 							type='text'
-							placeholder='Add a task'
+							placeholder={placeholder}
 							className={classes.input}
 							value={value}
 							onChange={this.handleTitle}

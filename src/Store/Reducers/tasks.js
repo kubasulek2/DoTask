@@ -41,45 +41,64 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.CREATE_LIST:
 			dummyListId = 'list-' + ++cList;
 			return produce(state, draft => {
-				draft.lists[dummyListId] = { dummyListId, title: action.title, taskIds: [] };
+				draft.lists[dummyListId] = { id: dummyListId, title: action.title, taskIds: [] };
 				draft.listsOrder.push(dummyListId);
 			});
 		case actionTypes.DELETE_LIST:
 			return produce(state, draft => {
 				for (const task in draft.tasks) {
-					if (draft.lists[action.listId].taskIds.includes(task.id)){ 
+					if (draft.lists[action.listId].taskIds.includes(task.id)) {
 						delete draft.tasks[task.id];
 					}
 				}
 				delete draft.lists[action.listId];
-				draft.listsOrder.splice(draft.listsOrder.indexOf(action.listId),1);
-			});	
+				draft.listsOrder.splice(draft.listsOrder.indexOf(action.listId), 1);
+			});
 
 		case actionTypes.SET_TASKS:
 			return {
 				...action.data,
 				task: state.task
 			};
-		
+
 		case actionTypes.SET_TASK:
 			return {
 				...state,
 				task: action.data
 			};
-			
+
 		case actionTypes.SORT_TASKS:
 			const taskArr = [...state.lists[action.listId].taskIds];
 			const newTaskArr = sort[action.sortType](taskArr, state.tasks);
 			return produce(state, draft => {
 				draft.lists[action.listId].taskIds = newTaskArr;
 			});
-		
+
 		case actionTypes.CREATE_TASK:
 			dummyTaskId = 'task-' + ++cTask;
 			return produce(state, draft => {
 				draft.tasks[dummyTaskId] = action.task;
 				draft.lists[action.listId].taskIds.push(dummyTaskId);
-			});	
+			});
+
+		case actionTypes.CREATE_DEFAULT_TASK:
+			dummyTaskId = 'task-' + ++cTask;
+			if (!Object.values(state.lists).some(l => l.title === 'default')) {
+				dummyListId = 'list-' + ++cList;
+				return produce(state, draft => {
+					draft.lists = {
+						[dummyListId]: { id: dummyListId, title: action.listTitle, taskIds: [] },
+						...draft.lists
+					};
+					draft.listsOrder.unshift(dummyListId);
+					draft.tasks[dummyTaskId] = action.task;
+					draft.lists[dummyListId].taskIds.push(dummyTaskId);
+				});
+			}
+			return produce(state, draft => {
+				draft.tasks[dummyTaskId] = action.task;
+				draft.lists[Object.values(draft.lists).find(l => l.title === 'default').id].taskIds.push(dummyTaskId);
+			});
 
 		case actionTypes.DELETE_TASK:
 			const list = Object.values(state.lists).find(l => l.taskIds.includes(action.taskId));
