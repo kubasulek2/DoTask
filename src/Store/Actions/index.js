@@ -18,5 +18,6 @@ export {
 	requestSuccess, 
 	allowSort, 
 	initBgRequest,
-	askToConfirm 
+	askToConfirm,
+	setEditMode 
 } from './app';

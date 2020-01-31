@@ -147,7 +147,7 @@ class CreateTask extends Component {
 	openPicker = () => this.setState({ pickerOpen: true });
 
 	closePicker = () => {
-		this.setState(() => ({ focused: true, pickerOpen: false }));
+		this.setState({ focused: true, pickerOpen: false });
 	};
 
 	openDialog = () => this.setState({ dialogOpen: true });
