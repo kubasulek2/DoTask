@@ -13,14 +13,17 @@ import StarBorderIcon from '@material-ui/icons/StarBorderOutlined';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import DateIcon from '@material-ui/icons/Event';
 import ClearIcon from '@material-ui/icons/Clear';
+import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import List from '@material-ui/core/List';
 import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 
 import DatePicker from '../../Components/UI/DatePicker';
 import NotificationDialog from '../../Components/UI/NotificationDialog';
 import FourOhFour from '../../Components/FourOhFour';
+import Subtask from '../../Components/Tasks/Task/Subtask';
 import { formatDate, formatNotification } from '../../Utils/date';
 import * as actions from '../../Store/Actions';
 
@@ -83,7 +86,7 @@ const styles = ({ palette, spacing }) => ({
 		},
 	},
 	content: {
-		paddingTop: spacing(3),
+		paddingTop: spacing(4),
 		paddingLeft: spacing(1)
 	},
 	clear: {
@@ -98,14 +101,25 @@ const styles = ({ palette, spacing }) => ({
 	deadline: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: spacing(2),
+		marginBottom: spacing(1),
 	},
 	notification: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: spacing(2),
+		marginBottom: spacing(1),
 	},
-
+	subtask: {
+		display: 'flex',
+		alignItems: 'center',
+		marginBottom: spacing(1),
+		flexWrap: 'wrap',
+	},
+	subtaskInput: {
+		width: '100%'
+	},
+	subtaskList: {
+		width: '100%'
+	},
 	actions: {
 		justifyContent: 'flex-end',
 	}
@@ -113,7 +127,9 @@ const styles = ({ palette, spacing }) => ({
 
 
 class TaskExpand extends Component {
-	state = null
+	state = null;
+	subtaskRef = React.createRef();
+
 	componentDidMount() {
 		const { tasks, match: { params } } = this.props;
 		const task = tasks[params.taskId];
@@ -124,12 +140,24 @@ class TaskExpand extends Component {
 			subtasks: [...task.subtasks],
 			checked: false,
 			pickerOpen: false,
-			dialogOpen: false
+			dialogOpen: false,
+			subtask: ''
 		});
+		document.addEventListener('keydown', this.handleEnter);
 
 	}
 	componentWillUnmount() {
 		this.props.setEditMode(false);
+		document.removeEventListener('keydown', this.handleEnter);
+	}
+
+	handleEnter = event => {
+		const { editMode } = this.props;
+		if (document.activeElement.id === this.subtaskRef.current.id && event.code === 'Enter') {
+			this.handleSubtaskAdd();
+		} else if (editMode && event.code === 'Enter'){
+			this.handleSubmit();
+		}
 	}
 
 	handleFavorite = () => {
@@ -169,13 +197,34 @@ class TaskExpand extends Component {
 	closePopUp = () => this.setState({ pickerOpen: false, dialogOpen: false })
 
 	handleClear = type => {
-		const stringTypes = ['deadline','note'];
-		const cleared = stringTypes.includes(type) ? '' : null; 
+		const stringTypes = ['deadline', 'note'];
+		const cleared = stringTypes.includes(type) ? '' : null;
 		const { editMode, setEditMode } = this.props;
-		
+
 		if (!editMode) setEditMode(true);
 
-		this.setState({[type]: cleared});
+		this.setState({ [type]: cleared });
+	}
+
+	handleSubtaskDelete = idx => {
+		const { editMode, setEditMode } = this.props;
+		const subtasks = [...this.state.subtasks];
+
+		if (!editMode) setEditMode(true);
+
+		subtasks.splice(idx, 1);
+		this.setState({ subtasks: subtasks });
+	}
+
+	handleSubtaskAdd = () => {
+		if (!this.state.subtask) return;
+		const subtasks = [...this.state.subtasks];
+		subtasks.push(this.state.subtask);
+		this.setState({ subtasks: subtasks, subtask: '' });
+	}
+
+	handleSubmit = () => {
+		
 	}
 
 
@@ -184,7 +233,16 @@ class TaskExpand extends Component {
 
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 		if (!this.state) return null;
-		const { favorite, content, deadline, createdAt, note, subtasks, notification, files, checked, pickerOpen, dialogOpen } = this.state;
+
+		const { favorite, content, deadline,  note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
+
+		const subtaskList = subtasks.map((t, i) => (
+			<Subtask
+				key={t + i}
+				text={t}
+				handleDelete={() => this.handleSubtaskDelete(i)}
+			/>
+		));
 
 		return (
 			<div className={classes.root}>
@@ -214,6 +272,7 @@ class TaskExpand extends Component {
 						</div>
 						<Divider />
 						<CardContent className={classes.content}>
+
 							<div className={classes.deadline}>
 								<Tooltip enterDelay={800} title='Change date' arrow>
 									<IconButton
@@ -235,6 +294,7 @@ class TaskExpand extends Component {
 									</div>
 									: null}
 							</div>
+
 							<div className={classes.notification}>
 								<Tooltip enterDelay={800} title='Change notification' arrow>
 									<IconButton
@@ -256,19 +316,44 @@ class TaskExpand extends Component {
 									</div>
 									: null}
 							</div>
+
+							<div className={classes.subtask}>
+								<div className={classes.subtaskInput}>
+									<Tooltip enterDelay={800} title='Add subtask' arrow>
+										<IconButton
+											disabled={subtask ? false : true}
+											color='secondary'
+											onClick={this.handleSubtaskAdd}
+										>
+											<DateIcon />
+										</IconButton>
+									</Tooltip>
+									<input
+										ref={this.subtaskRef}
+										type='text'
+										placeholder='Add subtask'
+										value={subtask}
+										onChange={(event) => this.handleChange(event, 'subtask')}
+									/>
+								</div>
+								<List dense className={classes.subtaskList}>
+									{subtaskList}
+								</List>
+							</div>
 						</CardContent>
 						<CardActions className={classes.actions}>
 							<Button color='secondary' size='large'>{editMode ? 'cancel' : 'ok'}</Button>
 							{editMode ? <Button color='primary' size='large'>Accept</Button> : null}
 						</CardActions>
 					</form>
-					{/* <NotificationDialog /> */}
+
 					<DatePicker
 						date={deadline}
 						handleDate={this.handleDate}
 						isOpen={pickerOpen}
 						handleClose={this.closePopUp}
 					/>
+
 					<NotificationDialog open={dialogOpen} handleClose={this.closePopUp} value={notification} handleNotification={this.handleNotification} />
 				</Card>
 			</div>
