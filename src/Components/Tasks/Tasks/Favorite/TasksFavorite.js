@@ -11,7 +11,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks }) => {
+const Tasks = ({ tasks, history }) => {
 	const classes = useStyles();
 
 	const taskList = Object.values(tasks).filter(task => task.favorite).map(task => (
@@ -22,6 +22,7 @@ const Tasks = ({ tasks }) => {
 			favorite={task.favorite}
 			deadline={task.deadline}
 			attachments={task.attachments}
+			history={history}
 		/>
 	));
 

@@ -11,7 +11,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ tasks, lists }) => {
+const Tasks = ({ tasks, lists, history }) => {
 	const classes = useStyles();
 
 	const taskList = Object.values(lists).filter(list => list.taskIds.length).map(list => (
@@ -25,6 +25,7 @@ const Tasks = ({ tasks, lists }) => {
 					favorite={tasks[id].favorite}
 					deadline={tasks[id].deadline}
 					attachments={tasks[id].attachments}
+					history={history}
 				/>
 			))}
 		</List>

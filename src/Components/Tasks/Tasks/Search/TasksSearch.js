@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	}
 }));
 
-const Tasks = ({ location: { search }, tasks }) => {
+const Tasks = ({ location: { search }, tasks, history }) => {
 
 	const classes = useStyles();
 	const query = queryString.parse(search).query.toLowerCase();
@@ -27,6 +27,7 @@ const Tasks = ({ location: { search }, tasks }) => {
 			favorite={task.favorite}
 			deadline={task.deadline}
 			attachments={task.attachments}
+			history={history}
 		/>) : null);
 
 	return (

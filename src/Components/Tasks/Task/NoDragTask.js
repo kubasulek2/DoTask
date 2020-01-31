@@ -102,19 +102,27 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	}
 }));
 
-const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFavorite }) => {
+const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFavorite, history }) => {
 	const classes = useStyles();
 	const date = formatDate(deadline);
 	const datePassed = hasDatePassed(deadline);
 	const [checked, setChecked] = useState(false);
 
-	const handleChange = () => {
+	const handleChange = event => {
+		event.stopPropagation();
 		setChecked(checked => !checked);
 		deleteTask(id);
 	};
-	const handleFavorite = () => {
+	const handleFavorite = event => {
+		event.stopPropagation();
 		setTaskFavorite(id);
 	};
+
+	const handleExpand = () => {
+		history.push(history.location.pathname + '/' + id);
+	};
+
+
 
 
 	return (
@@ -131,7 +139,7 @@ const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFa
 						value="primary"
 					/>
 				</Tooltip>
-				<div className={classes.expand}>
+				<div className={classes.expand} onClick={handleExpand}>
 					<ListItemText
 						primary={text}
 						primaryTypographyProps={{
@@ -141,7 +149,7 @@ const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFa
 						}}
 					/>
 				</div>
-				<div className={classes.actions}>
+				<div className={classes.actions} onClick={handleExpand}>
 					{attachments
 						? <Tooltip enterDelay={800} title='task has attachments' arrow>
 							<AttachFileIcon className={classes.attachment} />
