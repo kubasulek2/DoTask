@@ -18,6 +18,7 @@ const styles = (({ palette, spacing }) => ({
 			}
 		}
 	},
+	form: { display: 'flex' },
 	searchButton: {
 		color: palette.primary.light
 	},
@@ -54,15 +55,15 @@ class Search extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault();
-		
-		if(!this.state.value.length) return;
 
-		const {history} = this.props;
+		if (!this.state.value.length) return;
+
+		const { history } = this.props;
 		const uri = encodeURIComponent(this.state.value);
-		const query = '?query='+ uri;
-		
+		const query = '?query=' + uri;
+
 		history.push('/tasks/search' + query);
-		this.setState({value: ''});
+		this.setState({ value: '' });
 	}
 
 	render() {
@@ -70,7 +71,7 @@ class Search extends Component {
 		const { value } = this.state;
 		return (
 			<ListItem className={[classes.listItem, classes.hover].join(' ')}>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className={classes.form}>
 					<IconButton className={classes.searchButton} type='submit'>
 						<SearchIcon />
 					</IconButton>
