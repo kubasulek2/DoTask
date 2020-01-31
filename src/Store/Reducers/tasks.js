@@ -61,12 +61,7 @@ const reducer = (state = initialState, action) => {
 				task: state.task
 			};
 
-		case actionTypes.SET_TASK:
-			return {
-				...state,
-				task: action.data
-			};
-
+	
 		case actionTypes.SORT_TASKS:
 			const taskArr = [...state.lists[action.listId].taskIds];
 			const newTaskArr = sort[action.sortType](taskArr, state.tasks);
@@ -109,6 +104,7 @@ const reducer = (state = initialState, action) => {
 			});
 
 		case actionTypes.SET_TASK_FAVORITE:
+			console.log(state.tasks[action.taskId].favorite);
 			return produce(state, draft => {
 				draft.tasks[action.taskId].favorite = !draft.tasks[action.taskId].favorite;
 			});

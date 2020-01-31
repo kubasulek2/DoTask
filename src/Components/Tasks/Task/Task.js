@@ -8,8 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import DragIcon from '@material-ui/icons/DragIndicator';
-import StarOutlinedIcon from '@material-ui/icons/StarOutlined';
-import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
+import StarIcon from '@material-ui/icons/StarOutlined';
+import StarBorderIcon from '@material-ui/icons/StarBorderOutlined';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -206,8 +206,8 @@ const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, se
 								<Tooltip enterDelay={800} title='favorite' arrow>
 									<IconButton className={classes.favorite} onClick={handleFavorite}>
 										{favorite
-											? <StarOutlinedIcon color='secondary' />
-											: <StarBorderOutlinedIcon color='secondary' />
+											? <StarIcon color='secondary' />
+											: <StarBorderIcon color='secondary' />
 										}
 									</IconButton>
 								</Tooltip>
