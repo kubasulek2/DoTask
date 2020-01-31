@@ -162,7 +162,6 @@ const Task = ({ text, id, index, favorite, attachments, deadline, deleteTask, se
 						className={[classes.root, snapshot.isDragging ? classes.dragged : null].join(' ')}
 						ref={innerRef}
 						{...draggableProps}
-
 					>
 
 						<Paper className={[classes.paper, snapshot.isDragging ? 'moved' : null].join(' ')}>
