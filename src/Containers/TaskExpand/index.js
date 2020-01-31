@@ -14,6 +14,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import DateIcon from '@material-ui/icons/Event';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import List from '@material-ui/core/List';
@@ -32,7 +33,9 @@ const styles = ({ palette, spacing }) => ({
 	root: {
 		width: '100%',
 		paddingTop: 24,
-		'& input': {
+		'& input, & textarea': {
+			display: 'block',
+			width: '100%',
 			background: 'transparent',
 			color: palette.secondary.dark,
 			fontSize: 16,
@@ -68,7 +71,6 @@ const styles = ({ palette, spacing }) => ({
 		'input&': {
 			cursor: 'pointer',
 			borderBottom: 'none',
-			//paddingLeft: 0,
 			whiteSpace: 'nowrap',
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
@@ -86,8 +88,8 @@ const styles = ({ palette, spacing }) => ({
 		},
 	},
 	content: {
-		paddingTop: spacing(4),
-		paddingLeft: spacing(1)
+		paddingTop: spacing(7),
+		//paddingLeft: spacing(1)
 	},
 	clear: {
 		padding: spacing(1),
@@ -111,13 +113,41 @@ const styles = ({ palette, spacing }) => ({
 	subtask: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: spacing(1),
+		marginBottom: spacing(2),
 		flexWrap: 'wrap',
 	},
 	subtaskInput: {
-		width: '100%'
+		display: 'flex',
+		width: '100%',
+		marginBottom: spacing(1.5),
+		'& input': {
+			width: 'calc(100% - 48px - 36px)'
+		}
 	},
 	subtaskList: {
+		width: '100%'
+	},
+
+	note: {
+		display: 'flex',
+		alignItems: 'flex-start',
+		marginBottom: spacing(2),
+	},
+	files: {
+		display: 'flex',
+		alignItems: 'center',
+		marginBottom: spacing(2),
+		flexWrap: 'wrap',
+	},
+	filesInput: {
+		display: 'flex',
+		width: '100%',
+		marginBottom: spacing(1.5),
+		'& input': {
+			width: 'calc(100% - 48px - 36px)'
+		}
+	},
+	filesList: {
 		width: '100%'
 	},
 	actions: {
@@ -129,6 +159,7 @@ const styles = ({ palette, spacing }) => ({
 class TaskExpand extends Component {
 	state = null;
 	subtaskRef = React.createRef();
+	noteRef = React.createRef();
 
 	componentDidMount() {
 		const { tasks, match: { params } } = this.props;
@@ -147,6 +178,12 @@ class TaskExpand extends Component {
 
 	}
 	componentWillUnmount() {
+		const { editMode } = this.props;
+		let confirm;
+		if (editMode) {
+			confirm = window.confirm('You will lost all changes');
+			if (!confirm) return;
+		}
 		this.props.setEditMode(false);
 		document.removeEventListener('keydown', this.handleEnter);
 	}
@@ -155,7 +192,7 @@ class TaskExpand extends Component {
 		const { editMode } = this.props;
 		if (document.activeElement.id === this.subtaskRef.current.id && event.code === 'Enter') {
 			this.handleSubtaskAdd();
-		} else if (editMode && event.code === 'Enter'){
+		} else if (editMode && event.code === 'Enter') {
 			this.handleSubmit();
 		}
 	}
@@ -165,6 +202,12 @@ class TaskExpand extends Component {
 		const { id } = this.state;
 		setTaskFavorite(id);
 	};
+
+	moveCaretAtEnd = event => {
+		const temp_value = event.target.value;
+		event.target.value = '';
+		event.target.value = temp_value;
+	}
 
 	handleChange = (event, type) => {
 		const { editMode, setEditMode } = this.props;
@@ -223,8 +266,15 @@ class TaskExpand extends Component {
 		this.setState({ subtasks: subtasks, subtask: '' });
 	}
 
+	handleNoteFocus = () => this.noteRef.current.focus();
+
 	handleSubmit = () => {
-		
+
+	}
+	handleNavigateBack = () => {
+		const { id } = this.state;
+		const { history } = this.props;
+		history.push(history.location.pathname.replace(`/${ id }`, ''));
 	}
 
 
@@ -234,7 +284,7 @@ class TaskExpand extends Component {
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 		if (!this.state) return null;
 
-		const { favorite, content, deadline,  note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
+		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
 
 		const subtaskList = subtasks.map((t, i) => (
 			<Subtask
@@ -259,11 +309,12 @@ class TaskExpand extends Component {
 								/>
 							</Tooltip>
 							<input
-								placeholder='date'
+								placeholder='add a title'
 								type='text'
 								className={classes.title}
 								value={content}
 								onChange={(event) => this.handleChange(event, 'content')}
+								onFocus={this.moveCaretAtEnd}
 							/>
 							<IconButton color='secondary' onClick={this.handleFavorite}>
 								{favorite ? <StarIcon /> : <StarBorderIcon />}
@@ -320,13 +371,15 @@ class TaskExpand extends Component {
 							<div className={classes.subtask}>
 								<div className={classes.subtaskInput}>
 									<Tooltip enterDelay={800} title='Add subtask' arrow>
-										<IconButton
-											disabled={subtask ? false : true}
-											color='secondary'
-											onClick={this.handleSubtaskAdd}
-										>
-											<DateIcon />
-										</IconButton>
+										<span>
+											<IconButton
+												disabled={subtask ? false : true}
+												color='secondary'
+												onClick={this.handleSubtaskAdd}
+											>
+												<DateIcon />
+											</IconButton>
+										</span>
 									</Tooltip>
 									<input
 										ref={this.subtaskRef}
@@ -340,10 +393,49 @@ class TaskExpand extends Component {
 									{subtaskList}
 								</List>
 							</div>
+
+							<div className={classes.note}>
+								<Tooltip enterDelay={800} title='Change note' arrow>
+									<IconButton
+										color={note ? 'secondary' : 'default'}
+										onClick={this.handleNoteFocus}
+									>
+										<AddIcon />
+									</IconButton>
+								</Tooltip>
+								<textarea
+									ref={this.noteRef}
+									onChange={(event) => this.handleChange(event, 'note')}
+									onFocus={this.moveCaretAtEnd}
+									rows={6}
+									placeholder='Add a note'
+									value={note}
+								/>
+								{note
+									? <div className={classes.clear} onClick={() => this.handleClear('note')}>
+										<ClearIcon />
+									</div>
+									: null}
+							</div>
+
 						</CardContent>
 						<CardActions className={classes.actions}>
-							<Button color='secondary' size='large'>{editMode ? 'cancel' : 'ok'}</Button>
-							{editMode ? <Button color='primary' size='large'>Accept</Button> : null}
+							<Button
+								color='secondary'
+								size='large'
+								onClick={this.handleNavigateBack}
+							>
+								{editMode ? 'cancel' : 'ok'}
+							</Button>
+							{editMode && content
+								? <Button
+									color='primary'
+									size='large'
+									onClick={this.handleSubmit}
+								>
+									Accept
+								</Button>
+								: null}
 						</CardActions>
 					</form>
 
