@@ -181,6 +181,7 @@ class TaskExpand extends Component {
 	fileRef = React.createRef();
 
 	componentDidMount() {
+		console.log('mounted');
 		const { tasks, match: { params } } = this.props;
 		const task = tasks[params.taskId];
 		if (!this.state && task) this.setState({
@@ -213,6 +214,7 @@ class TaskExpand extends Component {
 	}
 
 	handleEnter = event => {
+		console.log('s');
 		const { editMode } = this.state;
 		if (document.activeElement.id === this.subtaskRef.current.id && event.code === 'Enter') {
 			this.handleSubtaskAdd();

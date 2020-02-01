@@ -9,6 +9,8 @@ const Routes = props => {
 	return (
 		<Switch>
 			<Route path={'/tasks/all'} exact render={() => <List {...props} />} />
+			<Route path={'/tasks/all/editList'} exact render={() => <List {...props} />} />
+			<Route path={'/tasks/all/newList'} exact render={() => <List {...props} />} />
 			<Route path={'/tasks/all/:taskId'} component={TaskExpand} />
 		</Switch>
 	);
