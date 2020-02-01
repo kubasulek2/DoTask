@@ -1,7 +1,8 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect, Switch, Route } from 'react-router';
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -14,11 +15,16 @@ import Loader from '../UI/Loader';
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100vw',
+	},
+	content: {
+		width: '100%',
+		height: '100%',
 	}
 }));
 export const Layout = ({ loading }) => {
 	const classes = useStyles();
 	const [sideBarOpen, setSidebarOpen] = useState(false);
+	const matches = useMediaQuery('(max-width:550px)');
 
 	useEffect(() => {
 		const open = sessionStorage.getItem('sidebarOpen');
@@ -30,12 +36,13 @@ export const Layout = ({ loading }) => {
 		setSidebarOpen(prev => !prev);
 	};
 
-	const loader = <Loader color='#4fa84a' />;
-	const main = (
-		<Fragment>
-			
-		</Fragment>
-	);
+	const handleSidebarMobile = () => {
+		if (sideBarOpen && matches) {
+			sessionStorage.removeItem('sidebarOpen');
+			setSidebarOpen(false);
+		}
+	};
+
 
 	return (
 		<div className={classes.root}>
@@ -45,14 +52,16 @@ export const Layout = ({ loading }) => {
 				handleSidebar={handleSidebar}
 			/>
 			<Main open={sideBarOpen}>
-				{loading ? <Loader color='#4fa84a' /> : null}
-				<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
-				<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
-				<Switch>
-					<Route path='/tasks' render={(props) => <Tasks {...props} />} />
-					<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
-					<Route path='/' component={FourOhFour} />
-				</Switch>
+				<div className={classes.content} onClick={handleSidebarMobile}>
+					{loading ? <Loader color='#4fa84a' /> : null}
+					<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
+					<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
+					<Switch>
+						<Route path='/tasks' render={(props) => <Tasks {...props} />} />
+						<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
+						<Route path='/' component={FourOhFour} />
+					</Switch>
+				</div>
 			</Main>
 		</div>
 	);
