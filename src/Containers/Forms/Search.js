@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const styles = (({ palette, spacing }) => ({
 	listItem: {
-		width: 270,
+		width: 261,
 		padding: spacing(.5)
 	},
 	hover: {

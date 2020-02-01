@@ -24,14 +24,6 @@ const useStyles = makeStyles(({ mixins, palette }) => ({
 		flexDirection: 'column',
 	},
 	toolbar: mixins.toolbar,
-	bottomPanel: {
-		position: 'fixed',
-		bottom: 0,
-		width: '100%',
-		height: 64,
-		display: 'flex',
-		alignItems: 'center',
-	}
 }));
 
 const Sidebar = props => {

@@ -18,9 +18,9 @@ const useStyles = makeStyles(() => ({
 	},
 	content: {
 		width: '100%',
-		height: '100%',
+		minHeight: 'calc(100vh - 56px - 72px)'
 	}
-}));
+}));	
 export const Layout = ({ loading }) => {
 	const classes = useStyles();
 	const [sideBarOpen, setSidebarOpen] = useState(false);

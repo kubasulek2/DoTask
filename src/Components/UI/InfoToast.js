@@ -15,6 +15,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		background: palette.primary.dark,
 		color: palette.text.white,
 		fontWeight: 'bold',
+		maxWidth: 250
 
 	},
 	close: {

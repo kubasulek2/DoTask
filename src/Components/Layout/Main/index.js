@@ -22,7 +22,10 @@ const useStyles = makeStyles(({ spacing, mixins, breakpoints }) => ({
 			paddingRight: spacing(4),
 		}
 	},
-	toolbar: mixins.toolbar
+	toolbar: {
+		...mixins.toolbar,
+		maxWidth: 260
+	}
 }));
 const Main = (props) => {
 	const classes = useStyles(props);

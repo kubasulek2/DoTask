@@ -18,8 +18,12 @@ const styles = ({ palette, breakpoints, spacing }) => ({
 		background: palette.grey[200],
 		borderRadius: spacing(.5),
 		width: '100%',
-		marginTop: spacing(4),
-		marginBottom: spacing(6),
+		marginTop: spacing(2),
+		marginBottom: spacing(3),
+		[breakpoints.up('sm')]: {
+			marginTop: spacing(4),
+			marginBottom: spacing(6),
+		}
 	},
 	form: {
 		display: 'flex',
@@ -33,8 +37,8 @@ const styles = ({ palette, breakpoints, spacing }) => ({
 		minWidth: 150,
 		borderRadius: spacing(.5),
 		background: palette.grey[200],
-		fontSize: 16,
-		padding: '12px 5px',
+		fontSize: 20,
+		padding: '14px 8px',
 		border: 'none',
 		color: palette.text.secondary,
 		'&::placeholder': {
@@ -180,7 +184,7 @@ class CreateTask extends Component {
 	render() {
 		const { classes, listId } = this.props;
 		const { value, focused, favorite, deadline, notification, pickerOpen, dialogOpen } = this.state;
-		
+
 		const placeholder = listId === 'default' ? 'Add a task to default list' : 'Add a task';
 
 		return (
