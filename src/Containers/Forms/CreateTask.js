@@ -181,7 +181,7 @@ class CreateTask extends Component {
 
 		return (
 			<div
-				className={classes.root}
+				className={[classes.root]}
 				ref={this.wrapperRef}
 			>
 				<form
@@ -201,7 +201,7 @@ class CreateTask extends Component {
 							onClick={() => this.setState({ focused: true })}
 						/>
 					</div>
-					<div className={[classes.actions, focused ? 'focused' : null].join(' ')}>
+					<div className={[classes.actions, 'datePickerContainer', focused ? 'focused' : null].join(' ')}>
 						<IconButton className={classes.iconButton} onClick={this.openPicker}>
 							<DateIcon color='disabled' className={deadline ? classes.active : null} />
 						</IconButton>

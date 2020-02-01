@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Prompt } from 'react-router-dom';
 import moment from 'moment';
 
 
@@ -25,6 +26,7 @@ import DatePicker from '../../Components/UI/DatePicker';
 import NotificationDialog from '../../Components/UI/NotificationDialog';
 import FourOhFour from '../../Components/FourOhFour';
 import Subtask from '../../Components/Tasks/Task/Subtask';
+import FileLink from '../../Components/UI/FileLink';
 import { formatDate, formatNotification } from '../../Utils/date';
 import * as actions from '../../Store/Actions';
 
@@ -100,6 +102,10 @@ const styles = ({ palette, spacing }) => ({
 			padding: 3
 		}
 	},
+	clearPlaceholder: {
+		width: 45,
+		height: 45
+	},
 	deadline: {
 		display: 'flex',
 		alignItems: 'center',
@@ -113,19 +119,21 @@ const styles = ({ palette, spacing }) => ({
 	subtask: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: spacing(2),
+		marginBottom: spacing(2.5),
 		flexWrap: 'wrap',
 	},
 	subtaskInput: {
 		display: 'flex',
 		width: '100%',
-		marginBottom: spacing(1.5),
 		'& input': {
 			width: 'calc(100% - 48px - 36px)'
 		}
 	},
 	subtaskList: {
 		width: '100%'
+	},
+	disabledColor: {
+		color: palette.action.active
 	},
 
 	note: {
@@ -140,13 +148,23 @@ const styles = ({ palette, spacing }) => ({
 		flexWrap: 'wrap',
 	},
 	filesInput: {
+		position: 'relative',
 		display: 'flex',
 		width: '100%',
 		marginBottom: spacing(1.5),
 		'& input': {
-			width: 'calc(100% - 48px - 36px)'
+			width: 'calc(100% - 48px - 36px)',
+			cursor: 'pointer',
 		}
 	},
+	hiddenInput: {
+		position: 'absolute',
+		bottom: 0,
+		left: 48,
+		opacity: 0,
+		zIndex: 2
+	},
+
 	filesList: {
 		width: '100%'
 	},
@@ -160,6 +178,7 @@ class TaskExpand extends Component {
 	state = null;
 	subtaskRef = React.createRef();
 	noteRef = React.createRef();
+	fileRef = React.createRef();
 
 	componentDidMount() {
 		const { tasks, match: { params } } = this.props;
@@ -172,20 +191,33 @@ class TaskExpand extends Component {
 			checked: false,
 			pickerOpen: false,
 			dialogOpen: false,
-			subtask: ''
+			subtask: '',
+			file: '',
 		});
 		document.addEventListener('keydown', this.handleEnter);
-
+		window.addEventListener('beforeunload', this.handleUnload);
 	}
 	componentWillUnmount() {
-		const { editMode } = this.props;
-		let confirm;
-		if (editMode) {
-			confirm = window.confirm('You will lost all changes');
-			if (!confirm) return;
-		}
-		this.props.setEditMode(false);
+		const { setEditMode } = this.props;
+
+		setEditMode(false);
 		document.removeEventListener('keydown', this.handleEnter);
+		window.removeEventListener('beforeunload', this.handleUnload);
+	}
+
+	handleUnload = event => {
+		const { editMode } = this.props;
+		if(editMode){
+			event.preventDefault();
+			event.returnValue = 'You have unsaved changes, are you sure you want to leave ?';
+			return 'You have unsaved changes, are you sure you want to leave ?';
+		}
+	}
+
+	handleLeave = event => {
+		const { editMode } = this.props;
+		if (editMode)
+			return 'Do you really want to leave our brilliant application?';
 	}
 
 	handleEnter = event => {
@@ -268,13 +300,35 @@ class TaskExpand extends Component {
 
 	handleNoteFocus = () => this.noteRef.current.focus();
 
-	handleSubmit = () => {
-
-	}
 	handleNavigateBack = () => {
 		const { id } = this.state;
 		const { history } = this.props;
 		history.push(history.location.pathname.replace(`/${ id }`, ''));
+	}
+
+	handleFileDelete = idx => {
+		const { editMode, setEditMode } = this.props;
+		const files = [...this.state.files];
+
+		if (!editMode) setEditMode(true);
+
+		files.splice(idx, 1);
+		this.setState({ files: files });
+	}
+
+	handleFileAdd = event => {
+		const { editMode, setEditMode } = this.props;
+		const files = [...this.state.files];
+
+		if (!editMode) setEditMode(true);
+
+		// need to change file string values to object: name plus path, for now name only is added.
+		files.push(event.target.value.replace(/^.+\\/, ''));
+		this.setState({ files: files });
+	}
+
+	handleSubmit = () => {
+
 	}
 
 
@@ -284,7 +338,7 @@ class TaskExpand extends Component {
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 		if (!this.state) return null;
 
-		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
+		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask, file } = this.state;
 
 		const subtaskList = subtasks.map((t, i) => (
 			<Subtask
@@ -294,8 +348,22 @@ class TaskExpand extends Component {
 			/>
 		));
 
+		const filesList = files.map((f, i) => (
+			<FileLink
+				key={f + i}
+				text={f}
+				url={'http://localhost:3000'}
+				handleDelete={() => this.handleFileDelete(i)}
+			/>
+		));
+
 		return (
-			<div className={classes.root}>
+			<div className={[classes.root, 'datePickerContainer'].join(' ')}>
+
+				<Prompt
+					when={editMode}
+					message='You have unsaved changes, are you sure you want to leave?'
+				/>
 				<Card className={classes.card}>
 					<form>
 						<div className={classes.header}>
@@ -343,7 +411,7 @@ class TaskExpand extends Component {
 									? <div className={classes.clear} onClick={() => this.handleClear('deadline')}>
 										<ClearIcon />
 									</div>
-									: null}
+									: <div className={classes.clearPlaceholder} />}
 							</div>
 
 							<div className={classes.notification}>
@@ -365,7 +433,7 @@ class TaskExpand extends Component {
 									? <div className={classes.clear} onClick={() => this.handleClear('notification')}>
 										<ClearIcon />
 									</div>
-									: null}
+									: <div className={classes.clearPlaceholder} />}
 							</div>
 
 							<div className={classes.subtask}>
@@ -377,7 +445,7 @@ class TaskExpand extends Component {
 												color='secondary'
 												onClick={this.handleSubtaskAdd}
 											>
-												<DateIcon />
+												<DateIcon className={subtask ? null : classes.disabledColor} />
 											</IconButton>
 										</span>
 									</Tooltip>
@@ -415,7 +483,37 @@ class TaskExpand extends Component {
 									? <div className={classes.clear} onClick={() => this.handleClear('note')}>
 										<ClearIcon />
 									</div>
-									: null}
+									: <div className={classes.clearPlaceholder} />}
+							</div>
+
+							<div className={classes.files}>
+								<div className={classes.filesInput}>
+									<Tooltip enterDelay={800} title='Add file' arrow>
+										<span>
+											<IconButton
+												onClick={this.focusInputFile}
+												color={files ? 'secondary' : 'default'}
+											>
+												<AttachFileIcon />
+											</IconButton>
+										</span>
+									</Tooltip>
+									<input
+										className={classes.hiddenInput}
+										ref={this.fileRef}
+										type='file'
+										placeholder='Add file'
+										onChange={this.handleFileAdd}
+									/>
+									<input
+										disabled
+										type='text'
+										placeholder='Add file'
+									/>
+								</div>
+								<List dense className={classes.filesList}>
+									{filesList}
+								</List>
 							</div>
 
 						</CardContent>

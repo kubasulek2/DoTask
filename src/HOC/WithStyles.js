@@ -35,7 +35,7 @@ const useStyles = makeStyles(({ palette }) => ({
 			backgroundColor: 'rgba(100,100,100,.5)!important',
 		},
 		//date picker overrides
-		'#root .MuiFormControl-root.MuiTextField-root': {
+		'.datePickerContainer .MuiFormControl-root.MuiTextField-root': {
 			width: 0,
 			height: 0,
 			overflow: 'hidden',
