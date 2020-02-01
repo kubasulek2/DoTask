@@ -21,11 +21,7 @@ const Tasks = ({ tasks, lists, history }) => {
 			{list.taskIds.map(id => (
 				<NoDragTask
 					key={id}
-					id={id}
-					text={tasks[id].content}
-					favorite={tasks[id].favorite}
-					deadline={tasks[id].deadline}
-					attachments={tasks[id].attachments}
+					task={tasks[id]}
 					history={history}
 				/>
 			))}

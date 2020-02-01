@@ -22,11 +22,7 @@ const Tasks = ({ lists, tasks, match: { params }, history }) => {
 			<Task
 				index={i}
 				key={id}
-				id={id}
-				text={tasks[id].content}
-				favorite={tasks[id].favorite}
-				deadline={tasks[id].deadline}
-				attachments={tasks[id].attachments}
+				task={tasks[id]}
 				history={history}
 			/>
 		))

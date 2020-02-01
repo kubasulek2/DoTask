@@ -20,11 +20,7 @@ const Tasks = ({ tasks, history }) => {
 		.map(task => (
 			<NoDragTask
 				key={task.id}
-				id={task.id}
-				text={task.content}
-				favorite={task.favorite}
-				deadline={task.deadline}
-				attachments={task.attachments}
+				task={task}
 				history={history}
 			/>
 		));

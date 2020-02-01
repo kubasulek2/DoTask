@@ -46,7 +46,7 @@ const NotificationDialog = ({ open, handleClose, handleNotification, value }) =>
 	};
 	return (
 		<div>
-			<Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={handleClose}>
+			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle className={classes.title}>Set email remainder</DialogTitle>
 				<DialogContent>
 					<form className={classes.container}>

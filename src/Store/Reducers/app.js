@@ -9,7 +9,6 @@ const initialState = {
 	confirm: false,
 	activeList: null,
 	cb: null,
-	editMode: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -36,8 +35,6 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.ASK_TO_CONFIRM:
 			return produce(state, draft => { draft.confirm = true; draft.cb = action.cb; });
 
-		case actionTypes.SET_EDIT_MODE:
-			return produce(state, draft => { draft.editMode = action.bool; });	
 
 		default:
 			return state;

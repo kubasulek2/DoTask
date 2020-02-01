@@ -13,7 +13,8 @@ const useStyles = makeStyles(({ palette }) => ({
 	root: {
 		display: 'flex',
 		alignItems: 'center',
-		padding: '0 16px',
+		padding: 0,
+		paddingLeft: 46,
 		'& .MuiListItemText-primary': {
 			color: palette.text.secondary,
 		}

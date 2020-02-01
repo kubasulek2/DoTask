@@ -22,11 +22,7 @@ const Tasks = ({ location: { search }, tasks, history }) => {
 	Object.values(tasks).forEach(task => task.content.toLowerCase().includes(query) ? taskList.push(
 		<NoDragTask
 			key={task.id}
-			id={task.id}
-			text={task.content}
-			favorite={task.favorite}
-			deadline={task.deadline}
-			attachments={task.attachments}
+			task={task}
 			history={history}
 		/>) : null);
 

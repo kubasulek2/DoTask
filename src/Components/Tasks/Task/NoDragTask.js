@@ -102,11 +102,13 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
 	}
 }));
 
-const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFavorite, history }) => {
+const Task = ({ task: { favorite, note, files, subtasks, deadline, content, id }, deleteTask, setTaskFavorite, history  }) => {
 	const classes = useStyles();
 	const date = formatDate(deadline);
 	const datePassed = hasDatePassed(deadline);
 	const [checked, setChecked] = useState(false);
+	const attachments = note || (files && files.length) || (subtasks && subtasks.length);
+
 
 	const handleChange = event => {
 		event.stopPropagation();
@@ -141,7 +143,7 @@ const Task = ({ text, id, favorite, attachments, deadline, deleteTask, setTaskFa
 				</Tooltip>
 				<div className={classes.expand} onClick={handleExpand}>
 					<ListItemText
-						primary={text}
+						primary={content}
 						primaryTypographyProps={{
 							noWrap: true,
 							classes: { root: classes.title },

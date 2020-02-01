@@ -192,20 +192,19 @@ class TaskExpand extends Component {
 			pickerOpen: false,
 			dialogOpen: false,
 			subtask: '',
+			editMode: false,
 		});
 		document.addEventListener('keydown', this.handleEnter);
 		window.addEventListener('beforeunload', this.handleUnload);
 	}
 	componentWillUnmount() {
-		const { setEditMode } = this.props;
-
-		setEditMode(false);
+		this.setState({ editMode: false });
 		document.removeEventListener('keydown', this.handleEnter);
 		window.removeEventListener('beforeunload', this.handleUnload);
 	}
 
 	handleUnload = event => {
-		const { editMode } = this.props;
+		const { editMode } = this.state;
 		if (editMode) {
 			event.preventDefault();
 			event.returnValue = 'You have unsaved changes, are you sure you want to leave ?';
@@ -214,7 +213,7 @@ class TaskExpand extends Component {
 	}
 
 	handleEnter = event => {
-		const { editMode } = this.props;
+		const { editMode } = this.state;
 		if (document.activeElement.id === this.subtaskRef.current.id && event.code === 'Enter') {
 			this.handleSubtaskAdd();
 		} else if (editMode && event.code === 'Enter') {
@@ -222,12 +221,8 @@ class TaskExpand extends Component {
 		}
 	}
 
-	handleFavorite = () => {
-		const { editMode, setEditMode } = this.props;
-		if (!editMode) setEditMode(true);
-		
-		this.setState(prev => ({favorite: !prev.favorite}));
-	};
+	handleFavorite = () => this.setState(prev => ({ favorite: !prev.favorite, editMode: true }));
+
 
 	moveCaretAtEnd = event => {
 		const temp_value = event.target.value;
@@ -235,13 +230,10 @@ class TaskExpand extends Component {
 		event.target.value = temp_value;
 	}
 
-	handleChange = (event, type) => {
-		const { editMode, setEditMode } = this.props;
-		if (!editMode) setEditMode(true);
-		this.setState({ [type]: event.target.value });
-	}
+	handleChange = (event, type) => this.setState({ [type]: event.target.value, editMode: true });
 
-	handleDelete = () => {
+
+	handleTaskDelete = () => {
 		const { id } = this.state;
 		const { history, deleteTask } = this.props;
 		this.setState({ checked: true });
@@ -251,38 +243,24 @@ class TaskExpand extends Component {
 		}, 400);
 	}
 
-	handleDate = date => {
-		const { editMode, setEditMode } = this.props;
-		if (!editMode) setEditMode(true);
-		this.setState({ deadline: moment(date).toISOString() });
-	};
+	handleDate = date => this.setState({ deadline: moment(date).toISOString(), editMode: true });
 
-	handleNotification = ({ number, unit }) => {
-		const { editMode, setEditMode } = this.props;
-		if (!editMode) setEditMode(true);
-		this.setState({ dialogOpen: false, notification: { number, unit } });
-	}
+	handleNotification = ({ number, unit }) => this.setState({ dialogOpen: false, notification: { number, unit }, editMode: true });
 
 	closePopUp = () => this.setState({ pickerOpen: false, dialogOpen: false })
 
 	handleClear = type => {
 		const stringTypes = ['deadline', 'note'];
 		const cleared = stringTypes.includes(type) ? '' : null;
-		const { editMode, setEditMode } = this.props;
 
-		if (!editMode) setEditMode(true);
-
-		this.setState({ [type]: cleared });
+		this.setState({ [type]: cleared, editMode: true });
 	}
 
 	handleSubtaskDelete = idx => {
-		const { editMode, setEditMode } = this.props;
 		const subtasks = [...this.state.subtasks];
 
-		if (!editMode) setEditMode(true);
-
 		subtasks.splice(idx, 1);
-		this.setState({ subtasks: subtasks });
+		this.setState({ subtasks: subtasks, editMode: true });
 	}
 
 	handleSubtaskAdd = () => {
@@ -303,50 +281,46 @@ class TaskExpand extends Component {
 	}
 
 	handleFileDelete = idx => {
-		const { editMode, setEditMode } = this.props;
 		const files = [...this.state.files];
-
-		if (!editMode) setEditMode(true);
 
 		files.splice(idx, 1);
-		this.setState({ files: files });
+		this.setState({ files: files, editMode: true });
 	}
 
-	handleFileAdd = event => {
-		const { editMode, setEditMode } = this.props;
-		const files = [...this.state.files];
 
-		if (!editMode) setEditMode(true);
+	handleFileAdd = event => {
+		const files = [...this.state.files];
 
 		// need to change file string values to object: name plus path, for now name only is added.
 		files.push(event.target.value.replace(/^.+\\/, ''));
-		this.setState({ files: files });
+		this.setState({ files: files, editMode: true });
 	}
 
 	handleSubmit = () => {
 
-		const {id, content, favorite, attachments, deadline, createdAt, note} = this.state;
+		const { id, content, favorite, attachments, deadline, createdAt, note } = this.state;
 		const task = {
 			id, content, favorite, attachments, deadline, createdAt, note,
 			subtasks: [...this.state.subtasks],
-			notification: {...this.state.notification},
+			notification: { ...this.state.notification },
 			files: [...this.state.files]
 
 		};
-		this.setState(() => ({editMode: false}), ()=> {
+		this.setState(() => ({ editMode: false }), () => {
 			this.props.modifyTask(task);
 			this.handleNavigateBack();
 		});
+
 	}
 
 
 	render() {
-		const { tasks, match: { params }, classes, editMode } = this.props;
+		const { tasks, match: { params }, classes } = this.props;
 
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 		if (!this.state) return null;
 
-		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
+		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask, editMode } = this.state;
 
 		const subtaskList = subtasks.map((t, i) => (
 			<Subtask
@@ -380,7 +354,7 @@ class TaskExpand extends Component {
 									className={classes.checkbox}
 									disableRipple
 									checked={checked}
-									onChange={this.handleDelete}
+									onChange={this.handleTaskDelete}
 									value="primary"
 								/>
 							</Tooltip>
@@ -565,9 +539,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	setEditMode: bool => dispatch(actions.setEditMode(bool)),
 	deleteTask: taskId => dispatch(actions.deleteTask(taskId)),
-	modifyTask: task => dispatch(actions.modifyTask(task))
+	modifyTask: task => dispatch(actions.modifyTask(task)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskExpand));

@@ -40,16 +40,23 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 
 	},
 	badge: {
+		marginRight: 16,
 		marginLeft: 6,
 		fontSize: 12,
 		color: palette.grey[500],
 		fontWeight: 'bold',
 	},
 	secondary: {
-		width: 140
+		width: 160,
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
 	},
 	secondary_edit: {
-		width: 120
+		width: 140,
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
 
 	},
 	editIcon: {

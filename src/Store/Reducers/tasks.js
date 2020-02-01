@@ -60,7 +60,7 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.SET_TASK:
 			return produce(state, draft => {
-				draft[action.task.id] = action.task;
+				draft.tasks[action.task.id] = action.task;
 			});
 
 	
@@ -75,6 +75,7 @@ const reducer = (state = initialState, action) => {
 			dummyTaskId = 'task-' + ++cTask;
 			return produce(state, draft => {
 				draft.tasks[dummyTaskId] = action.task;
+				draft.tasks[dummyTaskId].id = dummyTaskId;
 				draft.lists[action.listId].taskIds.push(dummyTaskId);
 			});
 

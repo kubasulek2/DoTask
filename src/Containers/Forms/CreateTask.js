@@ -163,7 +163,7 @@ class CreateTask extends Component {
 
 		const { createTask, listId } = this.props;
 		const createdAt = moment(Date.now()).toISOString();
-		const deadline = this.state.deadline || moment(Date.now()).toISOString();
+		const deadline = this.state.deadline;
 		const task = {
 			content: this.state.value,
 			deadline,
