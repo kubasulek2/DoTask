@@ -9,6 +9,7 @@ import Layout from '../../Components/Layout';
 import Login from '../../Components/Login';
 import Error from '../../Components/UI/ErrorModal';
 import ConfirmDialog from '../../Components/UI/ConfirmDialog';
+import InfoToast from '../../Components/UI/InfoToast';
 import * as actions from '../../Store/Actions';
 
 
@@ -54,21 +55,22 @@ export class App extends Component {
 	}
 
 	callCb = () => {
-		const {  cb } = this.props;
-		if(cb){
+		const { cb } = this.props;
+		if (cb) {
 			this.props[cb.name](...cb.args);
 		}
 	}
 
 	render() {
-		const { error, loading, requestSuccess, isAuth, confirm } = this.props;
+		const { error, loading, requestSuccess, isAuth, confirm, info } = this.props;
 		const app = (
 			<DragDropContext onDragEnd={this.onDragEnd}>
-				<Layout loading={loading}/>
+				<Layout loading={loading} />
 			</DragDropContext>
 		);
 		return (
 			<Fragment>
+				{info ? <InfoToast message={info} />  : null}
 				{confirm ? <ConfirmDialog confirm={this.callCb} cancel={requestSuccess} /> : null}
 				{error ? <Error error={error} cancelError={requestSuccess} reconnect={this.callCb} /> : null}
 				<Switch>
@@ -87,7 +89,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 	error: app.error,
 	isAuth: app.isAuth,
 	cb: app.cb,
-	confirm: app.confirm
+	confirm: app.confirm,
+	info: app.info
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -97,7 +100,7 @@ const mapDispatchToProps = dispatch => ({
 	fetchTasks: () => dispatch(actions.fetchTasks()),
 	requestSuccess: () => dispatch(actions.requestSuccess()),
 	handleAuth: bool => dispatch(actions.handleAuth(bool)),
-	sortTasks: (listId, sortType) => dispatch(actions.sortTasks(listId,sortType)),
+	sortTasks: (listId, sortType) => dispatch(actions.sortTasks(listId, sortType)),
 	deleteList: listId => dispatch(actions.deleteList(listId)),
 });
 

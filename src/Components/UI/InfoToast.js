@@ -1,56 +1,46 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
 
-import { DispatchContext, AppStateContext } from '../../../containers/App';
+import * as actions from '../../Store/Actions';
+
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
-	root: {
-		bottom: 65,
-		left: 10
-	},
 	toast: {
-		background: palette.background.paper,
-		color: palette.text.primary
+		background: palette.primary.dark,
+		color: palette.text.white,
+		fontWeight: 'bold',
 
 	},
 	close: {
 		padding: spacing(0.5),
-		color: palette.text.secondary
+		color: palette.text.white
 	},
 }));
 
+
 /* Component displays toast with chat notifications. */
-const InfoToast = () => {
+const InfoToast = props => {
+	const { message, clearInfoToast } = props;
 	const classes = useStyles();
-
-	/* Use context. */
-	const { toast } = useContext(AppStateContext);
-	const { dispatchAppState } = useContext(DispatchContext);
-
-	/* use media query */
-	const matches = useMediaQuery('(min-width:960px)');
-
-	/* Close toast */
-	const handleClose = () => {
-		dispatchAppState({ type: 'HIDE_TOAST' });
-	};
 
 	return (
 		<Snackbar
 			anchorOrigin={{
 				vertical: 'bottom',
-				horizontal: 'left',
+				horizontal: 'right',
 			}}
+			TransitionComponent={Slide}
 			className={classes.root}
-			open={matches ? toast.open : false}
+			open={!!message}
 			autoHideDuration={2500}
-			onClose={handleClose}
-			message={toast.message}
+			onClose={clearInfoToast}
+			message={message}
 			ContentProps={{
 				classes: {
 					root: classes.toast,
@@ -62,7 +52,7 @@ const InfoToast = () => {
 					aria-label="close"
 					color="inherit"
 					className={classes.close}
-					onClick={handleClose}
+					onClick={clearInfoToast}
 				>
 					<CloseIcon />
 				</IconButton>,
@@ -71,4 +61,9 @@ const InfoToast = () => {
 	);
 };
 
-export default InfoToast;
+
+const mapDispatchToProps = dispatch => ({
+	clearInfoToast: () => dispatch(actions.clearInfoToast()),
+});
+
+export default connect(null, mapDispatchToProps)(InfoToast);

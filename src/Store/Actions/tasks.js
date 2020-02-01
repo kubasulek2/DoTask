@@ -1,5 +1,5 @@
 import { get, post } from 'axios';
-import { initRequest, requestFailed, requestSuccess, initBgRequest } from './';
+import { initRequest, requestFailed, requestSuccess, initBgRequest, setInfoToast } from './';
 import * as actionTypes from './actionTypes';
 import bell from '../../Assets/bell.mp3';
 
@@ -29,6 +29,7 @@ export const createList = title => dispatch => {
 		.then(() => {
 			dispatch({ type: actionTypes.CREATE_LIST, title });
 			dispatch(requestSuccess());
+			dispatch(setInfoToast('List created'));
 		})
 		.catch(err => {
 			dispatch(requestFailed(err.message, { name: 'createList', args: [title] }));
@@ -41,6 +42,7 @@ export const deleteList = listId => (dispatch, getState) => {
 		.then(() => {
 			dispatch({ type: actionTypes.DELETE_LIST, listId });
 			dispatch(requestSuccess());
+			dispatch(setInfoToast('List deleted'));
 		})
 		.catch(err => {
 			const cbArgs = getState().app.cb.args;
@@ -55,6 +57,7 @@ export const createTask = (task, listId) => dispatch => {
 			.then(() => {
 				dispatch(createDefaultTask(task, listId));
 				dispatch(requestSuccess());
+				dispatch(setInfoToast('Task created'));
 			})
 			.catch(err => {
 				dispatch(requestFailed(err.message, { name: 'createTask', args: [task, listId] }));
@@ -65,6 +68,7 @@ export const createTask = (task, listId) => dispatch => {
 		.then(() => {
 			dispatch(createLocalTask(task, listId));
 			dispatch(requestSuccess());
+			dispatch(setInfoToast('Task created'));
 		})
 		.catch(err => {
 			dispatch(requestFailed(err.message, { name: 'createTask', args: [task, listId] }));
@@ -77,6 +81,7 @@ export const deleteTask = taskId => dispatch => {
 	bellSound.play();
 	setTimeout(() => {
 		dispatch({ type: actionTypes.DELETE_TASK, taskId });
+		dispatch(setInfoToast('Task deleted'));
 	}, 400);
 };
 

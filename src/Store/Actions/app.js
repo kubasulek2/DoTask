@@ -7,3 +7,5 @@ export const requestFailed = (error, cb) => ({ type: actionTypes.REQUEST_FAILED,
 export const requestSuccess = () => ({ type: actionTypes.REQUEST_SUCCESS });
 export const allowSort = (bool, listId) => ({ type: actionTypes.ALLOW_SORT, sort: bool, listId });
 export const askToConfirm = cb => ({ type: actionTypes.ASK_TO_CONFIRM, cb });
+export const setInfoToast = message => ({ type: actionTypes.SET_INFO_TOAST, message });
+export const clearInfoToast = () => ({ type: actionTypes.CLEAR_INFO_TOAST });

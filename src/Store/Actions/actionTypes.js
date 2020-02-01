@@ -21,3 +21,5 @@ export const REQUEST_FAILED = 'REQUEST_FAILED';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 export const ALLOW_SORT = 'ALLOW_SORT';
 export const ASK_TO_CONFIRM = 'ASK_TO_CONFIRM';
+export const SET_INFO_TOAST = 'SET_INFO_TOAST';
+export const CLEAR_INFO_TOAST = 'CLEAR_INFO_TOAST';

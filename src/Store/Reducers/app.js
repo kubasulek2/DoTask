@@ -9,6 +9,7 @@ const initialState = {
 	confirm: false,
 	activeList: null,
 	cb: null,
+	info: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.ASK_TO_CONFIRM:
 			return produce(state, draft => { draft.confirm = true; draft.cb = action.cb; });
+
+		case actionTypes.SET_INFO_TOAST:
+			return produce(state, draft => { draft.info = action.message; });
+		
+		case actionTypes.CLEAR_INFO_TOAST:
+			return produce(state, draft => { draft.info = ''; });		
 
 
 		default:

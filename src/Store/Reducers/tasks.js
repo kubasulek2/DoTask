@@ -10,7 +10,7 @@ const initialState = {
 	listsOrder: [],
 };
 
-let cList = 3, cTask = 4, dummyListId, dummyTaskId;
+let cList = 3, cTask = 5, dummyListId, dummyTaskId;
 const reducer = (state = initialState, action) => {
 	// temporary hack: pseudo id	
 
@@ -90,6 +90,7 @@ const reducer = (state = initialState, action) => {
 					};
 					draft.listsOrder.unshift(dummyListId);
 					draft.tasks[dummyTaskId] = action.task;
+					draft.tasks[dummyTaskId].id = dummyTaskId;
 					draft.lists[dummyListId].taskIds.push(dummyTaskId);
 				});
 			}

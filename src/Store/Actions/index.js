@@ -20,4 +20,6 @@ export {
 	allowSort, 
 	initBgRequest,
 	askToConfirm,
+	setInfoToast,
+	clearInfoToast,
 } from './app';
