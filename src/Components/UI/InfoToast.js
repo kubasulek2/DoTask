@@ -12,7 +12,7 @@ import * as actions from '../../Store/Actions';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
 	toast: {
-		background: palette.primary.dark,
+		background: palette.primary.main,
 		color: palette.text.white,
 		fontWeight: 'bold',
 		maxWidth: 250

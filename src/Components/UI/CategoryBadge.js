@@ -10,18 +10,19 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 	},
 	badge: {
 		background: palette.secondary.light,
+		cursor: 'pointer',
 		borderRadius: 4,
 		padding: `${spacing(1)}px ${spacing(2.5)}px`,
-		color: palette.background.paper 
+		color: palette.background.paper, 
 	}
 }));
 
-const CategoryBadge = ({ text }) => {
+const CategoryBadge = ({ text, handleClick }) => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
-			<div className={classes.badge}>
+			<div className={classes.badge} onClick={handleClick}>
 				<Typography variant='body1' align='center'>{text}</Typography>
 			</div>
 		</div>

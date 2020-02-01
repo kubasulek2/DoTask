@@ -25,7 +25,6 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 		paddingTop: spacing(2.5),
 		flexGrow: 1,
 		paddingBottom: spacing(3),
-		paddingRight: spacing(1),
 		overflowY: 'auto',
 		scrollbarColor: palette.grey[300] + ' ' + palette.background.paper
 	},

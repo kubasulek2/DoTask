@@ -17,7 +17,7 @@ const Tasks = ({ tasks, lists, history }) => {
 
 	const taskList = Object.values(lists).filter(list => list.taskIds.length).map(list => (
 		<List className={classes.root} key={list.id}>
-			<CategoryBadge text={list.title} />
+			<CategoryBadge text={list.title} handleClick={() => history.push(list.id)}/>
 			{list.taskIds.map(id => (
 				<NoDragTask
 					key={id}

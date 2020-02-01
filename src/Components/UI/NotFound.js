@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
-		marginTop: 24,
+		marginTop: 48,
 		display: 'flex',
 		justifyContent: 'center',
 	},
@@ -15,8 +15,19 @@ const useStyles = makeStyles(() => ({
 		display: 'flex'
 	},
 	icon: {
-		fontSize: 60,
+		fontSize: 70,
 		fontWeight: 'bold',
+	},
+	body: {
+		fontSize: 20
+	},
+	'@media(max-width: 400px)': {
+		body: {
+			fontSize: 16
+		},
+		icon: {
+			fontSize: 60,
+		},
 	}
 }));
 const NotFound = () => {
@@ -25,7 +36,7 @@ const NotFound = () => {
 		<div className={classes.root}>
 			<div className={classes.content}>
 				<SadIcon className={classes.icon}  color='secondary'/>
-				<Typography variant='body1' color='textSecondary'>Oops! Haven't found.</Typography>
+				<Typography className={classes.body} color='textSecondary'>Oops! Haven't found.</Typography>
 			</div>
 		</div>
 	);

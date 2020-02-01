@@ -302,7 +302,8 @@ class TaskExpand extends Component {
 
 	closePopUp = () => this.setState({ pickerOpen: false, dialogOpen: false })
 
-	handleClear = type => {
+	handleClear = (event, type) => {
+		event.stopPropagation();
 		const stringTypes = ['deadline', 'note'];
 		const cleared = stringTypes.includes(type) ? '' : null;
 
@@ -427,11 +428,10 @@ class TaskExpand extends Component {
 						<Divider />
 						<CardContent className={classes.content}>
 
-							<div className={classes.deadline}>
+							<div className={classes.deadline} onClick={() => this.setState({ pickerOpen: true })}>
 								<Tooltip enterDelay={800} title='Change date' arrow>
 									<IconButton
 										color={deadline ? 'secondary' : 'default'}
-										onClick={() => this.setState({ pickerOpen: true })}
 									>
 										<DateIcon />
 									</IconButton>
@@ -443,13 +443,13 @@ class TaskExpand extends Component {
 									value={deadline ? formatDate(deadline) : ''}
 								/>
 								{deadline
-									? <div className={classes.clear} onClick={() => this.handleClear('deadline')}>
+									? <div className={classes.clear} onClick={(event) => this.handleClear(event, 'deadline')}>
 										<ClearIcon />
 									</div>
 									: <div className={classes.clearPlaceholder} />}
 							</div>
 
-							<div className={classes.notification}>
+							<div className={classes.notification} onClick={() => this.setState({ dialogOpen: true })}>
 								<Tooltip enterDelay={800} title='Change notification' arrow>
 									<IconButton
 										color={notification ? 'secondary' : 'default'}
@@ -459,13 +459,14 @@ class TaskExpand extends Component {
 									</IconButton>
 								</Tooltip>
 								<input
+
 									type='text'
 									placeholder='notification'
 									disabled
 									value={notification ? formatNotification(notification) : ''}
 								/>
 								{notification
-									? <div className={classes.clear} onClick={() => this.handleClear('notification')}>
+									? <div className={classes.clear} onClick={(event) => this.handleClear(event, 'notification')}>
 										<ClearIcon />
 									</div>
 									: <div className={classes.clearPlaceholder} />}
@@ -515,7 +516,7 @@ class TaskExpand extends Component {
 									value={note}
 								/>
 								{note
-									? <div className={classes.clear} onClick={() => this.handleClear('note')}>
+									? <div className={classes.clear} onClick={(event) => this.handleClear(event, 'note')}>
 										<ClearIcon />
 									</div>
 									: <div className={classes.clearPlaceholder} />}
