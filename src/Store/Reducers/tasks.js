@@ -81,7 +81,6 @@ const reducer = (state = initialState, action) => {
 
 		case actionTypes.CREATE_DEFAULT_TASK:
 			dummyTaskId = 'task-' + ++cTask;
-			console.log(dummyTaskId);
 			if (!Object.values(state.lists).some(l => l.title === 'default')) {
 				dummyListId = 'list-' + ++cList;
 				return produce(state, draft => {
@@ -110,7 +109,6 @@ const reducer = (state = initialState, action) => {
 			});
 
 		case actionTypes.SET_TASK_FAVORITE:
-			console.log(state.tasks[action.taskId].favorite);
 			return produce(state, draft => {
 				draft.tasks[action.taskId].favorite = !draft.tasks[action.taskId].favorite;
 			});

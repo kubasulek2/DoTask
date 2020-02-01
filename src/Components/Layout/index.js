@@ -33,13 +33,7 @@ export const Layout = ({ loading }) => {
 	const loader = <Loader color='#4fa84a' />;
 	const main = (
 		<Fragment>
-			<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
-			<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
-			<Switch>
-				<Route path='/tasks' render={(props) => <Tasks {...props} />} />
-				<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
-				<Route path='/' component={FourOhFour} />
-			</Switch>
+			
 		</Fragment>
 	);
 
@@ -51,7 +45,14 @@ export const Layout = ({ loading }) => {
 				handleSidebar={handleSidebar}
 			/>
 			<Main open={sideBarOpen}>
-				{loading ? loader : main}
+				{loading ? <Loader color='#4fa84a' /> : null}
+				<Route path='/:params*/newList' render={props => <ListDialog {...props} />} />
+				<Route path='/:params*/editList' render={props => <ListDialog {...props} edit />} />
+				<Switch>
+					<Route path='/tasks' render={(props) => <Tasks {...props} />} />
+					<Route path='/' exact render={() => <Redirect to='/tasks/all' />} />
+					<Route path='/' component={FourOhFour} />
+				</Switch>
 			</Main>
 		</div>
 	);

@@ -31,7 +31,7 @@ import { formatDate, formatNotification } from '../../Utils/date';
 import * as actions from '../../Store/Actions';
 
 
-const styles = ({ palette, spacing }) => ({
+const styles = ({ palette, spacing, breakpoints }) => ({
 	root: {
 		width: '100%',
 		paddingTop: 24,
@@ -59,8 +59,11 @@ const styles = ({ palette, spacing }) => ({
 	card: {
 		maxWidth: 500,
 		width: '80%',
-		minWidth: 300,
+		minWidth: 245,
 		margin: 'auto',
+		[breakpoints.down('xs')]: {
+			width: '95%'
+		}
 	},
 	header: {
 		background: palette.grey[200],
@@ -170,6 +173,37 @@ const styles = ({ palette, spacing }) => ({
 	},
 	actions: {
 		justifyContent: 'flex-end',
+	},
+	'@media (max-width: 450px)': {
+		root: {
+			'& input, & textarea': {
+				fontSize: 13,
+				padding: 6,
+			},
+		},
+		header: {
+			padding: '8px 0',
+			'& button': {
+				padding: 5
+			}
+		},
+		title: {
+			'input&': {
+				fontSize: 18,
+			}
+		},
+		checkbox: {
+			padding: 0,
+			paddingLeft: 6,
+		},
+		content: {
+			padding: spacing(1),
+			paddingTop: spacing(5),
+			paddingLeft: 0,
+		},
+		clear: {
+			paddingRight: 0,
+		},
 	}
 });
 
@@ -181,9 +215,9 @@ class TaskExpand extends Component {
 	fileRef = React.createRef();
 
 	componentDidMount() {
-		console.log('mounted');
 		const { tasks, match: { params } } = this.props;
 		const task = tasks[params.taskId];
+
 		if (!this.state && task) this.setState({
 			...task,
 			files: [...task.files],
@@ -198,6 +232,24 @@ class TaskExpand extends Component {
 		document.addEventListener('keydown', this.handleEnter);
 		window.addEventListener('beforeunload', this.handleUnload);
 	}
+
+	componentDidUpdate() {
+		const { tasks, match: { params } } = this.props;
+		const task = tasks[params.taskId];
+
+		if (!this.state && task) this.setState({
+			...task,
+			files: [...task.files],
+			notification: task.notification ? { ...task.notification } : null,
+			subtasks: [...task.subtasks],
+			checked: false,
+			pickerOpen: false,
+			dialogOpen: false,
+			subtask: '',
+			editMode: false,
+		});
+	}
+
 	componentWillUnmount() {
 		this.setState({ editMode: false });
 		document.removeEventListener('keydown', this.handleEnter);
@@ -214,7 +266,6 @@ class TaskExpand extends Component {
 	}
 
 	handleEnter = event => {
-		console.log('s');
 		const { editMode } = this.state;
 		if (document.activeElement.id === this.subtaskRef.current.id && event.code === 'Enter') {
 			this.handleSubtaskAdd();

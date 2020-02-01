@@ -162,13 +162,17 @@ class CreateTask extends Component {
 		if (!this.state.value) return;
 
 		const { createTask, listId } = this.props;
+		const { deadline, value: content, favorite, notification } = this.state;
 		const createdAt = moment(Date.now()).toISOString();
-		const deadline = this.state.deadline;
 		const task = {
-			content: this.state.value,
+			content,
 			deadline,
 			createdAt,
-			favorite: this.state.favorite
+			favorite,
+			notification,
+			note: '',
+			files: [],
+			subtasks: []
 		};
 		this.setState(() => initialState, () => createTask(task, listId));
 	}

@@ -21,11 +21,17 @@ const useStyles = makeStyles(({ palette }) => ({
 	},
 	checkbox: {
 		padding: 0,
-		marginRight: 12,
+		marginRight: 6,
 		color: palette.primary.light,
 
+	},
+	'@media (max-width: 450px)': {
+		root: {
+			'& .MuiListItemText-primary': {
+				fontSize: 14,
+			}
+		},
 	}
-
 }));
 
 

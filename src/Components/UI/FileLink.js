@@ -26,6 +26,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 		color: palette.error.light,
 		cursor: 'pointer',
 		'& svg': {
+			display: 'block',
 			padding: 3
 		}
 	},
@@ -33,6 +34,16 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 		width: 45,
 		height: 45
 	},
+	'@media (max-width: 450px)':{
+		root: {
+			'& .MuiListItemText-primary': {
+				fontSize: 14
+			}	
+		},
+		clear: {
+			paddingLeft: 0,
+		}
+	}
 
 }));
 
