@@ -192,7 +192,6 @@ class TaskExpand extends Component {
 			pickerOpen: false,
 			dialogOpen: false,
 			subtask: '',
-			file: '',
 		});
 		document.addEventListener('keydown', this.handleEnter);
 		window.addEventListener('beforeunload', this.handleUnload);
@@ -207,17 +206,11 @@ class TaskExpand extends Component {
 
 	handleUnload = event => {
 		const { editMode } = this.props;
-		if(editMode){
+		if (editMode) {
 			event.preventDefault();
 			event.returnValue = 'You have unsaved changes, are you sure you want to leave ?';
 			return 'You have unsaved changes, are you sure you want to leave ?';
 		}
-	}
-
-	handleLeave = event => {
-		const { editMode } = this.props;
-		if (editMode)
-			return 'Do you really want to leave our brilliant application?';
 	}
 
 	handleEnter = event => {
@@ -230,9 +223,10 @@ class TaskExpand extends Component {
 	}
 
 	handleFavorite = () => {
-		const { setTaskFavorite } = this.props;
-		const { id } = this.state;
-		setTaskFavorite(id);
+		const { editMode, setEditMode } = this.props;
+		if (!editMode) setEditMode(true);
+		
+		this.setState(prev => ({favorite: !prev.favorite}));
 	};
 
 	moveCaretAtEnd = event => {
@@ -300,6 +294,8 @@ class TaskExpand extends Component {
 
 	handleNoteFocus = () => this.noteRef.current.focus();
 
+	handleFileFocus = () => this.fileRef.current.click();
+
 	handleNavigateBack = () => {
 		const { id } = this.state;
 		const { history } = this.props;
@@ -329,6 +325,18 @@ class TaskExpand extends Component {
 
 	handleSubmit = () => {
 
+		const {id, content, favorite, attachments, deadline, createdAt, note} = this.state;
+		const task = {
+			id, content, favorite, attachments, deadline, createdAt, note,
+			subtasks: [...this.state.subtasks],
+			notification: {...this.state.notification},
+			files: [...this.state.files]
+
+		};
+		this.setState(() => ({editMode: false}), ()=> {
+			this.props.modifyTask(task);
+			this.handleNavigateBack();
+		});
 	}
 
 
@@ -338,7 +346,7 @@ class TaskExpand extends Component {
 		if (Object.values(tasks).length && !Object.values(tasks).some(t => t.id === params.taskId)) return <FourOhFour />;
 		if (!this.state) return null;
 
-		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask, file } = this.state;
+		const { favorite, content, deadline, note, subtasks, notification, files, checked, pickerOpen, dialogOpen, subtask } = this.state;
 
 		const subtaskList = subtasks.map((t, i) => (
 			<Subtask
@@ -491,7 +499,7 @@ class TaskExpand extends Component {
 									<Tooltip enterDelay={800} title='Add file' arrow>
 										<span>
 											<IconButton
-												onClick={this.focusInputFile}
+												onClick={this.handleFileFocus}
 												color={files ? 'secondary' : 'default'}
 											>
 												<AttachFileIcon />
@@ -558,8 +566,8 @@ const mapStateToProps = ({ tasks, app }) => ({
 
 const mapDispatchToProps = dispatch => ({
 	setEditMode: bool => dispatch(actions.setEditMode(bool)),
-	setTaskFavorite: taskId => dispatch(actions.setTaskFavorite(taskId)),
 	deleteTask: taskId => dispatch(actions.deleteTask(taskId)),
+	modifyTask: task => dispatch(actions.modifyTask(task))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskExpand));

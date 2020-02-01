@@ -8,7 +8,6 @@ const initialState = {
 	tasks: {},
 	lists: {},
 	listsOrder: [],
-	task: null
 };
 
 let cList = 3, cTask = 4, dummyListId, dummyTaskId;
@@ -56,10 +55,13 @@ const reducer = (state = initialState, action) => {
 			});
 
 		case actionTypes.SET_TASKS:
-			return {
-				...action.data,
-				task: state.task
-			};
+			return action.data;
+				
+
+		case actionTypes.SET_TASK:
+			return produce(state, draft => {
+				draft[action.task.id] = action.task;
+			});
 
 	
 		case actionTypes.SORT_TASKS:

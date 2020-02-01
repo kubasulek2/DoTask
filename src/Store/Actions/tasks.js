@@ -7,6 +7,7 @@ const bellSound = new Audio(bell);
 
 const sortAction = (listId, sortType) => ({ type: actionTypes.SORT_TASKS, sortType, listId });
 const setTasks = data => ({ type: actionTypes.SET_TASKS, data });
+const setTask = task => ({ type: actionTypes.SET_TASK, task });
 const createLocalTask = (task, listId) => ({ type: actionTypes.CREATE_TASK, task, listId });
 const createDefaultTask = (task, listTitle) => ({ type: actionTypes.CREATE_DEFAULT_TASK, task, listTitle });
 
@@ -103,4 +104,16 @@ export const fetchTasks = () => dispatch => {
 			dispatch(requestFailed(err.message, { name: 'fetchTasks', args: [] }));
 		});
 
+};
+
+export const modifyTask = task => dispatch => {
+	dispatch(initRequest());
+	return get('http://localhost:5000/tasks')
+		.then(() => {
+			dispatch(setTask(task));
+			dispatch(requestSuccess());
+		})
+		.catch(err => {
+			dispatch(requestFailed(err.message, { name: 'modifyTask', args: [task] }));
+		});
 };
